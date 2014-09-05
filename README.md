@@ -1,4 +1,4 @@
-Eesti Matkaradada Mobiilirakendus
+Eesti Matkaradade Mobiilirakendus
 ==================
 
 Topic - Eesti matkaradade mobiilirakendus  
