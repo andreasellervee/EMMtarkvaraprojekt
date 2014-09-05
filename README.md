@@ -1,4 +1,4 @@
-RMKtarkvaraprojekt
+Eesti Matkaradada Mobiilirakendus
 ==================
 
 Topic - Eesti matkaradade mobiilirakendus  
