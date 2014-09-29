@@ -1,16 +1,34 @@
 package com.ut.eesti.matkarajad;
 
-import android.support.v7.app.ActionBarActivity;
+import com.ut.eesti.matkarajad.mainmenu.MainMenu;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
+	
+	private Button andreas;
+	private Button sander;
+	private Button kaarel;
+	private Button jaan;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		andreas = (Button)findViewById(R.id.button1);
+		sander = (Button)findViewById(R.id.button2);
+		kaarel = (Button)findViewById(R.id.button3);
+		jaan = (Button)findViewById(R.id.button4);
+		
+		andreas.setOnClickListener(new AndreasOnClickListener());
 	}
 
 	@Override
@@ -30,5 +48,14 @@ public class MainActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private final class AndreasOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			Intent i = new Intent(getApplicationContext(), MainMenu.class);
+			startActivity(i);
+		}
 	}
 }
