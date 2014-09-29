@@ -1,9 +1,14 @@
 package com.ut.eesti.matkarajad;
 
+import com.ut.eesti.matkarajad.mainmenu.MainMenu;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
@@ -22,6 +27,8 @@ public class MainActivity extends ActionBarActivity {
 		sander = (Button)findViewById(R.id.button2);
 		kaarel = (Button)findViewById(R.id.button3);
 		jaan = (Button)findViewById(R.id.button4);
+		
+		andreas.setOnClickListener(new AndreasOnClickListener());
 	}
 
 	@Override
@@ -41,5 +48,14 @@ public class MainActivity extends ActionBarActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private final class AndreasOnClickListener implements OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			Intent i = new Intent(getApplicationContext(), MainMenu.class);
+			startActivity(i);
+		}
 	}
 }
