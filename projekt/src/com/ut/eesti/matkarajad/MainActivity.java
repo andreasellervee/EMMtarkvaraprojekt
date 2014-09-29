@@ -1,16 +1,27 @@
 package com.ut.eesti.matkarajad;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class MainActivity extends ActionBarActivity {
+	
+	private Button andreas;
+	private Button sander;
+	private Button kaarel;
+	private Button jaan;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		andreas = (Button)findViewById(R.id.button1);
+		sander = (Button)findViewById(R.id.button2);
+		kaarel = (Button)findViewById(R.id.button3);
+		jaan = (Button)findViewById(R.id.button4);
 	}
 
 	@Override
