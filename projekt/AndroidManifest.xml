@@ -3,7 +3,18 @@
     package="com.ee.matkarakendus"
     android:versionCode="1"
     android:versionName="1.0" >
-
+    
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"/>
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	
+	
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="19" />
@@ -13,6 +24,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+    		android:name="com.google.android.maps.v2.API_KEY"
+    		android:value="AIzaSyBAagA1KrA_wbZWp-IXChdWntHOtxQ8bY8"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -23,8 +37,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ee.matkarakendus.menu.MainMenu"
+            android:name=".menu.MainMenu"
             android:label="@string/title_activity_main_menu" >
+        </activity>
+        <activity
+            android:name="com.ee.matkarakendus.map.MapActivity"
+            android:label="@string/title_activity_map" >
         </activity>
     </application>
 

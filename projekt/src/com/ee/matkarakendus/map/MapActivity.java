@@ -1,40 +1,27 @@
-package com.ee.matkarakendus.menu;
+package com.ee.matkarakendus.map;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.R.id;
 import com.ee.matkarakendus.R.layout;
 import com.ee.matkarakendus.R.menu;
-import com.ee.matkarakendus.map.MapActivity;
 
 import android.support.v7.app.ActionBarActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-public class MainMenu extends ActionBarActivity {
-	Button mapButton;
+public class MapActivity extends ActionBarActivity {
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_menu);
-		mapButton = (Button) findViewById(R.id.buttonMap);
-		mapButton.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(), MapActivity.class);
-				startActivity(i);
-			}
-		});
+		setContentView(R.layout.activity_map);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main_menu, menu);
+		getMenuInflater().inflate(R.menu.map, menu);
 		return true;
 	}
 
