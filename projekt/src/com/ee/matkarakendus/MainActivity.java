@@ -115,10 +115,10 @@ public class MainActivity extends Activity {
 			fragment = new MapDisplayFragment();
 			break;
 		case 1:
-			fragment = new SearchFragment();
+			fragment = new TracksSearchFragment();
 			break;
 		case 2:
-			fragment = new SearchFragment();
+			fragment = new PointsSearchFragment();
 			break;
 		case 3:
 			fragment = new FavouritesFragment();
