@@ -13,6 +13,12 @@
     <string name="search">Otsing</string>
     <string name="favourites">Lemmikud</string>
     <string name="settings">Seaded</string>
+    
+    <string name="b1">Map</string>
+    <string name="b3">Favourites</string>
+    <string name="b4">Points of interest</string>
+    <string name="b2">Tracks</string>
+    <string name="b5">Settings</string>
 
     <string-array name="option_items_array">
         <item>Kaart</item>
@@ -20,5 +26,8 @@
         <item>Huvipunktid</item>
         <item>Lemmikud</item>
     </string-array>
+    
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

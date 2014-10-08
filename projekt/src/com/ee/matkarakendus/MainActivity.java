@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-
+								
 		title = getTitle();
 		optionItems = getResources().getStringArray(R.array.option_items_array);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
