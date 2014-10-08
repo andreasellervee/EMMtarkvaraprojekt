@@ -51,6 +51,14 @@
             android:name=".MainMenuActivity"
             android:label="@string/title_activity_main_menu" >
         </activity>
+        <activity
+            android:name=".MySimpleSearchAdapter"
+            android:label="@string/title_activity_my_simple_search_adapter" >
+        </activity>
+        <activity
+            android:name=".SearchFunctionality"
+            android:label="@string/title_activity_search_functionality" >
+        </activity>
     </application>
 
 </manifest>

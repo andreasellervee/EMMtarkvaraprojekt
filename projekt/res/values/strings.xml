@@ -13,7 +13,7 @@
     <string name="search">Otsing</string>
     <string name="favourites">Lemmikud</string>
     <string name="settings">Seaded</string>
-    
+    <string name="seach_title">Search</string>
     <string name="b1">Map</string>
     <string name="b3">Favourites</string>
     <string name="b4">Points of interest</string>
@@ -26,8 +26,9 @@
         <item>Huvipunktid</item>
         <item>Lemmikud</item>
     </string-array>
-    
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_my_simple_search_adapter">MySimpleSearchAdapter</string>
+    <string name="title_activity_search_functionality">SearchFunctionality</string>
 
 </resources>

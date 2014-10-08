@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
@@ -29,6 +30,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
+		
 								
 		title = getTitle();
 		optionItems = getResources().getStringArray(R.array.option_items_array);
@@ -76,6 +78,7 @@ public class MainActivity extends Activity {
 		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
