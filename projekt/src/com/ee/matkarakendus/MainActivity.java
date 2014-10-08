@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 public class MainActivity extends Activity {
@@ -113,7 +112,7 @@ public class MainActivity extends Activity {
 
 		switch (position) {
 		case 0:
-			fragment = new MapFragment();
+			fragment = new MapDisplayFragment();
 			break;
 		case 1:
 			fragment = new SearchFragment();

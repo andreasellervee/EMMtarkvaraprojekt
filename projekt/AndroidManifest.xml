@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.MAPS_RECEIVE" />
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -25,7 +26,7 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyC_LNSuN9nJyH8smjUePVYah84gVfouZI4" />
+            android:value="AIzaSyCL8dhnyuCT8kMo5L5jjOxd6vVQi5lGEQI" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -50,10 +51,6 @@
         <activity
             android:name=".MainMenuActivity"
             android:label="@string/title_activity_main_menu" >
-        </activity>
-        <activity
-            android:name=".MySimpleSearchAdapter"
-            android:label="@string/title_activity_my_simple_search_adapter" >
         </activity>
         <activity
             android:name=".SearchFunctionality"
