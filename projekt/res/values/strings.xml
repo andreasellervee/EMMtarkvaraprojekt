@@ -19,6 +19,7 @@
     <string name="b4">Points of interest</string>
     <string name="b2">Tracks</string>
     <string name="b5">Settings</string>
+    <string name="b6">Add a track</string>
 
     <string-array name="option_items_array">
         <item>Kaart</item>
