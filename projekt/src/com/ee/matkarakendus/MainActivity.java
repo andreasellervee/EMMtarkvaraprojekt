@@ -2,6 +2,11 @@ package com.ee.matkarakendus;
 
 import java.util.concurrent.ExecutionException;
 import com.ee.matkarakendus.networking.ServerTest;
+import com.eematkarakendus.fragments.FavouritesFragment;
+import com.eematkarakendus.fragments.MapDisplayFragment;
+import com.eematkarakendus.fragments.PointsSearchFragment;
+import com.eematkarakendus.fragments.SettingsFragment;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;

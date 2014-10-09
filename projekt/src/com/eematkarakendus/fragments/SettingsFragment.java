@@ -1,4 +1,8 @@
-package com.ee.matkarakendus;
+package com.eematkarakendus.fragments;
+
+import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.R.layout;
+import com.ee.matkarakendus.R.string;
 
 import android.app.Fragment;
 import android.os.Bundle;

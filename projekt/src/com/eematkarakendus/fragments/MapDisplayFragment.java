@@ -1,4 +1,4 @@
-package com.ee.matkarakendus;
+package com.eematkarakendus.fragments;
 
 import com.google.android.gms.maps.MapFragment;
 
