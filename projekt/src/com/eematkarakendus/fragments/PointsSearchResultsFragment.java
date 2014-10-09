@@ -3,9 +3,8 @@ package com.eematkarakendus.fragments;
 import java.util.ArrayList;
 
 import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.adapters.TracksListAdapter;
-import com.ee.matkarakendus.objects.Track;
-
+import com.ee.matkarakendus.adapters.PointsListAdapter;
+import com.ee.matkarakendus.objects.Point;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,17 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class FavouritesFragment extends Fragment {
+public class PointsSearchResultsFragment extends Fragment {
 
-	ArrayList<Track> tracks;
+	ArrayList<Point> points;
 
-	public FavouritesFragment() {
-		tracks = new ArrayList<Track>();
+	public PointsSearchResultsFragment() {
+		points = new ArrayList<Point>();
 
 		for (int i = 0; i < 10; i++) {
-			Track t = new Track();
-			t.setId(String.valueOf(i));
-			tracks.add(t);
+			Point p = new Point();
+			p.setId(String.valueOf(i));
+			points.add(p);
 		}
 	}
 
@@ -31,12 +30,14 @@ public class FavouritesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_favourites,
+		getActivity().setTitle(R.string.search_results);
+
+		View rootView = inflater.inflate(R.layout.fragment_search_results,
 				container, false);
 
 		ListView list = (ListView) rootView.findViewById(android.R.id.list);
 
-		TracksListAdapter adapter = new TracksListAdapter(getActivity(), tracks);
+		PointsListAdapter adapter = new PointsListAdapter(getActivity(), points);
 
 		list.setAdapter(adapter);
 

@@ -6,6 +6,7 @@ import com.eematkarakendus.fragments.FavouritesFragment;
 import com.eematkarakendus.fragments.MapDisplayFragment;
 import com.eematkarakendus.fragments.PointsSearchFragment;
 import com.eematkarakendus.fragments.SettingsFragment;
+import com.eematkarakendus.fragments.TracksSearchFragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -129,15 +130,19 @@ public class MainActivity extends Activity {
 
 		switch (position) {
 		case 0:
+			setTitle(R.string.map);
 			fragment = new MapDisplayFragment();
 			break;
 		case 1:
+			setTitle(R.string.search);
 			fragment = new TracksSearchFragment();
 			break;
 		case 2:
+			setTitle(R.string.search);
 			fragment = new PointsSearchFragment();
 			break;
 		case 3:
+			setTitle(R.string.favourites);
 			fragment = new FavouritesFragment();
 			break;
 		default:

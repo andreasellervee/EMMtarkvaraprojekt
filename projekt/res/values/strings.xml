@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- App name -->
     <string name="app_name">EMMprojekt</string>
-    <string name="action_settings">Seaded</string>
-    <string name="title_activity_main_menu">MainMenu</string>
-    <string name="title_activity_map">MapActivity</string>
-    <string name="drawer_open">Open navigation drawer</string>
-    <string name="drawer_close">Close navigation drawer</string>
-    <string name="action_websearch">Web search</string>
-    <string name="app_not_available">Sorry, there\'s no web browser available</string>
+
+    <!-- Titles -->
     <string name="map">Kaart</string>
     <string name="search">Otsing</string>
+    <string name="search_results">Otsingu Tulemused</string>
     <string name="favourites">Lemmikud</string>
     <string name="settings">Seaded</string>
-    <string name="seach_title">Search</string>
-    <string name="b1">Map</string>
-    <string name="b3">Favourites</string>
-    <string name="b4">Points of interest</string>
-    <string name="b2">Tracks</string>
-    <string name="b5">Settings</string>
-    <string name="b6">Add a track</string>
 
-    <string-array name="option_items_array">
+    <!-- Button titles -->
+
+
+    <!-- Menu -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Seaded</string>
+    <string-array name="option_items_array">
         <item>Kaart</item>
         <item>Rajad</item>
         <item>Huvipunktid</item>
         <item>Lemmikud</item>
     </string-array>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_my_simple_search_adapter">MySimpleSearchAdapter</string>
+    <!-- Misc -->
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_search_functionality">SearchFunctionality</string>
 
 </resources>

@@ -9,15 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class PointsSearchFragment extends Fragment {
-	public PointsSearchFragment() {
+public class TracksSearchFragment extends Fragment {
+	public TracksSearchFragment() {
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_points_search,
+		View rootView = inflater.inflate(R.layout.fragment_tracks_search,
 				container, false);
 
 		Button searchAll = (Button) rootView.findViewById(R.id.searchAll);
@@ -42,7 +42,7 @@ public class PointsSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
-		Fragment fragment = new PointsSearchResultsFragment();
+		Fragment fragment = new TracksSearchResultsFragment();
 
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
@@ -50,7 +50,7 @@ public class PointsSearchFragment extends Fragment {
 	}
 
 	void searchNear() {
-		Fragment fragment = new PointsSearchResultsFragment();
+		Fragment fragment = new TracksSearchResultsFragment();
 
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()

@@ -13,11 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class FavouritesFragment extends Fragment {
+public class TracksSearchResultsFragment extends Fragment {
 
 	ArrayList<Track> tracks;
 
-	public FavouritesFragment() {
+	public TracksSearchResultsFragment() {
 		tracks = new ArrayList<Track>();
 
 		for (int i = 0; i < 10; i++) {
@@ -31,7 +31,9 @@ public class FavouritesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View rootView = inflater.inflate(R.layout.fragment_favourites,
+		getActivity().setTitle(R.string.search_results);
+
+		View rootView = inflater.inflate(R.layout.fragment_search_results,
 				container, false);
 
 		ListView list = (ListView) rootView.findViewById(android.R.id.list);
