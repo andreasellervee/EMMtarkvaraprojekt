@@ -1,5 +1,7 @@
 package com.ee.matkarakendus;
 
+import java.util.concurrent.ExecutionException;
+import com.ee.matkarakendus.networking.ServerTest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,8 +32,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-		
-								
+
 		title = getTitle();
 		optionItems = getResources().getStringArray(R.array.option_items_array);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -62,6 +64,17 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
+
+		try {
+			String result = new ServerTest().execute(
+					"http://ec2-54-88-100-57.compute-1.amazonaws.com:8080/")
+					.get();
+			Log.i("EMM", "Result: " + result);
+		} catch (InterruptedException ex) {
+			Log.e("EMM", ex.toString());
+		} catch (ExecutionException ex) {
+			Log.e("EMM", ex.toString());
+		}
 	}
 
 	@Override
@@ -77,7 +90,6 @@ public class MainActivity extends Activity {
 		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
-
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
