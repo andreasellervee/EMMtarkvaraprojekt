@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
 
 		try {
 			String result = new ServerTest().execute(
-					"http://ec2-54-88-100-57.compute-1.amazonaws.com:8080/")
+					"http://emmtarkvaraprojekt.appspot.com/")
 					.get();
 			Log.i("EMM", "Result: " + result);
 		} catch (InterruptedException ex) {
