@@ -10,6 +10,9 @@
     <string name="search_results">Otsingu Tulemused</string>
     <string name="favourites">Lemmikud</string>
     <string name="settings">Seaded</string>
+    <string name="allTracks">Kõik rajad</string>
+    <string name="tracks">Rajad</string>
+    <string name="pointsOfInterest">Huvipunktid</string>
 
     <!-- Button titles -->
 
@@ -20,7 +23,8 @@
     <string name="action_settings">Seaded</string>
     <string-array name="option_items_array">
         <item>Kaart</item>
-        <item>Rajad</item>
+        <item>Kõik rajad</item>
+        <item>Radade otsing</item>
         <item>Huvipunktid</item>
         <item>Lemmikud</item>
     </string-array>

@@ -1,12 +1,11 @@
 package com.ee.matkarakendus;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-import com.ee.matkarakendus.networking.ServerTest;
-import com.eematkarakendus.fragments.FavouritesFragment;
-import com.eematkarakendus.fragments.MapDisplayFragment;
-import com.eematkarakendus.fragments.PointsSearchFragment;
-import com.eematkarakendus.fragments.SettingsFragment;
-import com.eematkarakendus.fragments.TracksSearchFragment;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -16,7 +15,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +23,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.ee.matkarakendus.networking.ServerTest;
+import com.ee.matkarakendus.objects.Track;
+import com.eematkarakendus.fragments.FavouritesFragment;
+import com.eematkarakendus.fragments.MapDisplayFragment;
+import com.eematkarakendus.fragments.PointsSearchFragment;
+import com.eematkarakendus.fragments.SettingsFragment;
+import com.eematkarakendus.fragments.TracksSearchFragment;
+import com.eematkarakendus.fragments.TracksSearchResultsFragment;
+
 public class MainActivity extends Activity {
 	private DrawerLayout drawer;
 	private ListView list;
@@ -32,6 +39,8 @@ public class MainActivity extends Activity {
 
 	private CharSequence title;
 	private String[] optionItems;
+	
+	private ArrayList<Track> tracks = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +79,7 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
-
-		try {
-			String result = new ServerTest().execute(
-					"http://emmtarkvaraprojekt.appspot.com/")
-					.get();
-			Log.i("EMM", "Result: " + result);
-		} catch (InterruptedException ex) {
-			Log.e("EMM", ex.toString());
-		} catch (ExecutionException ex) {
-			Log.e("EMM", ex.toString());
-		}
+		tracks = getTestTracks();
 	}
 
 	@Override
@@ -134,14 +133,18 @@ public class MainActivity extends Activity {
 			fragment = new MapDisplayFragment();
 			break;
 		case 1:
-			setTitle(R.string.search);
-			fragment = new TracksSearchFragment();
+			setTitle(R.string.allTracks);
+			fragment = new TracksSearchResultsFragment(tracks);
 			break;
 		case 2:
 			setTitle(R.string.search);
-			fragment = new PointsSearchFragment();
+			fragment = new TracksSearchFragment();
 			break;
 		case 3:
+			setTitle(R.string.pointsOfInterest);
+			fragment = new PointsSearchFragment();
+			break;
+		case 4:
 			setTitle(R.string.favourites);
 			fragment = new FavouritesFragment();
 			break;
@@ -173,5 +176,44 @@ public class MainActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		drawerToggle.onConfigurationChanged(newConfig);
+	}
+	
+	private ArrayList<Track> getTestTracks() {
+		
+		String json ="";
+			
+		tracks = new ArrayList<Track>();
+		
+		try {
+			json = new ServerTest().execute(
+					"http://emmtarkvaraprojekt.appspot.com/")
+					.get();
+			JSONObject tracksJSON = new JSONObject(json);
+			JSONArray tracksArray = tracksJSON.getJSONArray("tracks");
+			for(int i = 0; i < tracksArray.length(); i++) {
+				JSONObject track = tracksArray.getJSONObject(i);
+				Track t = new Track();
+				t.setId(track.getString("id"));
+				t.setDescription(track.getString("description"));
+				t.setLength(track.getDouble("length"));
+				t.setLatitude(track.getDouble("latitude"));
+				t.setLongitude(track.getDouble("longitude"));
+				t.setAscend(track.getDouble("ascend"));
+				t.setType(track.getInt("type"));
+				t.setIsOpen(track.getBoolean("isOpen"));
+				tracks.add(t);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return tracks;
 	}
 }

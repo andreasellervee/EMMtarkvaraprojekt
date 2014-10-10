@@ -25,13 +25,15 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View row = inflater.inflate(R.layout.track_cell, parent, false);
+		View row = inflater.inflate(R.layout.tracks_list_item, parent, false);
 
-		TextView id = (TextView) row.findViewById(R.id.id);
+		TextView id = (TextView) row.findViewById(R.id.title);
+		TextView description = (TextView) row.findViewById(R.id.description);
 
 		Track track = tracks.get(position);
 
-		id.setText(track.getId());
+		id.setText("ID: " + track.getId());
+		description.setText("Kirjeldus: " + track.getDescription());
 
 		return row;
 	}
