@@ -18,12 +18,11 @@ public class TracksSearchResultsFragment extends Fragment {
 	ArrayList<Track> tracks;
 	
 	public TracksSearchResultsFragment() {
-		
+		this.tracks = new ArrayList<Track>();
 	}
 
 	public TracksSearchResultsFragment(ArrayList<Track> tracks) {
 		this.tracks = tracks;
-
 	}
 
 	@Override
