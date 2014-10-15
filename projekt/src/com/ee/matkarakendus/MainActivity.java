@@ -23,14 +23,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.ee.matkarakendus.fragments.FavouritesFragment;
+import com.ee.matkarakendus.fragments.MapDisplayFragment;
+import com.ee.matkarakendus.fragments.PointsSearchFragment;
+import com.ee.matkarakendus.fragments.SettingsFragment;
+import com.ee.matkarakendus.fragments.TracksSearchFragment;
+import com.ee.matkarakendus.fragments.TracksSearchResultsFragment;
 import com.ee.matkarakendus.networking.ServerTest;
 import com.ee.matkarakendus.objects.Track;
-import com.eematkarakendus.fragments.FavouritesFragment;
-import com.eematkarakendus.fragments.MapDisplayFragment;
-import com.eematkarakendus.fragments.PointsSearchFragment;
-import com.eematkarakendus.fragments.SettingsFragment;
-import com.eematkarakendus.fragments.TracksSearchFragment;
-import com.eematkarakendus.fragments.TracksSearchResultsFragment;
 
 public class MainActivity extends Activity {
 	private DrawerLayout drawer;

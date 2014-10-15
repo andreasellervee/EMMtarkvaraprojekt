@@ -1,13 +1,7 @@
-package com.eematkarakendus.fragments;
+package com.ee.matkarakendus.fragments;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.concurrent.ExecutionException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,9 +11,7 @@ import android.widget.ListView;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.adapters.TracksListAdapter;
-import com.ee.matkarakendus.networking.ServerTest;
 import com.ee.matkarakendus.objects.Track;
-import com.google.android.gms.drive.query.SortOrder;
 
 public class TracksSearchResultsFragment extends Fragment {
 

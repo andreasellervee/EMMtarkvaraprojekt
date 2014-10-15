@@ -1,4 +1,4 @@
-package com.eematkarakendus.fragments;
+package com.ee.matkarakendus.fragments;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.R.layout;

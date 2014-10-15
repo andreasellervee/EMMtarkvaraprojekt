@@ -1,4 +1,4 @@
-package com.eematkarakendus.fragments;
+package com.ee.matkarakendus.fragments;
 
 import java.util.ArrayList;
 
