@@ -1,12 +1,5 @@
 package com.ee.matkarakendus;
 
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -29,8 +22,6 @@ import com.ee.matkarakendus.fragments.PointsSearchFragment;
 import com.ee.matkarakendus.fragments.SettingsFragment;
 import com.ee.matkarakendus.fragments.TracksSearchFragment;
 import com.ee.matkarakendus.fragments.TracksSearchResultsFragment;
-import com.ee.matkarakendus.networking.ServerTest;
-import com.ee.matkarakendus.objects.Track;
 
 public class MainActivity extends Activity {
 	private DrawerLayout drawer;
@@ -40,8 +31,6 @@ public class MainActivity extends Activity {
 	private CharSequence title;
 	private String[] optionItems;
 	
-	private ArrayList<Track> tracks = null;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,7 +68,6 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
-		tracks = getTestTracks();
 	}
 
 	@Override
@@ -134,7 +122,7 @@ public class MainActivity extends Activity {
 			break;
 		case 1:
 			setTitle(R.string.allTracks);
-			fragment = new TracksSearchResultsFragment(tracks);
+			fragment = new TracksSearchResultsFragment();
 			break;
 		case 2:
 			setTitle(R.string.search);
@@ -176,44 +164,5 @@ public class MainActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		drawerToggle.onConfigurationChanged(newConfig);
-	}
-	
-	private ArrayList<Track> getTestTracks() {
-		
-		String json ="";
-			
-		tracks = new ArrayList<Track>();
-		
-		try {
-			json = new ServerTest().execute(
-					"http://emmtarkvaraprojekt.appspot.com/")
-					.get();
-			JSONObject tracksJSON = new JSONObject(json);
-			JSONArray tracksArray = tracksJSON.getJSONArray("tracks");
-			for(int i = 0; i < tracksArray.length(); i++) {
-				JSONObject track = tracksArray.getJSONObject(i);
-				Track t = new Track();
-				t.setId(track.getString("id"));
-				t.setDescription(track.getString("description"));
-				t.setLength(track.getDouble("length"));
-				t.setLatitude(track.getDouble("latitude"));
-				t.setLongitude(track.getDouble("longitude"));
-				t.setAscend(track.getDouble("ascend"));
-				t.setType(track.getInt("type"));
-				t.setIsOpen(track.getBoolean("isOpen"));
-				tracks.add(t);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return tracks;
 	}
 }

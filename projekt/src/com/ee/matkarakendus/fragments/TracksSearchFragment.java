@@ -1,6 +1,13 @@
 package com.ee.matkarakendus.fragments;
 
+import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.networking.ServerTest;
+import com.ee.matkarakendus.objects.Track;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -21,6 +28,7 @@ public class TracksSearchFragment extends Fragment {
 				container, false);
 
 		Button searchAll = (Button) rootView.findViewById(R.id.searchAll);
+		Button searchNear = (Button) rootView.findViewById(R.id.searchNear);
 
 		searchAll.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -28,8 +36,6 @@ public class TracksSearchFragment extends Fragment {
 				searchAll();
 			}
 		});
-
-		Button searchNear = (Button) rootView.findViewById(R.id.searchNear);
 
 		searchNear.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -42,7 +48,32 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
-		Fragment fragment = new TracksSearchResultsFragment();
+		String json = "";
+		ArrayList<Track> tracks = new ArrayList<Track>();
+
+		try {
+			json = new ServerTest().execute(
+					"http://emmtarkvaraprojekt.appspot.com/").get();
+			JSONObject tracksJSON = new JSONObject(json);
+			JSONArray tracksArray = tracksJSON.getJSONArray("tracks");
+			for (int i = 0; i < tracksArray.length(); i++) {
+				JSONObject track = tracksArray.getJSONObject(i);
+				Track t = new Track();
+				t.setId(track.getString("id"));
+				t.setDescription(track.getString("description"));
+				t.setLength(track.getDouble("length"));
+				t.setLatitude(track.getDouble("latitude"));
+				t.setLongitude(track.getDouble("longitude"));
+				t.setAscend(track.getDouble("ascend"));
+				t.setType(track.getInt("type"));
+				t.setIsOpen(track.getBoolean("isOpen"));
+				tracks.add(t);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		Fragment fragment = new TracksSearchResultsFragment(tracks);
 
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
