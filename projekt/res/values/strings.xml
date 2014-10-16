@@ -21,13 +21,6 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_settings">Seaded</string>
-    <string-array name="option_items_array">
-        <item>Kaart</item>
-        <item>Kõik rajad</item>
-        <item>Radade otsing</item>
-        <item>Huvipunktid</item>
-        <item>Lemmikud</item>
-    </string-array>
 
     <!-- Misc -->
     <string name="title_activity_main_menu">MainMenu</string>

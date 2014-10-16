@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="county_array">
+        <item>Harjumaa</item>
+        <item>Hiiumaa</item>
+        <item>Ida-Virumaa</item>
+        <item>Jõgevamaa</item>
+        <item>Läänemaa</item>
+        <item>Lääne-Virumaa</item>
+        <item>Põlvamaa</item>
+        <item>Pärnumaa</item>
+        <item>Raplamaa</item>
+        <item>Saaremaa</item>
+        <item>Tartumaa</item>
+        <item>Valgamaa</item>
+        <item>Viljandimaa</item>
+        <item>Võrumaa</item>
+    </string-array>
+    <string-array name="option_items_array">
+        <item>Kaart</item>
+        <item>Kõik rajad</item>
+        <item>Radade otsing</item>
+        <item>Huvipunktid</item>
+        <item>Lemmikud</item>
+    </string-array>
+    <string-array name="track_type_array">
+        <item>Matkarada</item>
+        <item>Seiklusrada</item>
+        <item>Õpperada</item>
+    </string-array>
+    <string-array name="point_type_array">
+        <item>Lõkkeplats</item>
+        <item>Vaatetorn</item>
+        <item>Ohvrikivi</item>
+    </string-array>
+
+</resources>

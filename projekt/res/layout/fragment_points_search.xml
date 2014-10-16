@@ -21,7 +21,8 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:entries="@array/county_array" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,7 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:entries="@array/point_type_array" />
     </LinearLayout>
 
     <LinearLayout
