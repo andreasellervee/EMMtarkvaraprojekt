@@ -22,7 +22,7 @@ public class FavouritesFragment extends Fragment {
 
 		for (int i = 0; i < 10; i++) {
 			Track t = new Track();
-			t.setId(String.valueOf(i));
+			t.setId(i);
 			tracks.add(t);
 		}
 	}

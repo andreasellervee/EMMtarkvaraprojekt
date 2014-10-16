@@ -11,6 +11,7 @@ import com.ee.matkarakendus.objects.Track;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,20 +54,22 @@ public class TracksSearchFragment extends Fragment {
 
 		try {
 			json = new ServerTest().execute(
-					"http://emmtarkvaraprojekt.appspot.com/").get();
-			JSONObject tracksJSON = new JSONObject(json);
-			JSONArray tracksArray = tracksJSON.getJSONArray("tracks");
+					"http://ec2-54-88-100-57.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks").get();
+			Log.i("EMM", json);
+			JSONArray tracksArray = new JSONArray(json);
 			for (int i = 0; i < tracksArray.length(); i++) {
 				JSONObject track = tracksArray.getJSONObject(i);
 				Track t = new Track();
-				t.setId(track.getString("id"));
+				t.setId(track.getInt("id"));
+				t.setName(track.getString("name"));
 				t.setDescription(track.getString("description"));
+				t.setCounty(track.getString("country"));
 				t.setLength(track.getDouble("length"));
-				t.setLatitude(track.getDouble("latitude"));
-				t.setLongitude(track.getDouble("longitude"));
-				t.setAscend(track.getDouble("ascend"));
-				t.setType(track.getInt("type"));
+				t.setLatitude(track.getDouble("lat"));
+				t.setLongitude(track.getDouble("lng"));
+				t.setTime(track.getDouble("time"));
 				t.setIsOpen(track.getBoolean("isOpen"));
+				t.setType(track.getString("type"));
 				tracks.add(t);
 			}
 		} catch (Exception e) {
@@ -78,6 +81,12 @@ public class TracksSearchFragment extends Fragment {
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()
 				.replace(R.id.content_frame, fragment).commit();
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
 	}
 
 	void searchNear() {

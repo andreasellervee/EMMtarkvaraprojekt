@@ -1,17 +1,22 @@
 package com.ee.matkarakendus.fragments;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.adapters.TracksListAdapter;
 import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TrackPolylineUtil;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class TracksSearchResultsFragment extends Fragment {
 
@@ -37,17 +42,34 @@ public class TracksSearchResultsFragment extends Fragment {
 		ListView list = (ListView) rootView.findViewById(android.R.id.list);
 
 		TracksListAdapter adapter = new TracksListAdapter(getActivity(), tracks);
-
-		adapter.sort(new Comparator<Track>() {
-
-			@Override
-			public int compare(Track lhs, Track rhs) {
-				return lhs.getId().compareTo(rhs.getId());
-			}
-		});
 		
 		list.setAdapter(adapter);
+		
+		//NOT FUNCTIONAL
+//		list.setOnItemClickListener(new TracksListOnClickListener(getFragmentManager()));
 
 		return rootView;
+	}
+	
+	private static final class TracksListOnClickListener implements OnItemClickListener {
+		
+		private FragmentManager fragmentManager;
+		
+		public TracksListOnClickListener(FragmentManager manager) {
+			this.fragmentManager = manager;
+		}
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+			
+			Track track = (Track) parent.getItemAtPosition(position);
+			
+			TrackPolylineUtil util = new TrackPolylineUtil();
+			PolylineOptions poly = util.getTrackPolylineById(track.getId());
+			MapDisplayFragment map = new MapDisplayFragment();
+			map.setPolys(poly);
+		}
+
 	}
 }

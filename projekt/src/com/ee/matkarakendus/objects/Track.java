@@ -1,17 +1,24 @@
 package com.ee.matkarakendus.objects;
 
 public class Track {
-	public String id;
+	
+	public int id;
+	
+	public String name;
 	
 	public String description;
 	
+	public String county;
+
 	public double latitude;
 	
 	public double longitude;
 	
 	public double length;
 	
-	public int type;
+	public double time;
+	
+	public String type;
 	
 	public Boolean isOpen;
 	
@@ -22,13 +29,37 @@ public class Track {
 	//Points of interest near the track
 		
 	//User submitted track comments
+	
+	public String getCounty() {
+		return county;
+	}
+	
+	public void setCounty(String county) {
+		this.county = county;
+	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public double getTime() {
+		return time;
+	}
+	
+	public void setTime(double time) {
+		this.time = time;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -63,11 +94,11 @@ public class Track {
 		this.length = length;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
