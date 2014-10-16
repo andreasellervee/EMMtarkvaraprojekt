@@ -21,7 +21,7 @@
         <item>Kaart</item>
         <item>Kõik rajad</item>
         <item>Radade otsing</item>
-        <item>Huvipunktid</item>
+        <item>Huvipunktide otsing</item>
         <item>Lemmikud</item>
     </string-array>
     <string-array name="track_type_array">

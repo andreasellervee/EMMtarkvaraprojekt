@@ -15,7 +15,16 @@
     <string name="pointsOfInterest">Huvipunktid</string>
 
     <!-- Button titles -->
+	<string name="search_all">Otsi kõiki</string>
+	<string name="search_near">Otsi läheduses</string>
 
+    <!-- Label titles -->
+    <string name="type">Liik:</string>
+    <string name="string">Sõne:</string>
+    <string name="area">Piirkond:</string>
+    <string name="dash">-</string>
+    <string name="duration">Kestus:</string>
+    <string name="length">Pikkus:</string>
 
     <!-- Menu -->
     <string name="drawer_open">Open navigation drawer</string>

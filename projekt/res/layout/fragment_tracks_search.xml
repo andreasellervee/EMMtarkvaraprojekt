@@ -29,7 +29,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Pikkus:" />
+            android:text="@string/length" />
 
         <EditText
             android:layout_width="0dp"
@@ -43,42 +43,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="-" />
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/text_border"
-            android:inputType="numberDecimal" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:padding="10dp" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Kestus:" />
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="@drawable/text_border"
-            android:inputType="numberDecimal" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="-" />
+            android:text="@string/dash" />
 
         <EditText
             android:layout_width="0dp"
@@ -99,7 +64,42 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Piirkond:" />
+            android:text="@string/duration" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/text_border"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/dash" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/text_border"
+            android:inputType="numberDecimal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/area" />
 
         <Spinner
             android:layout_width="0dp"
@@ -120,7 +120,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Liik:" />
+            android:text="@string/type" />
 
         <Spinner
             android:layout_width="0dp"
@@ -141,16 +141,18 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Sõne:" />
+            android:text="@string/string" />
 
         <EditText
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
@@ -158,17 +160,21 @@
 
         <Button
             android:id="@+id/searchAll"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Otsi kõiki" />
+            android:background="#D0D0D0"
+            android:text="@string/search_all" />
 
         <Button
             android:id="@+id/searchNear"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Otsi läheduses" />
+            android:background="#D0D0D0"
+            android:text="@string/search_near" />
     </LinearLayout>
 
 </LinearLayout>
