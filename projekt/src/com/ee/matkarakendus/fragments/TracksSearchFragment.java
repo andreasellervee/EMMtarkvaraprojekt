@@ -15,8 +15,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
 
 public class TracksSearchFragment extends Fragment {
+	Switch openClosed;
+	EditText lengthMin;
+	EditText lengthMax;
+	EditText durationMin;
+	EditText durationMax;
+	Spinner area;
+	Spinner type;
+	EditText string;
+	Button searchAll;
+	Button searchNear;
+
 	public TracksSearchFragment() {
 	}
 
@@ -27,8 +42,16 @@ public class TracksSearchFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_tracks_search,
 				container, false);
 
-		Button searchAll = (Button) rootView.findViewById(R.id.searchAll);
-		Button searchNear = (Button) rootView.findViewById(R.id.searchNear);
+		openClosed = (Switch) rootView.findViewById(R.id.openClosed);
+		lengthMin = (EditText) rootView.findViewById(R.id.lengthMin);
+		lengthMax = (EditText) rootView.findViewById(R.id.lengthMax);
+		durationMin = (EditText) rootView.findViewById(R.id.durationMin);
+		durationMax = (EditText) rootView.findViewById(R.id.durationMax);
+		area = (Spinner) rootView.findViewById(R.id.area);
+		type = (Spinner) rootView.findViewById(R.id.type);
+		string = (EditText) rootView.findViewById(R.id.string);
+		searchAll = (Button) rootView.findViewById(R.id.searchAll);
+		searchNear = (Button) rootView.findViewById(R.id.searchNear);
 
 		searchAll.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -44,7 +67,36 @@ public class TracksSearchFragment extends Fragment {
 			}
 		});
 
+		if (savedInstanceState != null) {
+			Boolean open_closed = savedInstanceState.getBoolean("open_closed");
+			Double length_min = savedInstanceState.getDouble("length_min");
+			Double length_max = savedInstanceState.getDouble("length_max");
+			Double duration_min = savedInstanceState.getDouble("duration_min");
+			Double duration_max = savedInstanceState.getDouble("duration_max");
+			long area = savedInstanceState.getLong("area");
+			long type = savedInstanceState.getLong("type");
+			String string = savedInstanceState.getString("string");
+		}
+
 		return rootView;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean("open_closed", openClosed.isSelected());
+		outState.putDouble("length_min",
+				Double.parseDouble(lengthMin.getText().toString()));
+		outState.putDouble("length_max",
+				Double.parseDouble(lengthMax.getText().toString()));
+		outState.putDouble("duration_min",
+				Double.parseDouble(durationMin.getText().toString()));
+		outState.putDouble("duration_max",
+				Double.parseDouble(durationMax.getText().toString()));
+		outState.putLong("area", area.getSelectedItemId());
+		outState.putLong("type", type.getSelectedItemId());
+		outState.putString("string", string.getText().toString());
 	}
 
 	void searchAll() {
