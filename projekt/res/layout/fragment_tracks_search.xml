@@ -11,6 +11,7 @@
         android:padding="10dp" >
 
         <Switch
+            android:id="@+id/openClosed"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
@@ -29,26 +30,30 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Pikkus:" />
+            android:text="@string/length" />
 
         <EditText
+            android:id="@+id/lengthMin"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:inputType="numberDecimal" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="-" />
+            android:text="@string/dash" />
 
         <EditText
+            android:id="@+id/lengthMax"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <LinearLayout
@@ -62,26 +67,30 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Kestus:" />
+            android:text="@string/duration" />
 
         <EditText
+            android:id="@+id/durationMin"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:inputType="numberDecimal" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="-" />
+            android:text="@string/dash" />
 
         <EditText
+            android:id="@+id/durationMax"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:inputType="numberDecimal" />
     </LinearLayout>
 
     <LinearLayout
@@ -95,13 +104,15 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Piirkond:" />
+            android:text="@string/area" />
 
         <Spinner
+            android:id="@+id/area"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:entries="@array/county_array" />
     </LinearLayout>
 
     <LinearLayout
@@ -115,13 +126,15 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Liik:" />
+            android:text="@string/type" />
 
         <Spinner
+            android:id="@+id/type"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:entries="@array/track_type_array" />
     </LinearLayout>
 
     <LinearLayout
@@ -135,16 +148,19 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Sõne:" />
+            android:text="@string/string" />
 
         <EditText
+            android:id="@+id/string"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
-            android:background="@drawable/text_border" />
+            android:background="@drawable/text_border"
+            android:inputType="text" />
     </LinearLayout>
 
     <LinearLayout
+        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
@@ -152,17 +168,21 @@
 
         <Button
             android:id="@+id/searchAll"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Otsi kõiki" />
+            android:background="#D0D0D0"
+            android:text="@string/search_all" />
 
         <Button
             android:id="@+id/searchNear"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="Otsi läheduses" />
+            android:background="#D0D0D0"
+            android:text="@string/search_near" />
     </LinearLayout>
 
 </LinearLayout>
