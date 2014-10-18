@@ -11,9 +11,10 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 public class TrackPolylineUtil {
 	
+	PolylineOptions poly;
+	
 	public PolylineOptions getTrackPolylineById(int trackId) {
-		
-		PolylineOptions poly = new PolylineOptions();
+		poly = new PolylineOptions();
 		poly.geodesic(true);
 		String json = "";
 		
@@ -30,7 +31,6 @@ public class TrackPolylineUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return poly;
 	}
 

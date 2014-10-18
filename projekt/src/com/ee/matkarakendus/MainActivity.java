@@ -1,5 +1,7 @@
 package com.ee.matkarakendus;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -22,6 +24,10 @@ import com.ee.matkarakendus.fragments.PointsSearchFragment;
 import com.ee.matkarakendus.fragments.SettingsFragment;
 import com.ee.matkarakendus.fragments.TracksSearchFragment;
 import com.ee.matkarakendus.fragments.TracksSearchResultsFragment;
+import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TrackPolylineUtil;
+import com.ee.matkarakendus.utils.TracksUtil;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends Activity {
 	private DrawerLayout drawer;
@@ -30,12 +36,23 @@ public class MainActivity extends Activity {
 
 	private CharSequence title;
 	private String[] optionItems;
+
+	private PolylineOptions options;
+	
+	private ArrayList<Track> tracks;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
+		
+		TrackPolylineUtil util = new TrackPolylineUtil();
+		options = util.getTrackPolylineById(7);
+		
+		TracksUtil tracksUtil = new TracksUtil();
+		tracks = tracksUtil.getAllTracks();
+		
 
 		title = getTitle();
 		optionItems = getResources().getStringArray(R.array.option_items_array);
@@ -122,7 +139,7 @@ public class MainActivity extends Activity {
 			break;
 		case 1:
 			setTitle(R.string.allTracks);
-			fragment = new TracksSearchResultsFragment();
+			fragment = new TracksSearchResultsFragment(tracks);
 			break;
 		case 2:
 			setTitle(R.string.search);

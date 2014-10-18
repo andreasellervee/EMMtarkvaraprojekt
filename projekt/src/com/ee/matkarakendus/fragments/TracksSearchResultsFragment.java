@@ -3,8 +3,8 @@ package com.ee.matkarakendus.fragments;
 import java.util.ArrayList;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +18,11 @@ import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.utils.TrackPolylineUtil;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class TracksSearchResultsFragment extends Fragment {
+public class TracksSearchResultsFragment extends Fragment implements OnItemClickListener {
 
-	ArrayList<Track> tracks;
+	ArrayList<Track> tracks = new ArrayList<Track>();
 	
 	public TracksSearchResultsFragment() {
-		this.tracks = new ArrayList<Track>();
 	}
 
 	public TracksSearchResultsFragment(ArrayList<Track> tracks) {
@@ -46,30 +45,22 @@ public class TracksSearchResultsFragment extends Fragment {
 		list.setAdapter(adapter);
 		
 		//NOT FUNCTIONAL
-//		list.setOnItemClickListener(new TracksListOnClickListener(getFragmentManager()));
+		list.setOnItemClickListener(this);
 
 		return rootView;
 	}
-	
-	private static final class TracksListOnClickListener implements OnItemClickListener {
-		
-		private FragmentManager fragmentManager;
-		
-		public TracksListOnClickListener(FragmentManager manager) {
-			this.fragmentManager = manager;
-		}
 
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			
-			Track track = (Track) parent.getItemAtPosition(position);
-			
-			TrackPolylineUtil util = new TrackPolylineUtil();
-			PolylineOptions poly = util.getTrackPolylineById(track.getId());
-			MapDisplayFragment map = new MapDisplayFragment();
-			map.setPolys(poly);
-		}
-
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Track track = (Track) parent.getItemAtPosition(position);
+		Log.i("TRACK", track.getName() + track.getDescription());
+		TrackPolylineUtil util = new TrackPolylineUtil();
+		PolylineOptions poly = util.getTrackPolylineById(7);
+		MapDisplayFragment map = new MapDisplayFragment(poly);
+		map.setPolys(poly);
+		
+		getFragmentManager().beginTransaction()
+        .replace(R.id.content_frame, map ).commit();
 	}
 }

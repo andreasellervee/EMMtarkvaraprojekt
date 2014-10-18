@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.networking.ServerTest;
 import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TracksUtil;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -101,34 +102,7 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
-		String json = "";
-		ArrayList<Track> tracks = new ArrayList<Track>();
-
-		try {
-			json = new ServerTest().execute(
-					"http://ec2-54-88-100-57.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks").get();
-			Log.i("EMM", json);
-			JSONArray tracksArray = new JSONArray(json);
-			for (int i = 0; i < tracksArray.length(); i++) {
-				JSONObject track = tracksArray.getJSONObject(i);
-				Track t = new Track();
-				t.setId(track.getInt("id"));
-				t.setName(track.getString("name"));
-				t.setDescription(track.getString("description"));
-				t.setCounty(track.getString("country"));
-				t.setLength(track.getDouble("length"));
-				t.setLatitude(track.getDouble("lat"));
-				t.setLongitude(track.getDouble("lng"));
-				t.setTime(track.getDouble("time"));
-				t.setIsOpen(track.getBoolean("isOpen"));
-				t.setType(track.getString("type"));
-				tracks.add(t);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		Fragment fragment = new TracksSearchResultsFragment(tracks);
+		Fragment fragment = new TracksSearchResultsFragment(new TracksUtil().getAllTracks());
 
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()

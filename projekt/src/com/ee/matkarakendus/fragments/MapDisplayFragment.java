@@ -1,24 +1,27 @@
 package com.ee.matkarakendus.fragments;
 
+import java.util.List;
+
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.utils.TrackPolylineUtil;
+import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MapDisplayFragment extends Fragment {
+public class MapDisplayFragment extends Fragment implements OnCameraChangeListener {
 	
 	private PolylineOptions poly;
 	
@@ -28,9 +31,9 @@ public class MapDisplayFragment extends Fragment {
 		
 	}
 	
-public MapDisplayFragment(PolylineOptions poly) {
-		this.poly = poly;
-	}
+	public MapDisplayFragment(PolylineOptions poly) {
+			this.poly = poly;
+		}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -39,6 +42,12 @@ public MapDisplayFragment(PolylineOptions poly) {
 		
 		map = ((MapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
+		
+		if(map == null) {
+			return v;
+		}
+		
+		map.setOnCameraChangeListener(this);
 		
 		map.setMyLocationEnabled(true);
 		
@@ -52,25 +61,35 @@ public MapDisplayFragment(PolylineOptions poly) {
                 .snippet("Let the adventure begin.")
                 .position(estonia));
         
-        TrackPolylineUtil util = new TrackPolylineUtil();
-        map.addPolyline(util.getTrackPolylineById(7));
+        List<MarkerOptions> allTracksMarkers = new TracksUtil().getAllTrackMarkers();
         
-        map.addMarker(new MarkerOptions()
-        .title("RMK Hüpassaare lõkkekoht")
-        .icon(BitmapDescriptorFactory.fromResource(R.drawable.campfire))
-        .anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
-        .position(new LatLng(58.530688, 25.271323)));
+        for(MarkerOptions opt : allTracksMarkers) {
+        	map.addMarker(opt);
+        }
         
-        map.addMarker(new MarkerOptions()
-        .title("RMK Hüpassaare piknikukoht")
-        .icon(BitmapDescriptorFactory.fromResource(R.drawable.picnic))
-        .anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
-        .position(new LatLng(58.5307998657, 25.24751091)));
+        if(poly != null) {
+        	map.clear();
+        	map.addPolyline(poly);
+        	
+        	map.addMarker(new MarkerOptions()
+        	.title("RMK Hüpassaare lõkkekoht")
+        	.icon(BitmapDescriptorFactory.fromResource(R.drawable.campfire))
+        	.anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
+        	.position(new LatLng(58.530688, 25.271323)));
+        	
+        	map.addMarker(new MarkerOptions()
+        	.title("RMK Hüpassaare piknikukoht")
+        	.icon(BitmapDescriptorFactory.fromResource(R.drawable.picnic))
+        	.anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
+        	.position(new LatLng(58.5307998657, 25.24751091)));
+        	
+        	map.addMarker(new MarkerOptions()
+        	.title("RMK Hüpassaare matkarada")
+        	.position(new LatLng(58.52716, 25.26949)));
+        	
+        	map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(58.52716, 25.26949), 10));
+        }
         
-        map.addMarker(new MarkerOptions()
-        .title("RMK Hüpassaare matkarada")
-        .position(new LatLng(58.52716, 25.26949)));
-
 		return v;
 		}
 	
@@ -82,17 +101,21 @@ public MapDisplayFragment(PolylineOptions poly) {
 		if(map != null) {
 			this.map.addPolyline(poly);
 		}
-		
 	}
 	
 	@Override
 	public void onDestroyView() {
 	    super.onDestroyView();
-	    FragmentManager fm = getActivity().getFragmentManager();
-	    Fragment fragment = (fm.findFragmentById(R.id.map));
-	    FragmentTransaction ft = fm.beginTransaction();
-	    ft.remove(fragment);
-	    ft.commit();
+	    if (map != null) {
+	        getFragmentManager().beginTransaction()
+	            .remove(getFragmentManager().findFragmentById(R.id.map)).commit();
+	        map = null;
+	    }
+	}
+
+	@Override
+	public void onCameraChange(CameraPosition position) {
+		Log.i("ZOOOM", String.valueOf(position.zoom));
 	}
 	
 }
