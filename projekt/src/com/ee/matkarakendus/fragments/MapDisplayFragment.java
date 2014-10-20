@@ -3,17 +3,21 @@ package com.ee.matkarakendus.fragments;
 import java.util.List;
 
 import android.app.Fragment;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
+import android.widget.TextView;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -21,15 +25,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MapDisplayFragment extends Fragment implements OnCameraChangeListener {
+public class MapDisplayFragment extends Fragment implements OnCameraChangeListener, OnMyLocationChangeListener {
 	
 	private PolylineOptions poly;
 	
 	private GoogleMap map;
 	
-	public MapDisplayFragment() {
-		
-	}
+	private TextView asi;
+	
+	public MapDisplayFragment() {}
 	
 	public MapDisplayFragment(PolylineOptions poly) {
 			this.poly = poly;
@@ -39,6 +43,7 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
             Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.fragment_map, null, false);
+		asi = (TextView)v.findViewById(R.id.m66tkava);
 		
 		map = ((MapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
@@ -51,23 +56,23 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 		
 		map.setMyLocationEnabled(true);
 		
-		LatLng estonia = new LatLng(59.0000, 25.5000);
-
-        map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(estonia, 6));
-
-        map.addMarker(new MarkerOptions()
-                .title("Estonia")
-                .snippet("Let the adventure begin.")
-                .position(estonia));
-        
-        List<MarkerOptions> allTracksMarkers = new TracksUtil().getAllTrackMarkers();
-        
-        for(MarkerOptions opt : allTracksMarkers) {
-        	map.addMarker(opt);
-        }
-        
-        if(poly != null) {
+        if(poly == null) {
+        	LatLng estonia = new LatLng(59.0000, 25.5000);
+        	
+        	map.setMyLocationEnabled(true);
+        	map.moveCamera(CameraUpdateFactory.newLatLngZoom(estonia, 6));
+        	
+        	map.addMarker(new MarkerOptions()
+        	.title("Estonia")
+        	.snippet("Let the adventure begin.")
+        	.position(estonia));
+        	
+        	List<MarkerOptions> allTracksMarkers = new TracksUtil().getAllTrackMarkers();
+        	
+        	for(MarkerOptions opt : allTracksMarkers) {
+        		map.addMarker(opt);
+        	}
+        } else {
         	map.clear();
         	map.addPolyline(poly);
         	
@@ -116,6 +121,13 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	@Override
 	public void onCameraChange(CameraPosition position) {
 		Log.i("ZOOOM", String.valueOf(position.zoom));
+		asi.setText("|______|" + String.valueOf(position.zoom));
+	}
+
+	@Override
+	public void onMyLocationChange(Location location) {
+		//nothing right now
+		
 	}
 	
 }
