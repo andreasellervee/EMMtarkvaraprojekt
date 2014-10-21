@@ -46,7 +46,7 @@ public class TracksUtil {
 		String json = "";
 		try {
 			json = new ServerTest().execute(
-					"http://ec2-54-88-100-57.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks").get();
+					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks").get();
 			JSONArray tracksArray = new JSONArray(json);
 			for (int i = 0; i < tracksArray.length(); i++) {
 				JSONObject track = tracksArray.getJSONObject(i);

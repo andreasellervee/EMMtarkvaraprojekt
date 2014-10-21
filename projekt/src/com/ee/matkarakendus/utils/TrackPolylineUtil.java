@@ -20,7 +20,7 @@ public class TrackPolylineUtil {
 		
 		try {
 			json = new ServerTest().execute(
-					"http://ec2-54-88-100-57.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackCoordinates?id=" + trackId).get();
+					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackCoordinates?id=" + trackId).get();
 			Log.i("EMM", json);
 			JSONArray tracksArray = new JSONArray(json);
 			for (int i = 0; i < tracksArray.length(); i++) {
