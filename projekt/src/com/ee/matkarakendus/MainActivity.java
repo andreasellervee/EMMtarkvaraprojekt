@@ -22,6 +22,7 @@ import com.ee.matkarakendus.fragments.FavouritesFragment;
 import com.ee.matkarakendus.fragments.MapDisplayFragment;
 import com.ee.matkarakendus.fragments.PointsSearchFragment;
 import com.ee.matkarakendus.fragments.SettingsFragment;
+import com.ee.matkarakendus.fragments.TrackFragment;
 import com.ee.matkarakendus.fragments.TracksSearchFragment;
 import com.ee.matkarakendus.fragments.TracksSearchResultsFragment;
 import com.ee.matkarakendus.objects.Track;

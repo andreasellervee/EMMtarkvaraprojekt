@@ -15,8 +15,8 @@
     <string name="pointsOfInterest">Huvipunktid</string>
 
     <!-- Button titles -->
-	<string name="search_all">Otsi kõiki</string>
-	<string name="search_near">Otsi läheduses</string>
+    <string name="search_all">Otsi kõiki</string>
+    <string name="search_near">Otsi läheduses</string>
 
     <!-- Label titles -->
     <string name="type">Liik:</string>
@@ -35,5 +35,7 @@
     <string name="title_activity_main_menu">MainMenu</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_search_functionality">SearchFunctionality</string>
+    <string name="title_activity_track_fragment">TrackFragment</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
