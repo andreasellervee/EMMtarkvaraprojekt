@@ -23,7 +23,7 @@ public class FileIOUtility {
 	public void writeToFile(String data, String filename) {
 		Log.i("WRITING", "writing to file " + filename + ".txt");
 	    try {
-	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename + ".txt", Context.MODE_PRIVATE));
+	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename + ".txt", Context.MODE_WORLD_READABLE));
 	        outputStreamWriter.write(data);
 	        outputStreamWriter.close();
 	    }
@@ -33,6 +33,7 @@ public class FileIOUtility {
 	}
 	
 	public boolean fileExists(String filename) {
+		Log.i("FILESTO", context.getFilesDir().toString());
 		File file = new File(context.getFilesDir(), filename + ".txt");
 		return file.exists();
 	}

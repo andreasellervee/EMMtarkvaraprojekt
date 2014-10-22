@@ -25,16 +25,17 @@ private Context context;
 		poly.geodesic(true);
 		FileIOUtility fileUtil = new FileIOUtility(context);
 		String json = "";
-		
+		String polyLineFileName = "trackCoordinates3";
 		try {
-			if(fileUtil.fileExists("trackCoordinates")) {
-				json = fileUtil.readFromFile("trackCoordinates");
+			if(fileUtil.fileExists(polyLineFileName)) {
+				json = fileUtil.readFromFile(polyLineFileName);
 			} else {
 			json = new ServerTest().execute(
-					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackCoordinates?id=" + trackId).get();
+					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allCoordinates").get();
+			fileUtil.writeToFile(json, polyLineFileName);
 			}
 			Log.i("EMM", json);
-			JSONArray tracksArray = new JSONObject(json).getJSONArray("7");
+			JSONArray tracksArray = new JSONObject(json).getJSONArray(Integer.toString(trackId));
 			for (int i = 0; i < tracksArray.length(); i++) {
 				JSONObject latlng = tracksArray.getJSONObject(i);
 				LatLng ll = new LatLng(latlng.getDouble("lat"), latlng.getDouble("lng"));

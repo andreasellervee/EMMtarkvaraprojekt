@@ -3,7 +3,6 @@ package com.ee.matkarakendus.fragments;
 import java.util.ArrayList;
 
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.adapters.TracksListAdapter;
@@ -58,11 +58,16 @@ public class TracksSearchResultsFragment extends Fragment implements OnItemClick
 		Track track = (Track) parent.getItemAtPosition(position);
 		Log.i("TRACK", track.getName() + track.getDescription());
 		TrackPolylineUtil util = new TrackPolylineUtil(getActivity().getApplicationContext());
-		PolylineOptions poly = util.getTrackPolylineById(7);
-		MapDisplayFragment map = new MapDisplayFragment(poly);
-		map.setPolys(poly);
+		PolylineOptions poly = util.getTrackPolylineById(track.getId());
+		if(poly == null || poly.getPoints().isEmpty()) {
+			Toast.makeText(getActivity().getApplicationContext(), track.getName() + 
+					" koordinaadid puuduvad :(",
+					   Toast.LENGTH_SHORT).show();
+		} else {
+			MapDisplayFragment map = new MapDisplayFragment(poly, track);
+			getFragmentManager().beginTransaction()
+			.replace(R.id.content_frame, map ).commit();
+		}
 		
-		getFragmentManager().beginTransaction()
-        .replace(R.id.content_frame, map ).commit();
 	}
 }
