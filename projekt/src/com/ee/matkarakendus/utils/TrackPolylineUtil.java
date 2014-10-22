@@ -32,6 +32,7 @@ private Context context;
 			} else {
 			json = new ServerTest().execute(
 					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackCoordinates?id=" + trackId).get();
+			fileUtil.writeToFile(json, "trackCoordinates");
 			}
 			Log.i("EMM", json);
 			JSONArray tracksArray = new JSONObject(json).getJSONArray("7");
