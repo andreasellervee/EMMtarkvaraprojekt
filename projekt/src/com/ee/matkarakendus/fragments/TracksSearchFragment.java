@@ -102,7 +102,7 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
-		Fragment fragment = new TracksSearchResultsFragment(new TracksUtil().getAllTracks());
+		Fragment fragment = new TracksSearchResultsFragment(new TracksUtil(getActivity().getApplicationContext()).getAllTracks());
 
 		FragmentManager fragmentManager = getFragmentManager();
 		fragmentManager.beginTransaction()

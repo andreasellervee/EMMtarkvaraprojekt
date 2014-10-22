@@ -57,7 +57,7 @@ public class TracksSearchResultsFragment extends Fragment implements OnItemClick
 		
 		Track track = (Track) parent.getItemAtPosition(position);
 		Log.i("TRACK", track.getName() + track.getDescription());
-		TrackPolylineUtil util = new TrackPolylineUtil();
+		TrackPolylineUtil util = new TrackPolylineUtil(getActivity().getApplicationContext());
 		PolylineOptions poly = util.getTrackPolylineById(7);
 		MapDisplayFragment map = new MapDisplayFragment(poly);
 		map.setPolys(poly);

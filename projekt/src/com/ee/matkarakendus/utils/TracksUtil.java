@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.ee.matkarakendus.networking.ServerTest;
@@ -18,6 +19,12 @@ public class TracksUtil {
 	private ArrayList<Track> tracks;
 	
 	public List<MarkerOptions> markers;
+	
+	private Context context;
+	
+	public TracksUtil(Context context) {
+		this.context = context;
+	}
 	
 	public List<MarkerOptions> getAllTrackMarkers() {
 		if(tracks == null) {
@@ -42,11 +49,19 @@ public class TracksUtil {
 			Log.i("TRACKS", "Tracks loaded from memory.");
 			return tracks;
 		}
+		FileIOUtility fileUtil = new FileIOUtility(context);
 		tracks = new ArrayList<Track>();
 		String json = "";
 		try {
+			if(fileUtil.fileExists("tracks")) {
+				json = fileUtil.readFromFile("tracks");
+				Log.i("READING", "read from file");
+			} else {
 			json = new ServerTest().execute(
 					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks").get();
+			fileUtil.writeToFile(json, "tracks");
+			Log.i("WRITING", "to file");
+			}
 			JSONArray tracksArray = new JSONArray(json);
 			for (int i = 0; i < tracksArray.length(); i++) {
 				JSONObject track = tracksArray.getJSONObject(i);
@@ -67,7 +82,6 @@ public class TracksUtil {
 			e.printStackTrace();
 			return tracks;
 		}
-		
 		return tracks;
 	}
 	
