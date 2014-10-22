@@ -29,13 +29,11 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 
 		TextView id = (TextView) row.findViewById(R.id.title);
 		TextView description = (TextView) row.findViewById(R.id.description);
-		TextView type = (TextView) row.findViewById(R.id.type);
 
 		Track track = tracks.get(position);
 
 		id.setText(track.getName());
 		description.setText(track.getDescription());
-		type.setText(track.getType());
 
 		return row;
 	}

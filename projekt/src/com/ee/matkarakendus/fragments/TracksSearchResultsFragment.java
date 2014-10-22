@@ -3,6 +3,7 @@ package com.ee.matkarakendus.fragments;
 import java.util.ArrayList;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,26 +34,27 @@ public class TracksSearchResultsFragment extends Fragment implements OnItemClick
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		getActivity().setTitle(R.string.tracks);
+		getActivity().setTitle(R.string.tracks);				
 
 		View rootView = inflater.inflate(R.layout.fragment_search_results,
 				container, false);
 
 		ListView list = (ListView) rootView.findViewById(android.R.id.list);
-
+		
 		TracksListAdapter adapter = new TracksListAdapter(getActivity(), tracks);
 		
 		list.setAdapter(adapter);
 		
 		//NOT FUNCTIONAL
 		list.setOnItemClickListener(this);
-
+		
 		return rootView;
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
+		
 		Track track = (Track) parent.getItemAtPosition(position);
 		Log.i("TRACK", track.getName() + track.getDescription());
 		TrackPolylineUtil util = new TrackPolylineUtil();
