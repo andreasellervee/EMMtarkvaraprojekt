@@ -67,7 +67,7 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
         	.snippet("Let the adventure begin.")
         	.position(estonia));
         	
-        	List<MarkerOptions> allTracksMarkers = new TracksUtil().getAllTrackMarkers();
+        	List<MarkerOptions> allTracksMarkers = new TracksUtil(getActivity().getApplicationContext()).getAllTrackMarkers();
         	
         	for(MarkerOptions opt : allTracksMarkers) {
         		map.addMarker(opt);

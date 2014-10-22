@@ -47,10 +47,10 @@ public class MainActivity extends Activity {
 
 		setContentView(R.layout.activity_main);
 		
-		TrackPolylineUtil util = new TrackPolylineUtil();
+		TrackPolylineUtil util = new TrackPolylineUtil(getApplicationContext());
 		options = util.getTrackPolylineById(7);
 		
-		TracksUtil tracksUtil = new TracksUtil();
+		TracksUtil tracksUtil = new TracksUtil(getApplicationContext());
 		tracks = tracksUtil.getAllTracks();
 		
 
