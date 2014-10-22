@@ -44,6 +44,16 @@ public class TracksUtil {
 		
 	}
 	
+	public Track getTrackById(int id) {
+		ArrayList<Track> allTracks = getAllTracks();
+		for(Track track : allTracks) {
+			if(track.getId() == id) {
+				return track;
+			}
+		}
+		return null;
+	}
+	
 	public ArrayList<Track> getAllTracks() {
 		if(tracks != null) {
 			Log.i("TRACKS", "Tracks loaded from memory.");
@@ -52,14 +62,15 @@ public class TracksUtil {
 		FileIOUtility fileUtil = new FileIOUtility(context);
 		tracks = new ArrayList<Track>();
 		String json = "";
+		String tracksFileName = "tracks3";
 		try {
-			if(fileUtil.fileExists("tracks")) {
-				json = fileUtil.readFromFile("tracks");
+			if(fileUtil.fileExists(tracksFileName)) {
+				json = fileUtil.readFromFile(tracksFileName);
 				Log.i("READING", "read from file");
 			} else {
 			json = new ServerTest().execute(
 					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks").get();
-			fileUtil.writeToFile(json, "tracks");
+			fileUtil.writeToFile(json, tracksFileName);
 			Log.i("WRITING", "to file");
 			}
 			JSONArray tracksArray = new JSONArray(json);

@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.TextView;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,10 +33,13 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	
 	private TextView asi;
 	
+	private Track track;
+	
 	public MapDisplayFragment() {}
 	
-	public MapDisplayFragment(PolylineOptions poly) {
+	public MapDisplayFragment(PolylineOptions poly, Track track) {
 			this.poly = poly;
+			this.track = track;
 		}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,11 +91,13 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
         	.anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
         	.position(new LatLng(58.5307998657, 25.24751091)));
         	
-        	map.addMarker(new MarkerOptions()
-        	.title("RMK Hüpassaare matkarada")
-        	.position(new LatLng(58.52716, 25.26949)));
-        	
-        	map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(58.52716, 25.26949), 10));
+        	if(!poly.getPoints().isEmpty()) {
+	        	map.addMarker(new MarkerOptions()
+	        	.title(track.getName())
+	        	.position(poly.getPoints().get(0)));
+	        	
+	        	map.animateCamera(CameraUpdateFactory.newLatLngZoom(poly.getPoints().get(0), 11.5F));
+        	}
         }
         
 		return v;
