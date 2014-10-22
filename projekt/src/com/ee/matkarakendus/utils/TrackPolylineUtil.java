@@ -27,8 +27,8 @@ private Context context;
 		String json = "";
 		
 		try {
-			if(fileUtil.fileExists("tracks")) {
-				json = fileUtil.readFromFile("tracks");
+			if(fileUtil.fileExists("trackCoordinates")) {
+				json = fileUtil.readFromFile("trackCoordinates");
 			} else {
 			json = new ServerTest().execute(
 					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackCoordinates?id=" + trackId).get();
