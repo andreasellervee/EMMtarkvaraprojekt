@@ -112,12 +112,19 @@ public class RandomMainClass {
     private static void addTrack(String name, List<List<Double>> coordinates) throws SQLException{
     	Connection conn = getConnection();
     	conn.setAutoCommit(false);
+    	
+    	// get distance
+    	double distance = 0;
+    	for(int i = 0; i < coordinates.size() - 1; i++){
+    		distance += distance(coordinates.get(i).get(0),coordinates.get(i).get(1),coordinates.get(i+1).get(0),coordinates.get(i+1).get(1));
+    	}
+    	
     	// add to tracks table
-    	String sql = "INSERT INTO TRACKS(NAME, START_LAT, START_LNG) VALUES(?,?,?)";
+    	String sql = "INSERT INTO TRACKS(NAME, LENGTH, START_LAT, START_LNG) VALUES(?,?,?,?)";
     	Double lat = coordinates.get(0).get(0);
 		Double lng = coordinates.get(0).get(1);
 		String trackName = name;
-		List parameters = Arrays.asList(name, lat, lng);
+		List parameters = Arrays.asList(name, distance, lat, lng);
 		int numRowsUpdated = update(conn, sql, parameters);
 		conn.commit();
 		
@@ -134,15 +141,18 @@ public class RandomMainClass {
 		
 		
 		// add coordinates
-		for (List<Double> pointCoordinates : coordinates){
-			
-			Float pointLat = pointCoordinates.get(0).floatValue();
-			Float pointLng = pointCoordinates.get(1).floatValue();
-			String sqlForCoordinates = "INSERT INTO COORDINATES(TRACK_ID, LAT, LNG) VALUES(?,?,?)";
-			List parametersForCoordinates = Arrays.asList(trackID, pointLat, pointLng);
-    		int numRowsUpdatedForCoordinates = update(conn, sqlForCoordinates, parametersForCoordinates);
-    		conn.commit();
-		}
+//		for (List<Double> pointCoordinates : coordinates){
+//			
+//			Float pointLat = pointCoordinates.get(0).floatValue();
+//			Float pointLng = pointCoordinates.get(1).floatValue();
+//			String sqlForCoordinates = "INSERT INTO COORDINATES(TRACK_ID, LAT, LNG) VALUES(?,?,?)";
+//			List parametersForCoordinates = Arrays.asList(trackID, pointLat, pointLng);
+//    		int numRowsUpdatedForCoordinates = update(conn, sqlForCoordinates, parametersForCoordinates);
+//    		conn.commit();
+//		}
+		
+		
+		
 //    	for(String key : POIs.keySet()){
 //    		String name = key;
 //    		Double lat = POIs.get(key).get(0);
@@ -269,5 +279,21 @@ public class RandomMainClass {
             e.printStackTrace();
         }
     }
+    private static double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515 * 1.609344;
+        return (dist);
+      }
+
+      private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+      }
+
+      private static double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+      }
 
 }
