@@ -35,6 +35,7 @@ public class TracksSearchFragment extends Fragment {
 	Button searchNear;
 	Set<Track> results;
 	ArrayList<Track> allTracks;
+	Resources res = getResources();
 
 	public TracksSearchFragment() {
 	}
@@ -112,7 +113,31 @@ public class TracksSearchFragment extends Fragment {
 		//isOpen
 		filterOpenClosedTracks();
 		
-		//duration sama loogikaga
+		filterTrackLength();
+		
+		//TODO
+		//filterTrackDuration(); NOT IMPLEMENTED YET
+		
+		filterCountys();
+		
+		filterTrackTypes();
+		
+		filterStringSearch();
+		
+		if(allTracks.isEmpty()) {
+			Toast.makeText(getActivity().getApplicationContext(), "Otsing ei tagastanud tulemusi",
+					   Toast.LENGTH_SHORT).show();
+		} else {
+			Fragment fragment = new TracksSearchResultsFragment(allTracks);
+			
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+			.replace(R.id.content_frame, fragment).commit();
+		}
+		
+	}
+
+	private void filterTrackLength() {
 		String minimumLength = lengthMin.getText().toString(); 
 		String maximumLength = lengthMax.getText().toString();
 		
@@ -142,25 +167,8 @@ public class TracksSearchFragment extends Fragment {
 			}
 		}
 		
-		Resources res = getResources();
-		
-		filterCountys(res);
-		
-		filterTrackTypes(res);
-		
-		filterStringSearch();
-		
-		if(allTracks.isEmpty()) {
-			Toast.makeText(getActivity().getApplicationContext(), "Otsing ei tagastanud tulemusi",
-					   Toast.LENGTH_SHORT).show();
-		} else {
-			Fragment fragment = new TracksSearchResultsFragment(allTracks);
-			
-			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction()
-			.replace(R.id.content_frame, fragment).commit();
-		}
-		
+		allTracks.removeAll(results);
+		results.clear();
 	}
 
 	private void filterStringSearch() {
@@ -179,7 +187,7 @@ public class TracksSearchFragment extends Fragment {
 		results.clear();
 	}
 
-	private void filterTrackTypes(Resources res) {
+	private void filterTrackTypes() {
 		if(type.getSelectedItemId() != 0) {
 			String[] types = res.getStringArray(R.array.track_type_array);
 			for(Track track : allTracks) {
@@ -193,7 +201,7 @@ public class TracksSearchFragment extends Fragment {
 		results.clear();
 	}
 
-	private void filterCountys(Resources res) {
+	private void filterCountys() {
 		if(area.getSelectedItemId() != 0) {
 			String[] countys = res.getStringArray(R.array.county_array);
 			Log.i("ASI", countys[(int) area.getSelectedItemId()]);
