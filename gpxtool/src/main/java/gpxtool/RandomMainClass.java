@@ -141,15 +141,15 @@ public class RandomMainClass {
 		
 		
 		// add coordinates
-//		for (List<Double> pointCoordinates : coordinates){
-//			
-//			Float pointLat = pointCoordinates.get(0).floatValue();
-//			Float pointLng = pointCoordinates.get(1).floatValue();
-//			String sqlForCoordinates = "INSERT INTO COORDINATES(TRACK_ID, LAT, LNG) VALUES(?,?,?)";
-//			List parametersForCoordinates = Arrays.asList(trackID, pointLat, pointLng);
-//    		int numRowsUpdatedForCoordinates = update(conn, sqlForCoordinates, parametersForCoordinates);
-//    		conn.commit();
-//		}
+		for (List<Double> pointCoordinates : coordinates){
+			
+			Float pointLat = pointCoordinates.get(0).floatValue();
+			Float pointLng = pointCoordinates.get(1).floatValue();
+			String sqlForCoordinates = "INSERT INTO COORDINATES(TRACK_ID, LAT, LNG) VALUES(?,?,?)";
+			List parametersForCoordinates = Arrays.asList(trackID, pointLat, pointLng);
+    		int numRowsUpdatedForCoordinates = update(conn, sqlForCoordinates, parametersForCoordinates);
+    		conn.commit();
+		}
 		
 		
 		
