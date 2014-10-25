@@ -10,6 +10,8 @@
     <string name="search_results">Otsingu Tulemused</string>
     <string name="favourites">Lemmikud</string>
     <string name="settings">Seaded</string>
+    <string name="info">Info</string>
+    <string name="pictures">Pildid</string>
     <string name="allTracks">Kõik rajad</string>
     <string name="tracks">Rajad</string>
     <string name="pointsOfInterest">Huvipunktid</string>
@@ -38,5 +40,7 @@
     <string name="title_activity_search_functionality">SearchFunctionality</string>
     <string name="title_activity_track_fragment">TrackFragment</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_info_fragment">InfoFragment</string>
+    <string name="title_activity_pictures_fragment">PicturesFragment</string>
 
 </resources>

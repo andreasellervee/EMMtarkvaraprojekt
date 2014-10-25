@@ -18,10 +18,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.ee.matkarakendus.fragments.FavouritesFragment;
 import com.ee.matkarakendus.fragments.MapDisplayFragment;
 import com.ee.matkarakendus.fragments.PointsSearchFragment;
 import com.ee.matkarakendus.fragments.SettingsFragment;
+import com.ee.matkarakendus.fragments.TrackFragment;
 import com.ee.matkarakendus.fragments.TracksSearchFragment;
 import com.ee.matkarakendus.fragments.TracksSearchResultsFragment;
 import com.ee.matkarakendus.objects.Track;
@@ -144,7 +144,7 @@ public class MainActivity extends Activity {
 			break;
 		case 4:
 			setTitle(R.string.favourites);
-			fragment = new FavouritesFragment();
+			fragment = new TrackFragment();
 			break;
 		default:
 			return;
