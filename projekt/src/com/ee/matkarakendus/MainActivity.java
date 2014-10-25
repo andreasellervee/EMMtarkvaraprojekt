@@ -22,13 +22,10 @@ import com.ee.matkarakendus.fragments.FavouritesFragment;
 import com.ee.matkarakendus.fragments.MapDisplayFragment;
 import com.ee.matkarakendus.fragments.PointsSearchFragment;
 import com.ee.matkarakendus.fragments.SettingsFragment;
-import com.ee.matkarakendus.fragments.TrackFragment;
 import com.ee.matkarakendus.fragments.TracksSearchFragment;
 import com.ee.matkarakendus.fragments.TracksSearchResultsFragment;
 import com.ee.matkarakendus.objects.Track;
-import com.ee.matkarakendus.utils.TrackPolylineUtil;
 import com.ee.matkarakendus.utils.TracksUtil;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends Activity {
 	private DrawerLayout drawer;
@@ -38,8 +35,6 @@ public class MainActivity extends Activity {
 	private CharSequence title;
 	private String[] optionItems;
 
-	private PolylineOptions options;
-	
 	private ArrayList<Track> tracks;
 	
 	@Override
@@ -47,9 +42,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-		
-		TrackPolylineUtil util = new TrackPolylineUtil(getApplicationContext());
-		options = util.getTrackPolylineById(7);
 		
 		TracksUtil tracksUtil = new TracksUtil(getApplicationContext());
 		tracks = tracksUtil.getAllTracks();

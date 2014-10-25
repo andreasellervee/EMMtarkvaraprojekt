@@ -6,17 +6,24 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="55dp"
         android:orientation="horizontal"
         android:padding="10dp" >
 
-        <Switch
-            android:id="@+id/openClosed"
-            android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textOff="Lahtine"
-            android:textOn="Kinnine" />
+            android:text="@string/track_open_closed" />
+
+        <Spinner
+            android:id="@+id/track_open_closed"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="3"
+            android:background="@drawable/text_border"
+            android:entries="@array/track_open_closed" />
     </LinearLayout>
 
     <LinearLayout

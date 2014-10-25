@@ -1,16 +1,13 @@
 package com.ee.matkarakendus.fragments;
 
 import java.util.ArrayList;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.networking.ServerTest;
-import com.ee.matkarakendus.objects.Track;
-import com.ee.matkarakendus.utils.TracksUtil;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,11 +16,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TracksUtil;
 
 public class TracksSearchFragment extends Fragment {
-	Switch openClosed;
+	Spinner openClosed;
 	EditText lengthMin;
 	EditText lengthMax;
 	EditText durationMin;
@@ -33,6 +33,8 @@ public class TracksSearchFragment extends Fragment {
 	EditText string;
 	Button searchAll;
 	Button searchNear;
+	Set<Track> results;
+	ArrayList<Track> allTracks;
 
 	public TracksSearchFragment() {
 	}
@@ -44,7 +46,7 @@ public class TracksSearchFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_tracks_search,
 				container, false);
 
-		openClosed = (Switch) rootView.findViewById(R.id.openClosed);
+		openClosed = (Spinner) rootView.findViewById(R.id.track_open_closed);
 		lengthMin = (EditText) rootView.findViewById(R.id.lengthMin);
 		lengthMax = (EditText) rootView.findViewById(R.id.lengthMax);
 		durationMin = (EditText) rootView.findViewById(R.id.durationMin);
@@ -55,6 +57,17 @@ public class TracksSearchFragment extends Fragment {
 		searchAll = (Button) rootView.findViewById(R.id.searchAll);
 		searchNear = (Button) rootView.findViewById(R.id.searchNear);
 
+		if (savedInstanceState != null) {
+			openClosed.setSelection((int) savedInstanceState.getLong("open_closed"));
+			lengthMin.setText(String.valueOf(savedInstanceState.getDouble("length_min")));
+			lengthMax.setText(String.valueOf(savedInstanceState.getDouble("length_max")));
+			durationMin.setText(String.valueOf(savedInstanceState.getDouble("duration_min")));
+			durationMax.setText(String.valueOf(savedInstanceState.getDouble("duration_max")));
+			area.setSelection((int) savedInstanceState.getLong("area"));
+			type.setSelection((int) savedInstanceState.getLong("type"));
+			string.setText(savedInstanceState.getString("string"));
+		}
+		
 		searchAll.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -69,16 +82,6 @@ public class TracksSearchFragment extends Fragment {
 			}
 		});
 
-		if (savedInstanceState != null) {
-			Boolean open_closed = savedInstanceState.getBoolean("open_closed");
-			Double length_min = savedInstanceState.getDouble("length_min");
-			Double length_max = savedInstanceState.getDouble("length_max");
-			Double duration_min = savedInstanceState.getDouble("duration_min");
-			Double duration_max = savedInstanceState.getDouble("duration_max");
-			long area = savedInstanceState.getLong("area");
-			long type = savedInstanceState.getLong("type");
-			String string = savedInstanceState.getString("string");
-		}
 
 		return rootView;
 	}
@@ -87,7 +90,7 @@ public class TracksSearchFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putBoolean("open_closed", openClosed.isSelected());
+		outState.putLong("open_closed", openClosed.getSelectedItemId());
 		outState.putDouble("length_min",
 				Double.parseDouble(lengthMin.getText().toString()));
 		outState.putDouble("length_max",
@@ -102,16 +105,129 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
-		Fragment fragment = new TracksSearchResultsFragment(new TracksUtil(getActivity().getApplicationContext()).getAllTracks());
+		allTracks = new TracksUtil(getActivity().getApplicationContext()).getAllTracks();
+		//because set does not allow duplicates
+		results = new HashSet<Track>();
+		
+		//isOpen
+		filterOpenClosedTracks();
+		
+		//duration sama loogikaga
+		String minimumLength = lengthMin.getText().toString(); 
+		String maximumLength = lengthMax.getText().toString();
+		
+		if(!(maximumLength.equals("") && minimumLength.equals(""))) {
+			if(!maximumLength.equals("") && !minimumLength.equals("")) {
+				Double minLength = Double.valueOf(minimumLength);
+				Double maxLength = Double.valueOf(maximumLength);
+				for(Track track : allTracks) {
+					if(track.getLength() < minLength || track.getLength() > maxLength) {
+						results.add(track);
+					}
+				}
+			} else if (maximumLength.equals("") && !minimumLength.equals("")) {
+				Double minLength = Double.valueOf(minimumLength);
+				for(Track track : allTracks) {
+					if(track.getLength() < minLength) {
+						results.add(track);
+					}
+				}
+			} else if (!maximumLength.equals("") && minimumLength.equals("")) {
+				Double maxLength = Double.valueOf(maximumLength);
+				for(Track track : allTracks) {
+					if(track.getLength() > maxLength) {
+						results.add(track);
+					}
+				}
+			}
+		}
+		
+		Resources res = getResources();
+		
+		filterCountys(res);
+		
+		filterTrackTypes(res);
+		
+		filterStringSearch();
+		
+		if(allTracks.isEmpty()) {
+			Toast.makeText(getActivity().getApplicationContext(), "Otsing ei tagastanud tulemusi",
+					   Toast.LENGTH_SHORT).show();
+		} else {
+			Fragment fragment = new TracksSearchResultsFragment(allTracks);
+			
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+			.replace(R.id.content_frame, fragment).commit();
+		}
+		
+	}
 
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+	private void filterStringSearch() {
+		String sone = string.getText().toString().toLowerCase();
+		Log.i("SONE", sone);
+		if(!sone.equals("")) {
+			for(Track track : allTracks) {
+				Log.i("TRACK", track.getName() + " " + track.getDescription());
+				if(!(track.getName().toLowerCase().contains(sone) || track.getDescription().toLowerCase().contains(sone))) {
+					results.add(track);
+				}
+			}
+		}
+		
+		allTracks.removeAll(results);
+		results.clear();
+	}
+
+	private void filterTrackTypes(Resources res) {
+		if(type.getSelectedItemId() != 0) {
+			String[] types = res.getStringArray(R.array.track_type_array);
+			for(Track track : allTracks) {
+				if(!track.getType().equals(types[(int) type.getSelectedItemId()])) {
+					results.add(track);
+				}
+			}
+		}
+		
+		allTracks.removeAll(results);
+		results.clear();
+	}
+
+	private void filterCountys(Resources res) {
+		if(area.getSelectedItemId() != 0) {
+			String[] countys = res.getStringArray(R.array.county_array);
+			Log.i("ASI", countys[(int) area.getSelectedItemId()]);
+			for(Track track : allTracks) {
+				Log.i("ASI", track.getName() + " " + track.getCounty());
+				if(!track.getCounty().equals(countys[(int) area.getSelectedItemId()])) {
+					results.add(track);
+				}
+			}
+		}
+		allTracks.removeAll(results);
+		results.clear();
+	}
+
+	private void filterOpenClosedTracks() {
+		if(openClosed.getSelectedItemId() == 1) {
+			for(Track track : allTracks) {
+				if(track.isOpen) {
+					results.add(track);
+				} 
+			}
+		} else if(openClosed.getSelectedItemId() == 2) {
+			for(Track track : allTracks) {
+				if(!track.isOpen) {
+					results.add(track);
+				} 
+			}
+		}
+		allTracks.removeAll(results);
+		results.clear();
 	}
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 

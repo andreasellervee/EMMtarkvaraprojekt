@@ -62,7 +62,7 @@ public class TracksUtil {
 		FileIOUtility fileUtil = new FileIOUtility(context);
 		tracks = new ArrayList<Track>();
 		String json = "";
-		String tracksFileName = "tracks3";
+		String tracksFileName = "tracks4";
 		try {
 			if(fileUtil.fileExists(tracksFileName)) {
 				json = fileUtil.readFromFile(tracksFileName);
@@ -80,7 +80,7 @@ public class TracksUtil {
 				t.setId(track.getInt("id"));
 				t.setName(track.getString("name"));
 				t.setDescription(track.getString("description"));
-				t.setCounty(track.getString("country"));
+				t.setCounty(track.getString("county"));
 				t.setLength(track.getDouble("length"));
 				t.setLatitude(track.getDouble("lat"));
 				t.setLongitude(track.getDouble("lng"));
