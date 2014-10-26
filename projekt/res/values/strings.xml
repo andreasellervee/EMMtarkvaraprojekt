@@ -15,6 +15,10 @@
     <string name="allTracks">Kõik rajad</string>
     <string name="tracks">Rajad</string>
     <string name="pointsOfInterest">Huvipunktid</string>
+    
+    <!-- Error Messages -->
+    <string name="no_search_results">Otsing ei tagastanud tulemusi</string>
+    <string name="no_coordinates"> koordinaadid puuduvad.</string>
 
     <!-- Button titles -->
     <string name="search_all">Otsi kõiki</string>

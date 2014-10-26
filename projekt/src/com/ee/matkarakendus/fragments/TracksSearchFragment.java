@@ -113,7 +113,7 @@ public class TracksSearchFragment extends Fragment {
 		filterResults();
 		
 		if(allTracks.isEmpty()) {
-			Toast.makeText(getActivity().getApplicationContext(), "Otsing ei tagastanud tulemusi",
+			Toast.makeText(getActivity().getApplicationContext(), getString(R.string.no_search_results),
 					   Toast.LENGTH_SHORT).show();
 		} else {
 			TracksSearchResultsFragment fragment = new TracksSearchResultsFragment(allTracks);

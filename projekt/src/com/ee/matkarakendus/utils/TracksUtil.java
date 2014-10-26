@@ -62,6 +62,9 @@ public class TracksUtil {
 		if(title.isEmpty() || title == null) {
 			return null;
 		}
+		if(tracks == null) {
+			tracks = getAllTracks();
+		}
 		for(Track track : tracks) {
 			if(track.getName().equals(title)) {
 				return track;
@@ -88,17 +91,18 @@ public class TracksUtil {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
+//			
+//			if(fileUtil.fileExists(tracksFileName)) {
+//				json = fileUtil.readFromFile(tracksFileName);
+//				Log.i("READING", "read from file");
+//				
+//			} else {
+//			fileUtil.writeToFile(json, tracksFileName);
+//			Log.i("WRITING", "to file");
+//			}
 			
-			if(fileUtil.fileExists(tracksFileName)) {
-				json = fileUtil.readFromFile(tracksFileName);
-				Log.i("READING", "read from file");
-				
-			} else {
 			json = new ServerTest().execute(
 					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks").get();
-			fileUtil.writeToFile(json, tracksFileName);
-			Log.i("WRITING", "to file");
-			}
 			JSONArray tracksArray = new JSONArray(json);
 			for (int i = 0; i < tracksArray.length(); i++) {
 				JSONObject track = tracksArray.getJSONObject(i);

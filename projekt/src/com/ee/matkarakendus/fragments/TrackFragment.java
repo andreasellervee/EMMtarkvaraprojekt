@@ -119,7 +119,7 @@ public class TrackFragment extends Fragment implements TabListener {
 		case 1:
 			if(poly == null ||  poly.getPoints().isEmpty()) {
 				Toast.makeText(getActivity().getApplicationContext(), track.getName() + 
-						" koordinaadid puuduvad.",
+						getString(R.string.no_coordinates),
 						   Toast.LENGTH_SHORT).show();
 			} else {
 				ft.replace(android.R.id.content, new MapDisplayFragment(poly, track));

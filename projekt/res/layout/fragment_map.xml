@@ -10,13 +10,13 @@
           android:layout_height="match_parent"
           android:name="com.google.android.gms.maps.MapFragment"/>
 
-<TextView
+<!-- TextView
     android:id="@+id/m66tkava"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:layout_alignParentLeft="true"
     android:layout_marginBottom="15dp"
-    android:layout_marginLeft="77dp"/>
+    android:layout_marginLeft="77dp"/ -->
 
 </RelativeLayout>

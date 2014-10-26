@@ -1,18 +1,20 @@
 package com.ee.matkarakendus.fragments;
 
-import java.util.List;
 import java.util.Map;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.TrackViewActivity;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,8 +36,6 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	
 	private GoogleMap map;
 	
-	private TextView asi;
-	
 	private Track track;
 	
 	Map<Track, MarkerOptions> allTracksMarkers;
@@ -51,7 +51,6 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
             Bundle savedInstanceState) {
 
 		View v = inflater.inflate(R.layout.fragment_map, null, false);
-		asi = (TextView)v.findViewById(R.id.m66tkava);
 		
 		map = ((MapFragment) getFragmentManager()
 				.findFragmentById(R.id.map)).getMap();
@@ -69,11 +68,6 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
         	
         	map.setMyLocationEnabled(true);
         	map.moveCamera(CameraUpdateFactory.newLatLngZoom(estonia, 6));
-        	
-        	map.addMarker(new MarkerOptions()
-        	.title("Estonia")
-        	.snippet("Let the adventure begin.")
-        	.position(estonia));
         	
         	allTracksMarkers = new TracksUtil(getActivity().getApplicationContext()).getAllTrackMarkers();
         	
@@ -102,9 +96,9 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
         	if(!poly.getPoints().isEmpty()) {
 	        	map.addMarker(new MarkerOptions()
 	        	.title(track.getName())
-	        	.position(poly.getPoints().get(0)));
+	        	.position(new LatLng(track.getLatitude(), track.getLongitude())));
 	        	
-	        	map.animateCamera(CameraUpdateFactory.newLatLngZoom(poly.getPoints().get(0), 11.5F));
+	        	map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(track.getLatitude(), track.getLongitude()), 12F));
         	}
         }
         
@@ -125,16 +119,16 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	public void onDestroyView() {
 	    super.onDestroyView();
 	    if (map != null) {
-	        getFragmentManager().beginTransaction()
-	            .remove(getFragmentManager().findFragmentById(R.id.map)).commit();
 	        map = null;
 	    }
+//	    getFragmentManager().beginTransaction()
+//	    .remove(getFragmentManager().findFragmentById(R.id.map)).commit();
 	}
 
 	@Override
 	public void onCameraChange(CameraPosition position) {
-		Log.i("ZOOOM", String.valueOf(position.zoom));
-		asi.setText("|______|" + String.valueOf(position.zoom));
+//		Log.i("ZOOOM", String.valueOf(position.zoom));
+//		asi.setText("|______|" + String.valueOf(position.zoom));
 	}
 
 	@Override
@@ -146,8 +140,34 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	@Override
 	public void onInfoWindowClick(Marker marker) {
 		if(allTracksMarkers != null) {
+			final Track track = getTrackById(marker);
+			buildAlertDialog(track);
 		}
 		
+	}
+
+	private Track getTrackById(Marker marker) {
+		return new TracksUtil(getActivity().getApplicationContext()).getTrackByTitle(marker.getTitle());
+	}
+
+	private void buildAlertDialog(final Track track) {
+		new AlertDialog.Builder(getActivity())
+		.setTitle("Raja vaade")
+		.setMessage("Kas tahad minna raja vaatesse?")
+		.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int which) { 
+		        Intent i = new Intent(getActivity().getApplicationContext(), TrackViewActivity.class);
+		        i.putExtra("track", track);
+		        startActivity(i);
+		    }
+		 })
+		.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+		    public void onClick(DialogInterface dialog, int which) { 
+		        // do nothing
+		    }
+		 })
+		.setIcon(android.R.drawable.ic_dialog_alert)
+		 .show();
 	}
 	
 }
