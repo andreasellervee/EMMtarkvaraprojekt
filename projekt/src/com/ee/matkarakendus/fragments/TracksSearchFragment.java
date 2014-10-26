@@ -1,7 +1,6 @@
 package com.ee.matkarakendus.fragments;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,7 +19,6 @@ import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Track;
-import com.ee.matkarakendus.utils.TracksUtil;
 
 public class TracksSearchFragment extends Fragment {
 	Spinner openClosed;
@@ -35,9 +33,13 @@ public class TracksSearchFragment extends Fragment {
 	Button searchNear;
 	Set<Track> results;
 	ArrayList<Track> allTracks;
-	Resources res = getResources();
+	Resources res;
 
 	public TracksSearchFragment() {
+	}
+
+	public TracksSearchFragment(ArrayList<Track> tracks) {
+		this.allTracks = tracks;
 	}
 
 	@Override
@@ -46,6 +48,8 @@ public class TracksSearchFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_tracks_search,
 				container, false);
+		
+		res = getResources();
 
 		openClosed = (Spinner) rootView.findViewById(R.id.track_open_closed);
 		lengthMin = (EditText) rootView.findViewById(R.id.lengthMin);
@@ -106,11 +110,22 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
-		allTracks = new TracksUtil(getActivity().getApplicationContext()).getAllTracks();
-		//because set does not allow duplicates
+		filterResults();
+		
+		if(allTracks.isEmpty()) {
+			Toast.makeText(getActivity().getApplicationContext(), "Otsing ei tagastanud tulemusi",
+					   Toast.LENGTH_SHORT).show();
+		} else {
+			TracksSearchResultsFragment fragment = new TracksSearchResultsFragment(allTracks);
+			FragmentManager fragmentManager = getFragmentManager();
+			fragmentManager.beginTransaction()
+				.replace(R.id.content_frame, fragment).commit();
+		}
+	}
+
+	private void filterResults() {
 		results = new HashSet<Track>();
 		
-		//isOpen
 		filterOpenClosedTracks();
 		
 		filterTrackLength();
@@ -123,18 +138,6 @@ public class TracksSearchFragment extends Fragment {
 		filterTrackTypes();
 		
 		filterStringSearch();
-		
-		if(allTracks.isEmpty()) {
-			Toast.makeText(getActivity().getApplicationContext(), "Otsing ei tagastanud tulemusi",
-					   Toast.LENGTH_SHORT).show();
-		} else {
-			Fragment fragment = new TracksSearchResultsFragment(allTracks);
-			
-			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction()
-			.replace(R.id.content_frame, fragment).commit();
-		}
-		
 	}
 
 	private void filterTrackLength() {
@@ -234,16 +237,17 @@ public class TracksSearchFragment extends Fragment {
 		results.clear();
 	}
 
+	void searchNear() {
+		Fragment fragment = new TracksSearchResultsFragment();
+		
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction()
+		.replace(R.id.content_frame, fragment).commit();
+	}
+	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 	}
 
-	void searchNear() {
-		Fragment fragment = new TracksSearchResultsFragment();
-
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
-	}
 }

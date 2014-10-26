@@ -1,8 +1,5 @@
 package com.ee.matkarakendus.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -12,15 +9,31 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TrackPolylineUtil;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class TrackFragment extends Fragment implements TabListener {
 	
-	Fragment infoFrag = new InfoFragment();
-	Fragment kaartFrag = new MapDisplayFragment();
-	Fragment pildidFrag = new PicturesFragment(); 		
+	private PolylineOptions poly;
+	private Track track;
 	
+
+	public TrackFragment(Track track, PolylineOptions poly) {
+		this.poly = poly;
+		this.track = track;
+	}
+
+	public TrackFragment() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public TrackFragment(Track track) {
+		this.track = track;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +62,8 @@ public class TrackFragment extends Fragment implements TabListener {
 
 		View rootView = inflater.inflate(R.layout.track,
 				container, false);
+		
+		getTrackPolylineOptions(track.getId());
 		
 		/***
 		final Button info = (Button) rootView.findViewById(R.id.info);
@@ -90,17 +105,28 @@ public class TrackFragment extends Fragment implements TabListener {
 		return rootView;
 	}
 
+	private void getTrackPolylineOptions(int trackId) {
+		this.poly = new TrackPolylineUtil(getActivity().getApplicationContext())
+			.getTrackPolylineById(trackId);
+	}
+
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		switch (tab.getPosition()) {
 		case 0:
-			ft.replace(android.R.id.content, infoFrag);
+			ft.replace(android.R.id.content, new InfoFragment(track));
 			break;
 		case 1:
-			ft.replace(android.R.id.content, kaartFrag);
+			if(poly == null ||  poly.getPoints().isEmpty()) {
+				Toast.makeText(getActivity().getApplicationContext(), track.getName() + 
+						" koordinaadid puuduvad.",
+						   Toast.LENGTH_SHORT).show();
+			} else {
+				ft.replace(android.R.id.content, new MapDisplayFragment(poly, track));
+			}
 			break;
 		case 2:
-			ft.replace(android.R.id.content, pildidFrag);
+			ft.replace(android.R.id.content, new PicturesFragment(track));
 			break;
 		}
 	}

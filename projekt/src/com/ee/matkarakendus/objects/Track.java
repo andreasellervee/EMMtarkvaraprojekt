@@ -1,6 +1,8 @@
 package com.ee.matkarakendus.objects;
 
-public class Track {
+import java.io.Serializable;
+
+public class Track implements Serializable {
 	
 	public int id;
 	
@@ -20,7 +22,7 @@ public class Track {
 	
 	public String type;
 	
-	public Boolean isOpen;
+	public boolean isOpen;
 	
 	public double ascend;
 	

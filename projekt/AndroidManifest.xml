@@ -60,16 +60,16 @@
             android:label="@string/title_activity_search_functionality" >
         </activity>
         <activity
-            android:name=".fragments.TrackFragment"
-            android:label="@string/title_activity_track_fragment" >
-        </activity>
-        <activity
             android:name=".fragments.InfoFragment"
             android:label="@string/title_activity_info_fragment" >
         </activity>
         <activity
-            android:name="com.ee.matkarakendus.fragments.PicturesFragment"
+            android:name=".fragments.PicturesFragment"
             android:label="@string/title_activity_pictures_fragment" >
+        </activity>
+        <activity
+            android:name=".TrackViewActivity"
+            android:label="@string/title_activity_track_view" >
         </activity>
     </application>
 

@@ -1,6 +1,7 @@
 package com.ee.matkarakendus.fragments;
 
 import java.util.List;
+import java.util.Map;
 
 import android.app.Fragment;
 import android.location.Location;
@@ -17,15 +18,17 @@ import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MapDisplayFragment extends Fragment implements OnCameraChangeListener, OnMyLocationChangeListener {
+public class MapDisplayFragment extends Fragment implements OnCameraChangeListener, OnMyLocationChangeListener, OnInfoWindowClickListener {
 	
 	private PolylineOptions poly;
 	
@@ -34,6 +37,8 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	private TextView asi;
 	
 	private Track track;
+	
+	Map<Track, MarkerOptions> allTracksMarkers;
 	
 	public MapDisplayFragment() {}
 	
@@ -70,11 +75,14 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
         	.snippet("Let the adventure begin.")
         	.position(estonia));
         	
-        	List<MarkerOptions> allTracksMarkers = new TracksUtil(getActivity().getApplicationContext()).getAllTrackMarkers();
+        	allTracksMarkers = new TracksUtil(getActivity().getApplicationContext()).getAllTrackMarkers();
         	
-        	for(MarkerOptions opt : allTracksMarkers) {
-        		map.addMarker(opt);
+        	for(Track track : allTracksMarkers.keySet()) {
+        		map.addMarker(allTracksMarkers.get(track));
         	}
+        	
+        	map.setOnInfoWindowClickListener(this);
+        	
         } else {
         	map.clear();
         	map.addPolyline(poly);
@@ -132,6 +140,13 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	@Override
 	public void onMyLocationChange(Location location) {
 		//nothing right now
+		
+	}
+
+	@Override
+	public void onInfoWindowClick(Marker marker) {
+		if(allTracksMarkers != null) {
+		}
 		
 	}
 	

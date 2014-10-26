@@ -1,7 +1,10 @@
 package com.ee.matkarakendus.utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,7 +21,7 @@ public class TracksUtil {
 	
 	private ArrayList<Track> tracks;
 	
-	public List<MarkerOptions> markers;
+	public Map<Track, MarkerOptions> markers;
 	
 	private Context context;
 	
@@ -26,17 +29,18 @@ public class TracksUtil {
 		this.context = context;
 	}
 	
-	public List<MarkerOptions> getAllTrackMarkers() {
+	@SuppressWarnings("unchecked")
+	public Map<Track, MarkerOptions> getAllTrackMarkers() {
 		if(tracks == null) {
 			tracks = getAllTracks();
 		}
 		if(markers != null) {
 			return markers;
 		}
-		markers = new ArrayList<MarkerOptions>();
+		markers = new HashMap<Track, MarkerOptions>();
 		
 		for(Track track : tracks) {
-			markers.add(new MarkerOptions()
+			markers.put(track, new MarkerOptions()
         	.title(track.getName())
         	.position(new LatLng(track.getLatitude(), track.getLongitude())));
 		}
@@ -54,6 +58,19 @@ public class TracksUtil {
 		return null;
 	}
 	
+	public Track getTrackByTitle(String title) {
+		if(title.isEmpty() || title == null) {
+			return null;
+		}
+		for(Track track : tracks) {
+			if(track.getName().equals(title)) {
+				return track;
+			}
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Track> getAllTracks() {
 		if(tracks != null) {
 			Log.i("TRACKS", "Tracks loaded from memory.");
@@ -64,9 +81,18 @@ public class TracksUtil {
 		String json = "";
 		String tracksFileName = "tracks4";
 		try {
+			try {
+				tracks = (ArrayList<Track>) fileUtil.readObject(context, "ALL_TRACKS");
+				Log.i("EKSISTEERIB", "SEE KAAAAAA");
+				return tracks;
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
 			if(fileUtil.fileExists(tracksFileName)) {
 				json = fileUtil.readFromFile(tracksFileName);
 				Log.i("READING", "read from file");
+				
 			} else {
 			json = new ServerTest().execute(
 					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks").get();
@@ -92,6 +118,12 @@ public class TracksUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return tracks;
+		}
+		try {
+			fileUtil.writeObject(context, "ALL_TRACKS", tracks);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return tracks;
 	}

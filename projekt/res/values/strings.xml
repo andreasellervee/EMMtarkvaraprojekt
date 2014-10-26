@@ -42,5 +42,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_info_fragment">InfoFragment</string>
     <string name="title_activity_pictures_fragment">PicturesFragment</string>
+    <string name="title_activity_track_view">TrackViewActivity</string>
 
 </resources>
