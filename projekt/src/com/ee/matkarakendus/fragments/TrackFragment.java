@@ -70,6 +70,7 @@ public class TrackFragment extends Fragment implements TabListener {
 		
 		getTrackPolylineOptions(track.getId());
 		
+<<<<<<< HEAD
 		getTrackPOIs(track.getId());
 		
 		/***
@@ -109,6 +110,8 @@ public class TrackFragment extends Fragment implements TabListener {
 			}
 		});
 		*/
+=======
+>>>>>>> FETCH_HEAD
 		return rootView;
 	}
 

@@ -10,6 +10,8 @@ public class Track implements Serializable {
 	
 	public String description;
 	
+	public String country;
+	
 	public String county;
 
 	public double latitude;
@@ -38,6 +40,13 @@ public class Track implements Serializable {
 	
 	public void setCounty(String county) {
 		this.county = county;
+	}
+	public String getCountry() {
+		return country;
+	}
+	
+	public void setCountry(String country) {
+		this.country = country;
 	}
 
 	public int getId() {

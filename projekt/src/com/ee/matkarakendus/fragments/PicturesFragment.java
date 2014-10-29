@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Track;
@@ -22,7 +23,8 @@ public class PicturesFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_pictures, container,
 				false);
-
+		ListView pictures = (ListView) rootView.findViewById(android.R.id.list);
+		
 		getActivity().setTitle(track.getName() + " - " + getString(R.string.pictures));
 		return rootView;
 	}
