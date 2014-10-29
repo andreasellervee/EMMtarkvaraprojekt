@@ -65,43 +65,6 @@ public class TrackFragment extends Fragment implements TabListener {
 		
 		getTrackPolylineOptions(track.getId());
 		
-		/***
-		final Button info = (Button) rootView.findViewById(R.id.info);
-		final Button kaart = (Button) rootView.findViewById(R.id.kaart);
-		final Button pildid = (Button) rootView.findViewById(R.id.pildid);
-		
-		info.setSelected(true);
-		kaart.setSelected(false);
-		pildid.setSelected(false);
-		
-		info.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				info.setSelected(true);
-				kaart.setSelected(false);
-				pildid.setSelected(false);
-				
-			}
-		});
-		kaart.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				info.setSelected(false);
-				kaart.setSelected(true);
-				pildid.setSelected(false);
-				
-			}
-		});
-		pildid.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				info.setSelected(false);
-				kaart.setSelected(false);
-				pildid.setSelected(true);
-				
-			}
-		});
-		*/
 		return rootView;
 	}
 

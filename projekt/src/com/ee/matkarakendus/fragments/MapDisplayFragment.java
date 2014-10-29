@@ -121,8 +121,8 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	    if (map != null) {
 	        map = null;
 	    }
-//	    getFragmentManager().beginTransaction()
-//	    .remove(getFragmentManager().findFragmentById(R.id.map)).commit();
+	    getFragmentManager().beginTransaction()
+	    .remove(getFragmentManager().findFragmentById(R.id.map)).commit();
 	}
 
 	@Override
