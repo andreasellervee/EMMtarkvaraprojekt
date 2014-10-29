@@ -39,7 +39,12 @@ public class TrackViewActivity extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.favourites_menu_button) {
+			if(item.getTitle().equals(getString(R.string.add_to_favourites))) {
+				item.setTitle(getString(R.string.remove_from_favourites));
+			} else {
+				item.setTitle(getString(R.string.add_to_favourites));
+			}
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

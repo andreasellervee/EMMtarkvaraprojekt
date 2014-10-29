@@ -1,5 +1,6 @@
 package com.ee.matkarakendus.fragments;
 
+import java.util.List;
 import java.util.Map;
 
 import android.app.AlertDialog;
@@ -38,6 +39,8 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	
 	private Track track;
 	
+	private List<MarkerOptions> markers;
+	
 	Map<Track, MarkerOptions> allTracksMarkers;
 	
 	public MapDisplayFragment() {}
@@ -46,6 +49,12 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 			this.poly = poly;
 			this.track = track;
 		}
+	
+	public MapDisplayFragment(PolylineOptions poly, Track track, List<MarkerOptions> markers) {
+		this.poly = poly;
+		this.track = track;
+		this.markers = markers;
+	}
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -81,17 +90,11 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
         	map.clear();
         	map.addPolyline(poly);
         	
-        	map.addMarker(new MarkerOptions()
-        	.title("RMK Hüpassaare lõkkekoht")
-        	.icon(BitmapDescriptorFactory.fromResource(R.drawable.campfire))
-        	.anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
-        	.position(new LatLng(58.530688, 25.271323)));
-        	
-        	map.addMarker(new MarkerOptions()
-        	.title("RMK Hüpassaare piknikukoht")
-        	.icon(BitmapDescriptorFactory.fromResource(R.drawable.picnic))
-        	.anchor(0.0f, 1.0f) // Anchors the marker on the bottom left
-        	.position(new LatLng(58.5307998657, 25.24751091)));
+        	if(!markers.isEmpty()) {
+        		for(MarkerOptions marker : markers) {
+        			map.addMarker(marker);
+        		}
+        	}
         	
         	if(!poly.getPoints().isEmpty()) {
 	        	map.addMarker(new MarkerOptions()
@@ -121,8 +124,8 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	    if (map != null) {
 	        map = null;
 	    }
-//	    getFragmentManager().beginTransaction()
-//	    .remove(getFragmentManager().findFragmentById(R.id.map)).commit();
+	    getFragmentManager().beginTransaction()
+	    .remove(getFragmentManager().findFragmentById(R.id.map)).commit();
 	}
 
 	@Override

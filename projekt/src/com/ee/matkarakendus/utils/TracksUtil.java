@@ -84,13 +84,13 @@ public class TracksUtil {
 		String json = "";
 		String tracksFileName = "tracks4";
 		try {
-			try {
-				tracks = (ArrayList<Track>) fileUtil.readObject(context, "ALL_TRACKS");
-				Log.i("EKSISTEERIB", "SEE KAAAAAA");
-				return tracks;
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+//			try {
+//				tracks = (ArrayList<Track>) fileUtil.readObject(context, "ALL_TRACKS");
+//				Log.i("EKSISTEERIB", "SEE KAAAAAA");
+//				return tracks;
+//			} catch(Exception e) {
+//				e.printStackTrace();
+//			}
 //			
 //			if(fileUtil.fileExists(tracksFileName)) {
 //				json = fileUtil.readFromFile(tracksFileName);

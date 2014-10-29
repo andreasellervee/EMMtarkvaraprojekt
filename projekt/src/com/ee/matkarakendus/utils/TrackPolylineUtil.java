@@ -27,15 +27,15 @@ private Context context;
 		String json = "";
 		String polyLineFileName = "trackCoordinates3";
 		try {
-			if(fileUtil.fileExists(polyLineFileName)) {
-				json = fileUtil.readFromFile(polyLineFileName);
-			} else {
+//			if(fileUtil.fileExists(polyLineFileName)) {
+//				json = fileUtil.readFromFile(polyLineFileName);
+//			} else {
+//			fileUtil.writeToFile(json, polyLineFileName);
+//			}
 			json = new ServerTest().execute(
-					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allCoordinates").get();
-			fileUtil.writeToFile(json, polyLineFileName);
-			}
+					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackCoordinates?id=" + trackId).get();
 			Log.i("EMM", json);
-			JSONArray tracksArray = new JSONObject(json).getJSONArray(Integer.toString(trackId));
+			JSONArray tracksArray = new JSONArray(json);
 			for (int i = 0; i < tracksArray.length(); i++) {
 				JSONObject latlng = tracksArray.getJSONObject(i);
 				LatLng ll = new LatLng(latlng.getDouble("lat"), latlng.getDouble("lng"));

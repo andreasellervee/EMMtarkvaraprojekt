@@ -26,7 +26,7 @@ public class FileIOUtility {
 	public void writeToFile(String data, String filename) {
 		Log.i("WRITING", "writing to file " + filename + ".txt");
 	    try {
-	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename + ".txt", Context.MODE_WORLD_READABLE));
+	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(filename + ".txt", Context.MODE_PRIVATE));
 	        outputStreamWriter.write(data);
 	        outputStreamWriter.close();
 	    }
@@ -43,9 +43,7 @@ public class FileIOUtility {
 
 
 	public String readFromFile(String filename) {
-
 	    String ret = "";
-
 	    try {
 	    	Log.i("READING", "reading from file " + filename + ".txt");
 	        InputStream inputStream = context.openFileInput(filename + ".txt");

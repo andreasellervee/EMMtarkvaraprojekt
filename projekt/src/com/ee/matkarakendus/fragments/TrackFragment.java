@@ -1,5 +1,7 @@
 package com.ee.matkarakendus.fragments;
 
+import java.util.List;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -13,12 +15,15 @@ import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TrackPOIUtil;
 import com.ee.matkarakendus.utils.TrackPolylineUtil;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class TrackFragment extends Fragment implements TabListener {
 	
 	private PolylineOptions poly;
+	private List<MarkerOptions> markers;
 	private Track track;
 	
 
@@ -65,6 +70,8 @@ public class TrackFragment extends Fragment implements TabListener {
 		
 		getTrackPolylineOptions(track.getId());
 		
+		getTrackPOIs(track.getId());
+		
 		/***
 		final Button info = (Button) rootView.findViewById(R.id.info);
 		final Button kaart = (Button) rootView.findViewById(R.id.kaart);
@@ -109,6 +116,10 @@ public class TrackFragment extends Fragment implements TabListener {
 		this.poly = new TrackPolylineUtil(getActivity().getApplicationContext())
 			.getTrackPolylineById(trackId);
 	}
+	
+	private void getTrackPOIs(int trackId) {
+		this.markers = new TrackPOIUtil(getActivity().getApplicationContext()).getTrackPOIsById(trackId);
+	}
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
@@ -122,7 +133,7 @@ public class TrackFragment extends Fragment implements TabListener {
 						getString(R.string.no_coordinates),
 						   Toast.LENGTH_SHORT).show();
 			} else {
-				ft.replace(android.R.id.content, new MapDisplayFragment(poly, track));
+				ft.replace(android.R.id.content, new MapDisplayFragment(poly, track, markers));
 			}
 			break;
 		case 2:
