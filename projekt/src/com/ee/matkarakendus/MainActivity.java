@@ -47,7 +47,6 @@ public class MainActivity extends Activity {
 		TracksUtil tracksUtil = new TracksUtil(getApplicationContext());
 		tracks = tracksUtil.getAllTracks();
 		
-
 		title = getTitle();
 		optionItems = getResources().getStringArray(R.array.option_items_array);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

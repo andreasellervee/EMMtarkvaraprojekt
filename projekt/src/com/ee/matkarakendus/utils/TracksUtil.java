@@ -111,6 +111,7 @@ public class TracksUtil {
 				t.setName(track.getString("name"));
 				t.setDescription(track.getString("description"));
 				t.setCounty(track.getString("county"));
+				t.setCountry(track.getString("country"));
 				t.setLength(track.getDouble("length"));
 				t.setLatitude(track.getDouble("lat"));
 				t.setLongitude(track.getDouble("lng"));

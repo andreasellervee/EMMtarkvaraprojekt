@@ -50,8 +50,11 @@ public class TrackPOIUtil {
 				double lng = markerJson.getDouble("lng");
 				marker = new MarkerOptions()
 				.title(markerJson.getString("name"))
-				.snippet(markerJson.getString("description"))
 	        	.position(new LatLng(lat, lng));
+				
+				if(markerJson.getString("description") != null && !markerJson.getString("description").equals("")) {
+					marker.snippet(markerJson.getString("description"));
+				}
 				
 				if(getDrawable(markerJson.getString("type")) != null) {
 					marker.icon(getDrawable(markerJson.getString("type")));
