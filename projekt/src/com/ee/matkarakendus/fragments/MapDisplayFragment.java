@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -12,7 +13,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.TrackViewActivity;
@@ -24,7 +24,6 @@ import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -55,6 +54,7 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 		this.track = track;
 		this.markers = markers;
 	}
+	
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -120,12 +120,8 @@ public class MapDisplayFragment extends Fragment implements OnCameraChangeListen
 	
 	@Override
 	public void onDestroyView() {
-	    super.onDestroyView();
-	    if (map != null) {
-	        map = null;
-	    }
-	    getFragmentManager().beginTransaction()
-	    .remove(getFragmentManager().findFragmentById(R.id.map)).commit();
+	    super.onDestroyView();	    	    
+       
 	}
 
 	@Override

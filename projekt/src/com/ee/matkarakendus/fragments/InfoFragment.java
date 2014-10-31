@@ -1,14 +1,15 @@
 package com.ee.matkarakendus.fragments;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.math.*;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Track;
@@ -18,8 +19,6 @@ public class InfoFragment extends Fragment {
 	private Track track;
 	
 	private TextView location, length, duration, type, isOpen, description; 
-	
-	private LinearLayout layoutview;
 	
 	public InfoFragment(Track track) {
 		this.track = track;
@@ -46,9 +45,9 @@ public class InfoFragment extends Fragment {
 			location.setText("Asukoht: " + track.getCountry() + ", " + track.getCounty());
 			duration.setText("Kestus: " + track.getTime() + " minutit");
 			length.setText("Pikkus: " + round(track.getLength(),1) + " Km");
-			type.setText("T¸¸p: " + track.getType());
+			type.setText("T√º√ºp: " + track.getType());
 			isOpen.setText("Avatud rada: " + (track.getIsOpen() ? "Jah" : "Ei"));
-			description.setText("Kirjeldus: " + "Tore ja meeleolukas mere‰‰rne matkarada. Eriti kena kevadel. Loopealne m‰nnik ja pankrannik annavad vıimaluse elutsemiseks mere‰‰rne matkarada. Eriti kena kevadel. Loopealne m‰nnik ja pankrannik annavad vıimaluse elutsemiseks paljudele erinevatel mere‰‰rne matkarada. Eriti kena kevadel. Loopealne m‰nnik ja pankrannik annavad vıimaluse elutsemiseks paljudele erinevatel paljudele erinevatele taime-ja loomaliikidele. Tore ja meeleolukas mere‰‰rne matkarada. Eriti kena kevadel. Loopealne m‰nnik ja pankrannik annavad vıimaluse elutsemiseks paljudele erinevatele taime-ja loomaliikidele. Tore ja meeleolukas mere‰‰rne matkarada. Eriti kena kevadel. Loopealne m‰nnik ja pankrannik annavad vıimaluse elutsemiseks paljudele erinevatele taime-ja loomaliikidele. ");
+			description.setText("Kirjeldus: " + track.getDescription());
 		}
 		
 		return rootView;

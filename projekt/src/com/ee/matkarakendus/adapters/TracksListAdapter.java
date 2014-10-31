@@ -1,14 +1,17 @@
 package com.ee.matkarakendus.adapters;
 
 import java.util.ArrayList;
-import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.objects.Track;
+
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.objects.Track;
 
 public class TracksListAdapter extends ArrayAdapter<Track> {
 	private final Context context;
@@ -33,7 +36,12 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 		Track track = tracks.get(position);
 
 		id.setText(track.getName());
-		description.setText(track.getDescription());
+		
+		if(track.getDescription().length() > 50) {
+			description.setText(track.getDescription().substring(0, 47) + "...");
+		} else {
+			description.setText(track.getDescription());
+		}
 
 		return row;
 	}

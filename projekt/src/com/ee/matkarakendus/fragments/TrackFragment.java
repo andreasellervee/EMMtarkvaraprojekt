@@ -109,7 +109,10 @@ public class TrackFragment extends Fragment implements TabListener {
 			}
 		});
 		*/
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0760a5450f9df7aeb299f9198b2d261d497d0501
 		return rootView;
 	}
 

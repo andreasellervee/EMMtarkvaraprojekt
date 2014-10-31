@@ -49,5 +49,8 @@
     <string name="title_activity_info_fragment">InfoFragment</string>
     <string name="title_activity_pictures_fragment">PicturesFragment</string>
     <string name="title_activity_track_view">TrackViewActivity</string>
+    
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>

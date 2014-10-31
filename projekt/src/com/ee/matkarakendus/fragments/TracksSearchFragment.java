@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TracksUtil;
 
 public class TracksSearchFragment extends Fragment {
 	Spinner openClosed;
@@ -110,6 +111,8 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
+		allTracks = new TracksUtil(getActivity().getApplicationContext()).getAllTracks();
+		
 		filterResults();
 		
 		if(allTracks.isEmpty()) {
@@ -125,6 +128,7 @@ public class TracksSearchFragment extends Fragment {
 
 	private void filterResults() {
 		results = new HashSet<Track>();
+		results.clear();
 		
 		filterOpenClosedTracks();
 		
