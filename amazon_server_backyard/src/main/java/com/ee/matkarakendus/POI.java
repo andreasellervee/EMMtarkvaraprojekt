@@ -4,6 +4,8 @@ public class POI {
 	
 	private int ID;
 	private String name;
+	private int track_ID;
+	
 	private String description;
 	private String country;
 	private String county;
@@ -11,7 +13,12 @@ public class POI {
 	private Double lng;
 	private  String type;
 	
-	
+	public int getTrack_ID() {
+		return track_ID;
+	}
+	public void setTrack_ID(int track_ID) {
+		this.track_ID = track_ID;
+	}
 	public String getType() {
 		return type;
 	}

@@ -11,6 +11,14 @@ public class Track {
 	private String country;
 	private String county;
 	private String type;
+	private Boolean isApproved;
+	
+	public Boolean getIsApproved() {
+		return isApproved;
+	}
+	public void setIsApproved(Boolean isApproved) {
+		this.isApproved = isApproved;
+	}
 	public String getType() {
 		return type;
 	}
