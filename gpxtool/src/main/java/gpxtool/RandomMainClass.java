@@ -1,12 +1,14 @@
 package gpxtool;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +41,8 @@ public class RandomMainClass {
 		try {
  
 			String sCurrentLine;
- 
-			br = new BufferedReader(new FileReader("RMK Sakala tee matkarada.gpx"));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream("RMK Hüpassaare õpperada.gpx"), "UTF8"));
+//			"RMK Meiekose õpperada.gpx"  POIdega "RMK Ingatsi õpperada.gpx" ilma
  
 			while ((sCurrentLine = br.readLine()) != null) {
 				TEST_XML_STRING += sCurrentLine + "\n";
@@ -76,7 +78,9 @@ public class RandomMainClass {
 			JSONArray trackPoints = trackSeg.getJSONArray("trkpt");
 			
 			//elevation, lat, long, name, symbolURL per object
-			JSONArray pointsOfInterest = gpx.getJSONArray("wpt");
+			
+			
+			
 			
 			//list of list of latitudes and longitudes
 			List<List<Double>> listOfLatLongs = new ArrayList<List<Double>>();
@@ -87,29 +91,46 @@ public class RandomMainClass {
 				onePair.add(pair.getDouble("lon"));
 				listOfLatLongs.add(onePair);
 			}
-			addTrack(trackName, listOfLatLongs);
+			int trackID = addTrack(trackName, listOfLatLongs);
 			
 			//map of POIs
-			Map<String, List<Double>> POIs = new HashMap<String, List<Double>>();
-			for(int i = 0; i < pointsOfInterest.length(); i++) {
-				JSONObject singlePOI = pointsOfInterest.getJSONObject(i);
-				List<Double> onePair = new ArrayList<Double>();
-				onePair.add(singlePOI.getDouble("lat"));
-				onePair.add(singlePOI.getDouble("lon"));
-				String name = singlePOI.getString("name");
-				POIs.put(name, onePair);
-			}
-			addPOIs(POIs);
-			
+			try{
+				JSONArray pointsOfInterest = gpx.getJSONArray("wpt");
 
-			System.out.println(POIs);
+				Map<String, List<Double>> POIs = new LinkedHashMap<String, List<Double>>();
+				String[] types = new String[pointsOfInterest.length()];
+				for(int i = 0; i < pointsOfInterest.length(); i++) {
+					JSONObject singlePOI = pointsOfInterest.getJSONObject(i);
+					List<Double> onePair = new ArrayList<Double>();
+					onePair.add(singlePOI.getDouble("lat"));
+					onePair.add(singlePOI.getDouble("lon"));
+					String name = singlePOI.getString("name");
+					System.out.println(name);
+					POIs.put(name, onePair);
+					
+					String url = singlePOI.getString("sym");
+					String type = url.split("/")[6];
+					String[] typeArray = type.split("");
+					String typeName = "";
+					for (int j = 0; j <= typeArray.length - 5; j++){
+						typeName = typeName + typeArray[j];
+					}
+					types[i] = typeName;
+				}
+
+				addPOIs(POIs, trackID, types);
+			}
+			catch(Exception JSONException){
+			}
+			
+			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
     }
-    private static void addTrack(String name, List<List<Double>> coordinates) throws SQLException{
+    private static int addTrack(String name, List<List<Double>> coordinates) throws SQLException{
     	Connection conn = getConnection();
     	conn.setAutoCommit(false);
     	
@@ -120,11 +141,17 @@ public class RandomMainClass {
     	}
     	
     	// add to tracks table
-    	String sql = "INSERT INTO TRACKS(NAME, LENGTH, START_LAT, START_LNG) VALUES(?,?,?,?)";
+    	String sql = "INSERT INTO TRACKS(NAME, LENGTH, START_LAT, START_LNG, IS_OPEN) VALUES(?,?,?,?,?)";
     	Double lat = coordinates.get(0).get(0);
 		Double lng = coordinates.get(0).get(1);
 		String trackName = name;
-		List parameters = Arrays.asList(name, distance, lat, lng);
+		Double endLat = coordinates.get(coordinates.size()-1).get(0);
+		Double endLng = coordinates.get(coordinates.size()-1).get(1);
+		int isOpen = 1;
+		if (distance(lat, lng, endLat, endLng) < 0.25){
+			isOpen = 0;
+		}
+		List parameters = Arrays.asList(name, distance, lat, lng, isOpen);
 		int numRowsUpdated = update(conn, sql, parameters);
 		conn.commit();
 		
@@ -150,6 +177,7 @@ public class RandomMainClass {
     		int numRowsUpdatedForCoordinates = update(conn, sqlForCoordinates, parametersForCoordinates);
     		conn.commit();
 		}
+		return trackID;
 		
 		
 		
@@ -168,17 +196,20 @@ public class RandomMainClass {
 //        VALUES(LAST_INSERT_ID(),'text');  # use ID in second table
 //    LAST_INSERT_ID()
     }
-    private static void addPOIs(Map<String, List<Double>> POIs) throws SQLException{
+    private static void addPOIs(Map<String, List<Double>> POIs, int id, String[] types) throws SQLException{
     	Connection conn = getConnection();
     	conn.setAutoCommit(false);
+    	int i = 0;
     	for(String key : POIs.keySet()){
     		String name = key;
     		Double lat = POIs.get(key).get(0);
     		Double lng = POIs.get(key).get(1);
-    		String sql = "INSERT INTO POI(NAME, LAT, LNG) VALUES(?,?,?)";
-    		List parameters = Arrays.asList(name, lat, lng);
+    		String type = types[i];
+    		String sql = "INSERT INTO POI(NAME, TRACK_id, LAT, LNG, TYPE) VALUES(?,?,?,?,?)";
+    		List parameters = Arrays.asList(name, id, lat, lng, type);
     		int numRowsUpdated = update(conn, sql, parameters);
     		conn.commit();
+    		i++;
     	}
     }
     public static List<Map<String, Object>> map(ResultSet rs) throws SQLException {
@@ -225,7 +256,7 @@ public class RandomMainClass {
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); 
-			String url = "jdbc:mysql://ec2-54-164-116-207.compute-1.amazonaws.com:3306/emmprojekttest";
+			String url = "jdbc:mysql://ec2-54-165-105-107.compute-1.amazonaws.com:3306/emmprojekttest";
 			connection = DriverManager.getConnection(url, "andreas", "parool");
 		} catch (Exception e) {
 			// connection problem
