@@ -259,5 +259,4 @@ public class TracksSearchFragment extends Fragment {
 	public void onDestroy() {
 		super.onDestroy();
 	}
-
 }

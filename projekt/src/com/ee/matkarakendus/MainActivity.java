@@ -2,6 +2,7 @@ package com.ee.matkarakendus;
 
 import java.util.ArrayList;
 
+import android.R.string;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +24,6 @@ import com.ee.matkarakendus.fragments.FavouritesFragment;
 import com.ee.matkarakendus.fragments.MapDisplayFragment;
 import com.ee.matkarakendus.fragments.PointsSearchFragment;
 import com.ee.matkarakendus.fragments.SettingsFragment;
-import com.ee.matkarakendus.fragments.TrackFragment;
 import com.ee.matkarakendus.fragments.TracksSearchFragment;
 import com.ee.matkarakendus.fragments.TracksSearchResultsFragment;
 import com.ee.matkarakendus.objects.Track;
@@ -37,16 +38,16 @@ public class MainActivity extends Activity {
 	private String[] optionItems;
 
 	private ArrayList<Track> tracks;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
-		
+
 		TracksUtil tracksUtil = new TracksUtil(getApplicationContext());
 		tracks = tracksUtil.getAllTracks();
-		
+
 		title = getTitle();
 		optionItems = getResources().getStringArray(R.array.option_items_array);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -127,25 +128,50 @@ public class MainActivity extends Activity {
 
 		switch (position) {
 		case 0:
-			setTitle(R.string.map);
-			fragment = new MapDisplayFragment();
-			break;
+			if (!title.equals(getString(R.string.map))) {
+				setTitle(R.string.map);
+				fragment = new MapDisplayFragment();
+				break;
+			} else {
+				drawer.closeDrawer(list);
+				return;
+			}
 		case 1:
-			setTitle(R.string.allTracks);
-			fragment = new TracksSearchResultsFragment(tracks);
-			break;
+			if (!title.equals(getString(R.string.allTracks))) {
+				setTitle(R.string.allTracks);
+				fragment = new TracksSearchResultsFragment(tracks);
+				break;
+			} else {
+				drawer.closeDrawer(list);
+				return;
+			}
 		case 2:
-			setTitle(R.string.search);
-			fragment = new TracksSearchFragment(tracks);
-			break;
+			if (!title.equals(getString(R.string.search))) {
+				setTitle(R.string.search);
+				fragment = new TracksSearchFragment(tracks);
+				break;
+			} else {
+				drawer.closeDrawer(list);
+				return;
+			}
 		case 3:
-			setTitle(R.string.pointsOfInterest);
-			fragment = new PointsSearchFragment();
-			break;
+			if (!title.equals(getString(R.string.pointsOfInterest))) {
+				setTitle(R.string.pointsOfInterest);
+				fragment = new PointsSearchFragment();
+				break;
+			} else {
+				drawer.closeDrawer(list);
+				return;
+			}
 		case 4:
-			setTitle(R.string.favourites);
-			fragment = new FavouritesFragment();
-			break;
+			if (!title.equals(getString(R.string.favourites))) {
+				setTitle(R.string.favourites);
+				fragment = new FavouritesFragment();
+				break;
+			} else {
+				drawer.closeDrawer(list);
+				return;
+			}
 		default:
 			return;
 		}

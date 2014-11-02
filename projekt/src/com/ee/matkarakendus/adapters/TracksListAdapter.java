@@ -36,9 +36,12 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 		Track track = tracks.get(position);
 
 		id.setText(track.getName());
-		
-		if(track.getDescription().length() > 50) {
-			description.setText(track.getDescription().substring(0, 47) + "...");
+
+		if (track.getDescription() == null) {
+			description.setText("N/A");
+		} else if (track.getDescription().length() > 50) {
+			description
+					.setText(track.getDescription().substring(0, 47) + "...");
 		} else {
 			description.setText(track.getDescription());
 		}
