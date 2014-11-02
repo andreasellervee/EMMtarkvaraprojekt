@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <string name="db_url">http://ec2-54-165-105-107.compute-1.amazonaws.com</string>
 
     <!-- App name -->
     <string name="app_name">EMMprojekt</string>

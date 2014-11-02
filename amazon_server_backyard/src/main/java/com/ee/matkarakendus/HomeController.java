@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 /**
  * Handles requests for the application home page.
@@ -54,10 +55,26 @@ public class HomeController {
 		
 		return coords;
 	}
+	
+	
+	
+	@RequestMapping("/TrackPOIs")
+	public @ResponseBody List<POI> getTrackPOIs(@RequestParam(value="id", required=true) int id) throws SQLException {
+		List<POI> POIs = tracksData.getTrackPOIs(id);
+		
+		return POIs;
+	}
 	@RequestMapping("/allCoordinates")
 	public @ResponseBody Map<Integer, List<Coordinate>> getAllCoordinates() throws SQLException {
 		Map<Integer, List<Coordinate>> coords = tracksData.getAllCoordinates();
 		
 		return coords;
 	}
+	
+	// test for post data
+	@RequestMapping(value="/gpx", method=RequestMethod.POST)
+	@ResponseBody
+    public String gpxSubmit(@RequestParam(value="gpx", required=true) String gpx) {
+        return "result" + gpx;
+    }
 }

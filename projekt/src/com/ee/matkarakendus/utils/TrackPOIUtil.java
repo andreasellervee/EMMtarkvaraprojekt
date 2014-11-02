@@ -41,7 +41,7 @@ public class TrackPOIUtil {
 //			}
 			
 			json = new ServerTest().execute(
-					"http://ec2-54-164-116-207.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackPOIs?id=" + trackId).get();
+					context.getString(R.string.db_url) + ":8080/matkarakendus-0.1.0/TrackPOIs?id=" + trackId).get();
 			Log.i("EMM", json);
 			JSONArray poiArray = new JSONArray(json);
 			for (int i = 0; i < poiArray.length(); i++) {
