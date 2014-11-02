@@ -8,8 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 public class PointsSearchFragment extends Fragment {
+	Button searchAll, searchNear;
+	Spinner area, type;
+	EditText string;
+
 	public PointsSearchFragment() {
 	}
 
@@ -20,7 +26,17 @@ public class PointsSearchFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_points_search,
 				container, false);
 
-		Button searchAll = (Button) rootView.findViewById(R.id.searchAll);
+		searchAll = (Button) rootView.findViewById(R.id.searchAll);
+		searchNear = (Button) rootView.findViewById(R.id.searchNear);
+		area = (Spinner) rootView.findViewById(R.id.area);
+		type = (Spinner) rootView.findViewById(R.id.type);
+		string = (EditText) rootView.findViewById(R.id.string);
+
+		if (savedInstanceState != null) {
+			area.setSelection((int) savedInstanceState.getLong("area"));
+			type.setSelection((int) savedInstanceState.getLong("type"));
+			string.setText(savedInstanceState.getString("string"));
+		}
 
 		searchAll.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -28,8 +44,6 @@ public class PointsSearchFragment extends Fragment {
 				searchAll();
 			}
 		});
-
-		Button searchNear = (Button) rootView.findViewById(R.id.searchNear);
 
 		searchNear.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -39,6 +53,15 @@ public class PointsSearchFragment extends Fragment {
 		});
 
 		return rootView;
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putLong("area", area.getSelectedItemId());
+		outState.putLong("type", type.getSelectedItemId());
+		outState.putString("string", string.getText().toString());
 	}
 
 	void searchAll() {
