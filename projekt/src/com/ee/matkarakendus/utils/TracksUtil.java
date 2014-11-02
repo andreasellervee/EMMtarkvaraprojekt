@@ -119,6 +119,7 @@ public class TracksUtil {
 				t.setTime(track.getDouble("time"));
 				t.setIsOpen(track.getBoolean("isOpen"));
 				t.setType(track.getString("type"));
+				t.setFavourite(false);
 				tracks.add(t);
 			}
 		} catch (Exception e) {
@@ -128,11 +129,8 @@ public class TracksUtil {
 		try {
 			fileUtil.writeObject(context, "ALL_TRACKS", tracks);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return tracks;
 	}
-	
-
 }

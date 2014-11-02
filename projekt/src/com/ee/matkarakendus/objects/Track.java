@@ -28,12 +28,20 @@ public class Track implements Serializable {
 	
 	public double ascend;
 	
-	//Media (pictures)
+	public boolean isFavourite;
 	
-	//Points of interest near the track
-		
-	//User submitted track comments
-	
+	public boolean isFavourite() {
+		return isFavourite;
+	}
+
+	public void setFavourite(boolean isFavourite) {
+		this.isFavourite = isFavourite;
+	}
+
+	public void setOpen(boolean isOpen) {
+		this.isOpen = isOpen;
+	}
+
 	public String getCounty() {
 		return county;
 	}
