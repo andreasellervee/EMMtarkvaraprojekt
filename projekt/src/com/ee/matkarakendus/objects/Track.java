@@ -6,6 +6,8 @@ public class Track implements Serializable {
 	
 	public int id;
 	
+	public String picture;
+	
 	public String name;
 	
 	public String description;
@@ -75,6 +77,13 @@ public class Track implements Serializable {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public String getPicture() {
+		return picture;
+	}
+	public void setPicture(String picture){
+		this.picture = picture;
 	}
 	
 	public void setName(String name) {

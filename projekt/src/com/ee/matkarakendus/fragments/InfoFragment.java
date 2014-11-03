@@ -34,7 +34,6 @@ public class InfoFragment extends Fragment {
 		
 		location = (TextView) rootView.findViewById(R.id.asukoht);
 		length = (TextView) rootView.findViewById(R.id.pikkus);
-		duration = (TextView) rootView.findViewById(R.id.kestus);
 		type = (TextView) rootView.findViewById(R.id.tuup);
 		isOpen = (TextView) rootView.findViewById(R.id.avatud);
 		description = (TextView) rootView.findViewById(R.id.kirjeldus);
@@ -43,9 +42,8 @@ public class InfoFragment extends Fragment {
 		
 		if(track != null) {
 			location.setText("Asukoht: " + track.getCountry() + ", " + track.getCounty());
-			duration.setText("Kestus: " + track.getTime() + " minutit");
 			length.setText("Pikkus: " + round(track.getLength(),1) + " Km");
-			type.setText("TÃ¼Ã¼p: " + track.getType());
+			type.setText("Tüüp: " + track.getType());
 			isOpen.setText("Avatud rada: " + (track.getIsOpen() ? "Jah" : "Ei"));
 			description.setText("Kirjeldus: " + track.getDescription());
 		}

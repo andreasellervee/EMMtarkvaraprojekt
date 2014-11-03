@@ -36,7 +36,8 @@ public class TracksSearchResultsFragment extends Fragment implements OnItemClick
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		getActivity().setTitle(R.string.tracks);				
+		getActivity().setTitle(R.string.tracks);
+		
 
 		View rootView = inflater.inflate(R.layout.fragment_search_results,
 				container, false);

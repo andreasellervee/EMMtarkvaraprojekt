@@ -116,7 +116,6 @@ public class TracksUtil {
 				t.setLength(track.getDouble("length"));
 				t.setLatitude(track.getDouble("lat"));
 				t.setLongitude(track.getDouble("lng"));
-				t.setTime(track.getDouble("time"));
 				t.setIsOpen(track.getBoolean("isOpen"));
 				t.setType(track.getString("type"));
 				t.setFavourite(false);
