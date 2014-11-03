@@ -1,4 +1,4 @@
-package com.ee.matkarakendus;
+package com.ee.matkarakendus.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.fragments.TrackFragment;
 import com.ee.matkarakendus.objects.Track;
 

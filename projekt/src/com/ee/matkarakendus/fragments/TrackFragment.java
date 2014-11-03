@@ -42,8 +42,8 @@ public class TrackFragment extends Fragment implements TabListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		
-		super.onCreate(savedInstanceState);  
 	    ActionBar bar = getActivity().getActionBar();
 	    bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	     
@@ -61,7 +61,7 @@ public class TrackFragment extends Fragment implements TabListener {
         
         bar.addTab(info);
         bar.addTab(kaart);
-        bar.addTab(pildid);        
+        bar.addTab(pildid);
 	
 
 		View rootView = inflater.inflate(R.layout.track,
@@ -71,43 +71,6 @@ public class TrackFragment extends Fragment implements TabListener {
 		
 		getTrackPOIs(track.getId());
 		
-		/***
-		final Button info = (Button) rootView.findViewById(R.id.info);
-		final Button kaart = (Button) rootView.findViewById(R.id.kaart);
-		final Button pildid = (Button) rootView.findViewById(R.id.pildid);
-		
-		info.setSelected(true);
-		kaart.setSelected(false);
-		pildid.setSelected(false);
-		
-		info.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				info.setSelected(true);
-				kaart.setSelected(false);
-				pildid.setSelected(false);
-				
-			}
-		});
-		kaart.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				info.setSelected(false);
-				kaart.setSelected(true);
-				pildid.setSelected(false);
-				
-			}
-		});
-		pildid.setOnClickListener(new View.OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				info.setSelected(false);
-				kaart.setSelected(false);
-				pildid.setSelected(true);
-				
-			}
-		});
-		*/
 		return rootView;
 	}
 

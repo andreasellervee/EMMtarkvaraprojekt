@@ -24,7 +24,7 @@ import com.ee.matkarakendus.utils.TracksUtil;
 public class TracksSearchFragment extends Fragment {
 	Set<Track> results;
 	ArrayList<Track> allTracks;
-	
+
 	Resources res;
 
 	Button searchAll, searchNear;
@@ -44,7 +44,7 @@ public class TracksSearchFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_tracks_search,
 				container, false);
-		
+
 		res = getResources();
 
 		searchAll = (Button) rootView.findViewById(R.id.searchAll);
@@ -135,9 +135,6 @@ public class TracksSearchFragment extends Fragment {
 		filterOpenClosedTracks();
 
 		filterTrackLength();
-
-		// TODO
-		// filterTrackDuration(); NOT IMPLEMENTED YET
 
 		filterCountys();
 
@@ -248,11 +245,7 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchNear() {
-		Fragment fragment = new TracksSearchResultsFragment();
 
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
 	}
 
 	@Override

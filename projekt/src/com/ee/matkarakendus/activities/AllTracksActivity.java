@@ -1,10 +1,9 @@
-package com.ee.matkarakendus;
-
-import java.util.ArrayList;
+package com.ee.matkarakendus.activities;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -18,39 +17,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.ee.matkarakendus.fragments.FavouritesFragment;
-import com.ee.matkarakendus.fragments.MapDisplayFragment;
-import com.ee.matkarakendus.fragments.PointsSearchFragment;
+import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.fragments.SettingsFragment;
-import com.ee.matkarakendus.fragments.TracksSearchFragment;
-import com.ee.matkarakendus.fragments.TracksSearchResultsFragment;
-import com.ee.matkarakendus.objects.Track;
-import com.ee.matkarakendus.utils.TracksUtil;
 
-public class MainActivity extends Activity {
-	private DrawerLayout drawer;
+public class AllTracksActivity extends Activity {
 	private ListView list;
+	private DrawerLayout drawer;
 	private ActionBarDrawerToggle drawerToggle;
-
-	private CharSequence title;
 	private String[] optionItems;
-
-	private ArrayList<Track> tracks;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_favourites);
 
-		TracksUtil tracksUtil = new TracksUtil(getApplicationContext());
-		tracks = tracksUtil.getAllTracks();
-
-		title = getTitle();
 		optionItems = getResources().getStringArray(R.array.option_items_array);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		list = (ListView) findViewById(R.id.left_drawer);
-
 		drawer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		list.setAdapter(new ArrayAdapter<String>(this,
 				R.layout.drawer_list_item, optionItems));
@@ -63,20 +47,16 @@ public class MainActivity extends Activity {
 				R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_close) {
 			public void onDrawerClosed(View view) {
-				getActionBar().setTitle(title);
+				getActionBar().setTitle(getTitle());
 				invalidateOptionsMenu();
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle(title);
+				getActionBar().setTitle(getTitle());
 				invalidateOptionsMenu();
 			}
 		};
 		drawer.setDrawerListener(drawerToggle);
-
-		if (savedInstanceState == null) {
-			selectItem(0);
-		}
 	}
 
 	@Override
@@ -122,69 +102,28 @@ public class MainActivity extends Activity {
 	}
 
 	private void selectItem(int position) {
-		Fragment fragment = null;
+		Intent i = null;
 
 		switch (position) {
 		case 0:
-			if (!title.equals(getString(R.string.map))) {
-				setTitle(R.string.map);
-				fragment = new MapDisplayFragment();
-				break;
-			} else {
-				drawer.closeDrawer(list);
-				return;
-			}
-		case 1:
-			if (!title.equals(getString(R.string.allTracks))) {
-				setTitle(R.string.allTracks);
-				fragment = new TracksSearchResultsFragment(tracks);
-				break;
-			} else {
-				drawer.closeDrawer(list);
-				return;
-			}
+			i = new Intent(getApplicationContext(), MainActivity.class);
+			break;
 		case 2:
-			if (!title.equals(getString(R.string.search))) {
-				setTitle(R.string.search);
-				fragment = new TracksSearchFragment(tracks);
-				break;
-			} else {
-				drawer.closeDrawer(list);
-				return;
-			}
+			i = new Intent(getApplicationContext(), SearchActivity.class);
+			break;
 		case 3:
-			if (!title.equals(getString(R.string.pointsOfInterest))) {
-				setTitle(R.string.pointsOfInterest);
-				fragment = new PointsSearchFragment();
-				break;
-			} else {
-				drawer.closeDrawer(list);
-				return;
-			}
-		case 4:
-			if (!title.equals(getString(R.string.favourites))) {
-				setTitle(R.string.favourites);
-				fragment = new FavouritesFragment();
-				break;
-			} else {
-				drawer.closeDrawer(list);
-				return;
-			}
+			i = new Intent(getApplicationContext(), FavouritesActivity.class);
+			break;
 		default:
 			return;
 		}
 
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
-
-		list.setItemChecked(position, true);
+		startActivity(i);
 		drawer.closeDrawer(list);
 	}
 
 	@Override
 	public void setTitle(CharSequence title) {
-		this.title = title;
 		getActionBar().setTitle(title);
 	}
 

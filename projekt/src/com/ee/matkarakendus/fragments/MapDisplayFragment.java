@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.TrackViewActivity;
+import com.ee.matkarakendus.activities.TrackViewActivity;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;

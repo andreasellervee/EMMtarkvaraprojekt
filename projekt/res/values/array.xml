@@ -27,8 +27,7 @@
     <string-array name="option_items_array">
         <item>Kaart</item>
         <item>Kõik rajad</item>
-        <item>Radade otsing</item>
-        <item>Huvipunktide otsing</item>
+        <item>Otsing</item>
         <item>Lemmikud</item>
     </string-array>
     <string-array name="track_type_array">

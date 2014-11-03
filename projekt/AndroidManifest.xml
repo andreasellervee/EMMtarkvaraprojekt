@@ -38,8 +38,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:name="com.ee.matkarakendus.activities.MainActivity"
+            android:label="@string/map" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,31 +47,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".menu.MainMenu"
-            android:label="@string/title_activity_main_menu" >
+            android:name="com.ee.matkarakendus.activities.AllTracksActivity"
+            android:label="@string/tracks" >
         </activity>
         <activity
-            android:name=".map.MapActivity"
-            android:label="@string/title_activity_map" >
+            android:name="com.ee.matkarakendus.activities.SearchActivity"
+            android:label="@string/search" >
         </activity>
         <activity
-            android:name=".MainMenuActivity"
-            android:label="@string/title_activity_main_menu" >
+            android:name="com.ee.matkarakendus.activities.FavouritesActivity"
+            android:label="@string/favourites" >
         </activity>
         <activity
-            android:name=".SearchFunctionality"
-            android:label="@string/title_activity_search_functionality" >
-        </activity>
-        <activity
-            android:name=".fragments.InfoFragment"
-            android:label="@string/title_activity_info_fragment" >
-        </activity>
-        <activity
-            android:name=".fragments.PicturesFragment"
-            android:label="@string/title_activity_pictures_fragment" >
-        </activity>
-        <activity
-            android:name=".TrackViewActivity"
+            android:name="com.ee.matkarakendus.activities.TrackViewActivity"
             android:label="@string/title_activity_track_view" >
         </activity>
     </application>
