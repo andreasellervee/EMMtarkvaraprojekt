@@ -7,17 +7,16 @@ public class Track {
 	private String description;
 	private Double length;
 	private Boolean isOpen;
-	private Double Time;
 	private String country;
 	private String county;
 	private String type;
-	private Boolean isApproved;
+	private int status;
 	
-	public Boolean getIsApproved() {
-		return isApproved;
+	public int getStatus() {
+		return status;
 	}
-	public void setIsApproved(Boolean isApproved) {
-		this.isApproved = isApproved;
+	public void setStatus(int status) {
+		this.status = status;
 	}
 	public String getType() {
 		return type;
@@ -46,12 +45,6 @@ public class Track {
 	}
 	public void setIsOpen(Boolean isOpen) {
 		this.isOpen = isOpen;
-	}
-	public Double getTime() {
-		return Time;
-	}
-	public void setTime(Double time) {
-		Time = time;
 	}
 	public Float getLat() {
 		return lat;

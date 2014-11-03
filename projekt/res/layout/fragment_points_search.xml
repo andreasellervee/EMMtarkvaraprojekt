@@ -18,6 +18,7 @@
             android:text="@string/area" />
 
         <Spinner
+            android:id="@+id/area"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
@@ -39,6 +40,7 @@
             android:text="@string/type" />
 
         <Spinner
+            android:id="@+id/type"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
@@ -60,6 +62,7 @@
             android:text="@string/string" />
 
         <EditText
+            android:id="@+id/string"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="3"
