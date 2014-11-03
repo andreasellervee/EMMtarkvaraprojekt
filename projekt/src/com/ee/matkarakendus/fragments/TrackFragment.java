@@ -33,7 +33,6 @@ public class TrackFragment extends Fragment implements TabListener {
 	}
 
 	public TrackFragment() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public TrackFragment(Track track) {
@@ -141,15 +140,13 @@ public class TrackFragment extends Fragment implements TabListener {
 			break;
 		}
 	}
+	
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-		
 	}
 
 	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		// TODO Auto-generated method stub
-		
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {		
 	}
 	
 }

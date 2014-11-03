@@ -4,8 +4,9 @@
 
     <item
         android:id="@+id/favourites_menu_button"
+        android:icon="@drawable/ic_action_important"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        android:showAsAction="ifRoom"
         android:title="@string/add_to_favourites"/>
 
 </menu>
