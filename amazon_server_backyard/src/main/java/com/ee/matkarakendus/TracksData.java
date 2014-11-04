@@ -27,22 +27,17 @@ public class TracksData {
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				Track track = new Track();
-				track.setID(rs.getInt("TRACK_id"));
+				track.setID(rs.getInt("TRACK_ID"));
 				track.setName(rs.getString("NAME"));
 				track.setDescription(rs.getString("DESCRIPTION"));
 				track.setLength(rs.getDouble("LENGTH"));
 				track.setLat(rs.getFloat("START_LAT"));
 				track.setLng(rs.getFloat("START_LNG"));
-				track.setTime(rs.getDouble("TIME"));
 				track.setCountry(rs.getString("COUNTRY"));
 				track.setCounty(rs.getString("COUNTY"));
 				track.setType(rs.getString("TYPE"));
-				if(rs.getInt("APPROVED") == 1){
-					track.setIsApproved(true);
-				}
-				else{
-					track.setIsApproved(false);
-				}
+				track.setStatus(rs.getInt("STATUS"));
+				
 				if(rs.getInt("IS_OPEN") == 1){
 					track.setIsOpen(true);
 				}
@@ -60,12 +55,12 @@ public class TracksData {
 		Connection conn = getConnection();
 		if(conn != null) {
 			Statement stmt = conn.createStatement();
-			String sql = "SELECT * FROM POI";
+			String sql = "SELECT * FROM POIS";
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				POI poi = new POI();
-				poi.setID(rs.getInt("POI_id"));
-				poi.setTrack_ID(rs.getInt("TRACK_id"));
+				poi.setID(rs.getInt("POI_ID"));
+				poi.setTrack_ID(rs.getInt("TRACK_ID"));
 				poi.setName(rs.getString("NAME"));
 				poi.setDescription(rs.getString("DESCRIPTION"));
 				poi.setCountry(rs.getString("COUNTRY"));
@@ -82,14 +77,14 @@ public class TracksData {
 		List<POI> POIs = new ArrayList<POI>();
 		Connection conn = getConnection();
 		if(conn != null) {
-			String sqlPOI = "SELECT * FROM POI WHERE TRACK_id = ?";
+			String sqlPOI = "SELECT * FROM POIS WHERE TRACK_ID = ?";
 			PreparedStatement stmtPOI = conn.prepareStatement(sqlPOI);
 			stmtPOI.setInt(1, id);
 			ResultSet rs = stmtPOI.executeQuery();
 			while(rs.next()) {
 				POI poi = new POI();
-				poi.setID(rs.getInt("POI_id"));
-				poi.setTrack_ID(rs.getInt("TRACK_id"));
+				poi.setID(rs.getInt("POI_ID"));
+				poi.setTrack_ID(rs.getInt("TRACK_ID"));
 				poi.setName(rs.getString("NAME"));
 				poi.setDescription(rs.getString("DESCRIPTION"));
 				poi.setCountry(rs.getString("COUNTRY"));
@@ -142,38 +137,7 @@ public class TracksData {
 		}
 		return Coordinates;
 	}
-	public Track getSingleTrack(int id) throws SQLException {
-		Connection conn = getConnection();
-		String sql = "SELECT * FROM track_list WHERE ID = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, id);
-		ResultSet rs = stmt.executeQuery();
-		Track track = new Track();
-		track.setID(rs.getInt("TRACK_id"));
-		track.setName(rs.getString("NAME"));
-		track.setDescription(rs.getString("DESCRIPTION"));
-		track.setLength(rs.getDouble("LENGTH"));
-		track.setLat(rs.getFloat("START_LAT"));
-		track.setLng(rs.getFloat("START_LNG"));
-		track.setTime(rs.getDouble("TIME"));
-		track.setCountry(rs.getString("COUNTRY"));
-		track.setCounty(rs.getString("COUNTY"));
-		track.setType(rs.getString("TYPE"));
-		if(rs.getInt("APPROVED") == 1){
-			track.setIsApproved(true);
-		}
-		else{
-			track.setIsApproved(false);
-		}
-		if(rs.getInt("IS_OPEN") == 1){
-			track.setIsOpen(true);
-		}
-		else{
-			track.setIsOpen(false);
-		}
-		return track;
-		
-	}
+	
 	
 	private Long getLong(Double d) {
 		return Long.valueOf((new Double(d)).longValue());
@@ -183,7 +147,7 @@ public class TracksData {
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); 
-			String url = "jdbc:mysql://localhost:3306/emmprojekttest";
+			String url = "jdbc:mysql://localhost:3306/EMMdb";
 			connection = DriverManager.getConnection(url, "root", "emmprojekt");
 		} catch (Exception e) {
 			// connection problem

@@ -41,7 +41,6 @@ public class FileIOUtility {
 		return file.exists();
 	}
 
-
 	public String readFromFile(String filename) {
 	    String ret = "";
 	    try {
