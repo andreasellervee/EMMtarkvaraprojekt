@@ -33,10 +33,6 @@ public class TracksSearchResultsFragment extends Fragment implements
 			Bundle savedInstanceState) {
 
 		getActivity().setTitle(R.string.tracks);
-<<<<<<< HEAD
-=======
-		
->>>>>>> master
 
 		View rootView = inflater.inflate(R.layout.fragment_search_results,
 				container, false);
