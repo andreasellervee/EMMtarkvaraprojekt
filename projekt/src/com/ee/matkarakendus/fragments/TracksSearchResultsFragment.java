@@ -16,10 +16,11 @@ import com.ee.matkarakendus.activities.TrackViewActivity;
 import com.ee.matkarakendus.adapters.TracksListAdapter;
 import com.ee.matkarakendus.objects.Track;
 
-public class TracksSearchResultsFragment extends Fragment implements OnItemClickListener {
+public class TracksSearchResultsFragment extends Fragment implements
+		OnItemClickListener {
 
 	private ArrayList<Track> tracks = new ArrayList<Track>();
-	
+
 	public TracksSearchResultsFragment() {
 	}
 
@@ -31,30 +32,29 @@ public class TracksSearchResultsFragment extends Fragment implements OnItemClick
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		getActivity().setTitle(R.string.tracks);				
+		getActivity().setTitle(R.string.tracks);
 
 		View rootView = inflater.inflate(R.layout.fragment_search_results,
 				container, false);
 
 		ListView list = (ListView) rootView.findViewById(android.R.id.list);
-		
+
 		TracksListAdapter adapter = new TracksListAdapter(getActivity(), tracks);
-		
+
 		list.setAdapter(adapter);
-		
+
 		list.setOnItemClickListener(this);
-		
+
 		return rootView;
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		
 		Track track = (Track) parent.getItemAtPosition(position);
-		Intent i = new Intent(getActivity().getApplicationContext(), TrackViewActivity.class);
+		Intent i = new Intent(getActivity().getApplicationContext(),
+				TrackViewActivity.class);
 		i.putExtra("track", track);
 		startActivity(i);
-		
 	}
 }

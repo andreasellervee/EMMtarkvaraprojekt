@@ -14,13 +14,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.adapters.TracksListAdapter;
 import com.ee.matkarakendus.fragments.SettingsFragment;
+import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.objects.Tracks;
 
-public class AllTracksActivity extends Activity {
+public class AllTracksActivity extends Activity implements OnItemClickListener {
 	private ListView list;
 	private DrawerLayout drawer;
 	private ActionBarDrawerToggle drawerToggle;
@@ -30,8 +34,7 @@ public class AllTracksActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_favourites);
-
+		setContentView(R.layout.activity_all_tracks);
 		optionItems = getResources().getStringArray(R.array.option_items_array);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		list = (ListView) findViewById(R.id.left_drawer);
@@ -39,6 +42,10 @@ public class AllTracksActivity extends Activity {
 		list.setAdapter(new ArrayAdapter<String>(this,
 				R.layout.drawer_list_item, optionItems));
 		list.setOnItemClickListener(new DrawerItemClickListener());
+		
+		ListView tracksList = (ListView) findViewById(android.R.id.list);
+		tracksList.setAdapter(new TracksListAdapter(this, Tracks.List));
+		tracksList.setOnItemClickListener(this);
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
@@ -137,5 +144,14 @@ public class AllTracksActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		drawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Track track = (Track) parent.getItemAtPosition(position);
+		Intent i = new Intent(getApplicationContext(), TrackViewActivity.class);
+		i.putExtra("track", track);
+		startActivity(i);
 	}
 }

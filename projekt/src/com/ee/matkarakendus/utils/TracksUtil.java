@@ -116,20 +116,19 @@ public class TracksUtil {
 				t.setLength(track.getDouble("length"));
 				t.setLatitude(track.getDouble("lat"));
 				t.setLongitude(track.getDouble("lng"));
-				t.setTime(track.getDouble("time"));
 				t.setIsOpen(track.getBoolean("isOpen"));
 				t.setType(track.getString("type"));
 				t.setFavourite(false);
 				tracks.add(t);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.e("Exception", e.toString());
 			return tracks;
 		}
 		try {
 			fileUtil.writeObject(context, "ALL_TRACKS", tracks);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("Exception", e.toString());
 		}
 		return tracks;
 	}
