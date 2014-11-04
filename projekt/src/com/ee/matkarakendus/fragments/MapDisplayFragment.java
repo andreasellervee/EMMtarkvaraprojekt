@@ -5,7 +5,6 @@ import java.util.Map;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
@@ -30,143 +29,152 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MapDisplayFragment extends Fragment implements OnCameraChangeListener, OnMyLocationChangeListener, OnInfoWindowClickListener {
-	
+public class MapDisplayFragment extends Fragment implements
+		OnCameraChangeListener, OnMyLocationChangeListener,
+		OnInfoWindowClickListener {
+
 	private PolylineOptions poly;
-	
+
 	private GoogleMap map;
-	
+
 	private Track track;
-	
+
 	private List<MarkerOptions> markers;
-	
+
 	Map<Track, MarkerOptions> allTracksMarkers;
-	
-	public MapDisplayFragment() {}
-	
+
+	public MapDisplayFragment() {
+	}
+
 	public MapDisplayFragment(PolylineOptions poly, Track track) {
-			this.poly = poly;
-			this.track = track;
-		}
-	
-	public MapDisplayFragment(PolylineOptions poly, Track track, List<MarkerOptions> markers) {
+		this.poly = poly;
+		this.track = track;
+	}
+
+	public MapDisplayFragment(PolylineOptions poly, Track track,
+			List<MarkerOptions> markers) {
 		this.poly = poly;
 		this.track = track;
 		this.markers = markers;
 	}
-	
-	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
 
-		View v = inflater.inflate(R.layout.fragment_map, null, false);
-		
-		map = ((MapFragment) getFragmentManager()
-				.findFragmentById(R.id.map)).getMap();
-		
-		if(map == null) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View v = inflater.inflate(R.layout.fragment_map, container, false);
+
+		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+				.getMap();
+
+		if (map == null) {
 			return v;
 		}
-		
+
 		map.setOnCameraChangeListener(this);
-		
+
 		map.setMyLocationEnabled(true);
-		
-        if(poly == null) {
-        	LatLng estonia = new LatLng(59.0000, 25.5000);
-        	
-        	map.setMyLocationEnabled(true);
-        	map.moveCamera(CameraUpdateFactory.newLatLngZoom(estonia, 6));
-        	
-        	allTracksMarkers = new TracksUtil(getActivity().getApplicationContext()).getAllTrackMarkers();
-        	
-        	for(Track track : allTracksMarkers.keySet()) {
-        		map.addMarker(allTracksMarkers.get(track));
-        	}
-        	
-        	map.setOnInfoWindowClickListener(this);
-        	
-        } else {
-        	map.clear();
-        	map.addPolyline(poly);
-        	
-        	if(!markers.isEmpty()) {
-        		for(MarkerOptions marker : markers) {
-        			map.addMarker(marker);
-        		}
-        	}
-        	
-        	if(!poly.getPoints().isEmpty()) {
-	        	map.addMarker(new MarkerOptions()
-	        	.title(track.getName())
-	        	.position(new LatLng(track.getLatitude(), track.getLongitude())));
-	        	
-	        	map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(track.getLatitude(), track.getLongitude()), 12F));
-        	}
-        }
-        
-		return v;
+
+		if (poly == null) {
+			LatLng estonia = new LatLng(59.0000, 25.5000);
+
+			map.setMyLocationEnabled(true);
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(estonia, 6));
+
+			allTracksMarkers = new TracksUtil(getActivity()
+					.getApplicationContext()).getAllTrackMarkers();
+
+			for (Track track : allTracksMarkers.keySet()) {
+				map.addMarker(allTracksMarkers.get(track));
+			}
+
+			map.setOnInfoWindowClickListener(this);
+
+		} else {
+			map.clear();
+			map.addPolyline(poly);
+
+			if (!markers.isEmpty()) {
+				for (MarkerOptions marker : markers) {
+					map.addMarker(marker);
+				}
+			}
+
+			if (!poly.getPoints().isEmpty()) {
+				map.addMarker(new MarkerOptions().title(track.getName())
+						.position(
+								new LatLng(track.getLatitude(), track
+										.getLongitude())));
+
+				map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
+						track.getLatitude(), track.getLongitude()), 12F));
+			}
 		}
-	
+
+		return v;
+	}
+
 	public GoogleMap getMap() {
 		return this.map;
 	}
-	
+
 	public void setPolys(PolylineOptions poly) {
-		if(map != null) {
+		if (map != null) {
 			this.map.addPolyline(poly);
 		}
 	}
-	
+
 	@Override
 	public void onDestroyView() {
-	    super.onDestroyView();	    	    
-       
+		super.onDestroyView();
+
 	}
 
 	@Override
 	public void onCameraChange(CameraPosition position) {
-//		Log.i("ZOOOM", String.valueOf(position.zoom));
-//		asi.setText("|______|" + String.valueOf(position.zoom));
+		// Log.i("ZOOOM", String.valueOf(position.zoom));
+		// asi.setText("|______|" + String.valueOf(position.zoom));
 	}
 
 	@Override
 	public void onMyLocationChange(Location location) {
-		//nothing right now
-		
+		// nothing right now
 	}
 
 	@Override
 	public void onInfoWindowClick(Marker marker) {
-		if(allTracksMarkers != null) {
+		if (allTracksMarkers != null) {
 			final Track track = getTrackById(marker);
 			buildAlertDialog(track);
 		}
-		
+
 	}
 
 	private Track getTrackById(Marker marker) {
-		return new TracksUtil(getActivity().getApplicationContext()).getTrackByTitle(marker.getTitle());
+		return new TracksUtil(getActivity().getApplicationContext())
+				.getTrackByTitle(marker.getTitle());
 	}
 
 	private void buildAlertDialog(final Track track) {
 		new AlertDialog.Builder(getActivity())
-		.setTitle("Raja vaade")
-		.setMessage("Kas tahad minna raja vaatesse?")
-		.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int which) { 
-		        Intent i = new Intent(getActivity().getApplicationContext(), TrackViewActivity.class);
-		        i.putExtra("track", track);
-		        startActivity(i);
-		    }
-		 })
-		.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-		    public void onClick(DialogInterface dialog, int which) { 
-		        // do nothing
-		    }
-		 })
-		.setIcon(android.R.drawable.ic_dialog_alert)
-		 .show();
+				.setTitle("Raja vaade")
+				.setMessage("Kas tahad minna raja vaatesse?")
+				.setPositiveButton(android.R.string.yes,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								Intent i = new Intent(getActivity()
+										.getApplicationContext(),
+										TrackViewActivity.class);
+								i.putExtra("track", track);
+								startActivity(i);
+							}
+						})
+				.setNegativeButton(android.R.string.no,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// do nothing
+							}
+						}).setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
-	
 }

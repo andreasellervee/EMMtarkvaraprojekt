@@ -18,7 +18,7 @@ public class InfoFragment extends Fragment {
 	
 	private Track track;
 	
-	private TextView location, length, duration, type, isOpen, description; 
+	private TextView location, length, type, isOpen, description; 
 	
 	public InfoFragment(Track track) {
 		this.track = track;
