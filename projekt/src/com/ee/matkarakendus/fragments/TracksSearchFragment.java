@@ -24,7 +24,7 @@ import com.ee.matkarakendus.utils.TracksUtil;
 public class TracksSearchFragment extends Fragment {
 	Set<Track> results;
 	ArrayList<Track> allTracks;
-	
+
 	Resources res;
 
 	Button searchAll, searchNear;
@@ -44,7 +44,7 @@ public class TracksSearchFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_tracks_search,
 				container, false);
-		
+
 		res = getResources();
 
 		searchAll = (Button) rootView.findViewById(R.id.searchAll);
@@ -93,20 +93,28 @@ public class TracksSearchFragment extends Fragment {
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
 		outState.putLong("open_closed", openClosed.getSelectedItemId());
-		outState.putDouble("length_min",
-				Double.parseDouble(lengthMin.getText().toString()));
-		outState.putDouble("length_max",
-				Double.parseDouble(lengthMax.getText().toString()));
-		outState.putDouble("duration_min",
-				Double.parseDouble(durationMin.getText().toString()));
-		outState.putDouble("duration_max",
-				Double.parseDouble(durationMax.getText().toString()));
 		outState.putLong("area", area.getSelectedItemId());
 		outState.putLong("type", type.getSelectedItemId());
 		outState.putString("string", string.getText().toString());
+		if (!lengthMin.getText().toString().matches("")) {
+			outState.putDouble("length_min",
+					Double.parseDouble(lengthMin.getText().toString()));
+		}
+		if (!lengthMax.getText().toString().matches("")) {
+			outState.putDouble("length_max",
+					Double.parseDouble(lengthMax.getText().toString()));
+		}
+		if (!durationMin.getText().toString().matches("")) {
+			outState.putDouble("duration_min",
+					Double.parseDouble(durationMin.getText().toString()));
+		}
+		if (!durationMax.getText().toString().matches("")) {
+			outState.putDouble("duration_max",
+					Double.parseDouble(durationMax.getText().toString()));
+		}
+		
+		super.onSaveInstanceState(outState);
 	}
 
 	void searchAll() {
@@ -135,9 +143,6 @@ public class TracksSearchFragment extends Fragment {
 		filterOpenClosedTracks();
 
 		filterTrackLength();
-
-		// TODO
-		// filterTrackDuration(); NOT IMPLEMENTED YET
 
 		filterCountys();
 
@@ -248,11 +253,7 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchNear() {
-		Fragment fragment = new TracksSearchResultsFragment();
 
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
 	}
 
 	@Override

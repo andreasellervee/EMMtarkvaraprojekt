@@ -11,9 +11,9 @@ import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Track;
 
 public class PicturesFragment extends Fragment {
-	
+
 	private Track track;
-	
+
 	public PicturesFragment(Track track) {
 		this.track = track;
 	}
@@ -24,8 +24,9 @@ public class PicturesFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_pictures, container,
 				false);
 		ListView pictures = (ListView) rootView.findViewById(android.R.id.list);
-		
-		getActivity().setTitle(track.getName() + " - " + getString(R.string.pictures));
+
+		getActivity().setTitle(
+				track.getName() + " - " + getString(R.string.pictures));
 		return rootView;
 	}
 }

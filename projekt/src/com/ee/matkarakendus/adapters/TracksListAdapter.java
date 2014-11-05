@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,40 +38,37 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 			holder.logo = (ImageView) convertView.findViewById(R.id.logo);
 			holder.thumb = (ImageView) convertView.findViewById(R.id.thumb);
 			convertView.setTag(holder);
-		}
-		else {
+		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-								
+
 		Track track = (Track) tracks.get(position);
 		track.setPicture("http://assets.worldwildlife.org/photos/2842/images/hero_small/shutterstock_12730534.jpg?1352150501");
-		
+
 		holder.title.setText(track.getName());
-		holder.length.setText("Pikkus: " + round(track.getLength(),1) + " Km");			
+		holder.length.setText("Pikkus: " + round(track.getLength(), 1) + " Km");
 		if (holder.thumb != null) {
-			new ImageDownloaderTask(holder.thumb)
-			.execute(track.getPicture());
+			new ImageDownloaderTask(holder.thumb).execute(track.getPicture());
 		}
-		
-				/**
-		if (track.getDescription() == null) {
-			description.setText("N/A");
-		} else if (track.getDescription().length() > 50) {
-			description
-					.setText(track.getDescription().substring(0, 47) + "...");
-		} else {
-			description.setText(track.getDescription());
-		}
-		*/
+
+		/**
+		 * if (track.getDescription() == null) { description.setText("N/A"); }
+		 * else if (track.getDescription().length() > 50) { description
+		 * .setText(track.getDescription().substring(0, 47) + "..."); } else {
+		 * description.setText(track.getDescription()); }
+		 */
 		return convertView;
 	}
-	public static double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
 
-	    BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+	public static double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
+
 	static class ViewHolder {
 		TextView title;
 		TextView length;

@@ -7,7 +7,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.networking.ServerTest;
+import com.ee.matkarakendus.networking.TracksRequest;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -33,7 +33,7 @@ private Context context;
 //			} else {
 //			fileUtil.writeToFile(json, polyLineFileName);
 //			}
-			json = new ServerTest().execute(
+			json = new TracksRequest().execute(
 					context.getString(R.string.db_url) + ":8080/matkarakendus-0.1.0/TrackCoordinates?id=" + trackId).get();
 			Log.i("EMM", json);
 			JSONArray tracksArray = new JSONArray(json);
@@ -47,5 +47,4 @@ private Context context;
 		}
 		return poly;
 	}
-
 }
