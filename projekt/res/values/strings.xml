@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string name="db_url">http://ec2-54-165-105-107.compute-1.amazonaws.com</string>
 
     <!-- App name -->
@@ -17,7 +17,7 @@
     <string name="allTracks">Kõik rajad</string>
     <string name="tracks">Rajad</string>
     <string name="pointsOfInterest">Huvipunktid</string>
-    
+
     <!-- Error Messages -->
     <string name="no_search_results">Otsing ei tagastanud tulemusi</string>
     <string name="no_coordinates"> koordinaadid puuduvad.</string>
@@ -28,7 +28,8 @@
 
     <!-- Label titles -->
     <string name="track_open_closed">Kinnine/lahtine:</string>
-    <string name="type">Liik:</string>
+    <string name="tuup">Tüüp:</string>
+    <string name="type">Tüüp: </string>
     <string name="string">Sõne:</string>
     <string name="area">Piirkond:</string>
     <string name="dash">-</string>
@@ -51,8 +52,10 @@
     <string name="title_activity_info_fragment">InfoFragment</string>
     <string name="title_activity_pictures_fragment">PicturesFragment</string>
     <string name="title_activity_track_view">TrackViewActivity</string>
-    
+
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+
+    <string name="title_activity_expandable_text_view">ExpandableTextView</string>
 
 </resources>

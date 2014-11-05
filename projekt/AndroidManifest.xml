@@ -62,6 +62,10 @@
             android:name="com.ee.matkarakendus.activities.TrackViewActivity"
             android:label="@string/title_activity_track_view" >
         </activity>
+        <activity
+            android:name=".ExpandableTextView"
+            android:label="@string/title_activity_expandable_text_view" >
+        </activity>
     </application>
 
 </manifest>

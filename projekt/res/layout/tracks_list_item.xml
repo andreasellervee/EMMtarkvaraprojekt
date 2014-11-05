@@ -32,21 +32,18 @@
 		    <ImageView 
 		        android:id="@+id/logo"
 	        	android:layout_width="20dp"
-	        	android:layout_below="@+id/title"
 	        	android:layout_height="20dp"
-	        	android:background="@drawable/picnic"/>
+	        	android:background="@drawable/campfire"/>
 		    <ImageView 
 		        android:id="@+id/logo1"
 	        	android:layout_width="20dp"
-	        	android:layout_below="@+id/title"
 	        	android:layout_height="20dp"
 	        	android:background="@drawable/campfire"/>
 		    <ImageView 
 		        android:id="@+id/logo2"
 	        	android:layout_width="20dp"
-	        	android:layout_below="@+id/title"
 	        	android:layout_height="20dp"
-	        	android:background="@drawable/picnic"/>
+	        	android:background="@drawable/boat"/>
 	     </LinearLayout>
 	    <TextView        
 	        android:id="@+id/length"
