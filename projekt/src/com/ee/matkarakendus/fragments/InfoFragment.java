@@ -4,19 +4,24 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.activities.MapViewActivity;
 import com.ee.matkarakendus.objects.Track;
 
 public class InfoFragment extends Fragment {
 	
 	private Track track;
+	
+	private Button map_button;
 	
 	private TextView location, length, type, isOpen , description;
 	
@@ -31,7 +36,18 @@ public class InfoFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_info, container,
 				false);
 
-		getActivity().setTitle(track.getName() + " - " + getString(R.string.info));		
+		getActivity().setTitle(track.getName() + " - " + getString(R.string.info));
+		
+		map_button = (Button) rootView.findViewById(R.id.map_button);
+		map_button.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getActivity().getApplicationContext(), MapViewActivity.class);
+				startActivity(i);
+				
+			}
+		});
 		
 		location = (TextView) rootView.findViewById(R.id.asukoht);
 		length = (TextView) rootView.findViewById(R.id.pikkus);
@@ -42,7 +58,6 @@ public class InfoFragment extends Fragment {
 		if(track != null) {
 			location.setText("Asukoht: " + track.getCountry() + ", " + track.getCounty());
 			length.setText("Pikkus: " + round(track.getLength(),1) + " Km");
-			type.setText(getString(R.string.tuup) + " " + track.getType());
 			isOpen.setText("Avatud rada: " + (track.getIsOpen() ? "Jah" : "Ei"));
 			description.setText("Kirjeldus: " + track.getDescription());
 		}
