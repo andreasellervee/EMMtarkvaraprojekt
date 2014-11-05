@@ -43,20 +43,12 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 		}
 
 		Track track = (Track) tracks.get(position);
-		track.setPicture("http://assets.worldwildlife.org/photos/2842/images/hero_small/shutterstock_12730534.jpg?1352150501");
 
 		holder.title.setText(track.getName());
 		holder.length.setText("Pikkus: " + round(track.getLength(), 1) + " Km");
 		if (holder.thumb != null) {
-			new ImageDownloaderTask(holder.thumb).execute(track.getPicture());
+			holder.thumb.setBackgroundResource(R.drawable.bg3);
 		}
-
-		/**
-		 * if (track.getDescription() == null) { description.setText("N/A"); }
-		 * else if (track.getDescription().length() > 50) { description
-		 * .setText(track.getDescription().substring(0, 47) + "..."); } else {
-		 * description.setText(track.getDescription()); }
-		 */
 		return convertView;
 	}
 
@@ -69,7 +61,7 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 		return bd.doubleValue();
 	}
 
-	static class ViewHolder {
+	private static class ViewHolder {
 		TextView title;
 		TextView length;
 		ImageView thumb;

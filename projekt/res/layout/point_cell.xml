@@ -1,17 +1,38 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
-
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:textSize="15sp"
-        android:typeface="sans" >
-    </TextView>
-
-</LinearLayout>
+    android:layout_height="80dp"
+    android:orientation="vertical"
+    android:alpha="0.90" >
+    <ImageView 
+        android:id="@+id/point"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/wh" />
+    <LinearLayout 
+        android:layout_toRightOf="@+id/point"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+	    <TextView
+	        android:id="@+id/title"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="top"
+	        android:text="@android:id/title"
+	        android:textSize="24sp"
+	        android:textColor="#1A661A" />
+	    <TextView        
+	        android:id="@+id/location"
+	        android:layout_width="fill_parent"
+	        android:layout_below="@+id/logo"
+			android:layout_weight="0.4"
+	        android:layout_height="0dp"
+	        android:layout_alignParentRight="true"
+	        android:text="@android:id/text1"
+	        android:textSize="18sp"
+	        android:textColor="#000000" />
+    </LinearLayout>
+</RelativeLayout>
