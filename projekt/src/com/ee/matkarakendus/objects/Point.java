@@ -1,6 +1,8 @@
 package com.ee.matkarakendus.objects;
 
-public class Point {
+import java.io.Serializable;
+
+public class Point implements Serializable{
 	public String name;
 	
 	public String county;

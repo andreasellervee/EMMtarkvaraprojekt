@@ -56,5 +56,6 @@
     <color name="white">#FFFFFF</color>
 
     <string name="title_activity_map_view">MapViewActivity</string>
+    <string name="title_activity_point_view">PointViewActivity</string>
 
 </resources>
