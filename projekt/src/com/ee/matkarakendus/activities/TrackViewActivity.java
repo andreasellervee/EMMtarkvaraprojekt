@@ -8,10 +8,20 @@ import android.app.ActionBar.TabListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.PorterDuff.Mode;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
@@ -24,7 +34,12 @@ import com.ee.matkarakendus.utils.TrackPOIUtil;
 import com.ee.matkarakendus.utils.TrackPolylineUtil;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class TrackViewActivity extends Activity implements TabListener {
+public class TrackViewActivity extends Activity implements TabListener,
+		OnItemClickListener {
+	private String[] optionItems;
+	private DrawerLayout drawer;
+	private ListView menuList;
+	private ActionBarDrawerToggle drawerToggle;
 
 	private Track track;
 	private PolylineOptions poly;
@@ -50,7 +65,34 @@ public class TrackViewActivity extends Activity implements TabListener {
 		picturesFragment = new PicturesFragment(track);
 
 		getFragmentManager().beginTransaction()
-				.replace(R.id.content_frame_track, infoFragment).commit();
+				.replace(R.id.content_frame, infoFragment).commit();
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+
+		optionItems = getResources().getStringArray(R.array.option_items_array);
+
+		menuList = (ListView) findViewById(R.id.left_drawer);
+		menuList.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.drawer_list_item, optionItems));
+		menuList.setOnItemClickListener(this);
+
+		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+		drawerToggle = new ActionBarDrawerToggle(this, drawer,
+				R.drawable.ic_drawer, R.string.drawer_open,
+				R.string.drawer_close) {
+			public void onDrawerClosed(View view) {
+				invalidateOptionsMenu();
+			}
+
+			public void onDrawerOpened(View drawerView) {
+				invalidateOptionsMenu();
+			}
+		};
+
+		drawer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		drawer.setDrawerListener(drawerToggle);
 
 		actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -89,6 +131,7 @@ public class TrackViewActivity extends Activity implements TabListener {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
+		
 		if (id == R.id.favourites_menu_button) {
 			if (track.isFavourite()) {
 				track.setFavourite(false);
@@ -97,16 +140,58 @@ public class TrackViewActivity extends Activity implements TabListener {
 				track.setFavourite(true);
 				item.getIcon().setColorFilter(0xFFFFFF00, Mode.MULTIPLY);
 			}
-			return true;
 		}
-		return super.onOptionsItemSelected(item);
+		
+		if (drawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Intent i = null;
+
+		switch (position) {
+		case 0:
+			i = new Intent(getApplicationContext(), MainActivity.class);
+			break;
+		case 1:
+			i = new Intent(getApplicationContext(), AllTracksActivity.class);
+			break;
+		case 2:
+			i = new Intent(getApplicationContext(), SearchActivity.class);
+			break;
+		case 3:
+			i = new Intent(getApplicationContext(), FavouritesActivity.class);
+			break;
+		default:
+			return;
+		}
+
+		startActivity(i);
+		drawer.closeDrawer(menuList);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		drawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		switch (tab.getPosition()) {
 		case 0:
-			ft.replace(R.id.content_frame_track, infoFragment);
+			ft.replace(R.id.content_frame, infoFragment);
 			return;
 		case 1:
 			if (poly == null || poly.getPoints().isEmpty()) {
@@ -114,11 +199,11 @@ public class TrackViewActivity extends Activity implements TabListener {
 						track.getName() + getString(R.string.no_coordinates),
 						Toast.LENGTH_SHORT).show();
 			} else {
-				ft.replace(R.id.content_frame_track, mapFragment);
+				ft.replace(R.id.content_frame, mapFragment);
 			}
 			return;
 		case 2:
-			ft.replace(R.id.content_frame_track, picturesFragment);
+			ft.replace(R.id.content_frame, picturesFragment);
 			return;
 		}
 	}
