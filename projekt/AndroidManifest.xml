@@ -38,7 +38,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name="com.ee.matkarakendus.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/map" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,20 +47,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ee.matkarakendus.activities.AllTracksActivity"
+            android:name=".activities.AllTracksActivity"
             android:label="@string/tracks" >
         </activity>
         <activity
-            android:name="com.ee.matkarakendus.activities.SearchActivity"
+            android:name=".activities.SearchActivity"
             android:label="@string/search" >
         </activity>
         <activity
-            android:name="com.ee.matkarakendus.activities.FavouritesActivity"
+            android:name=".activities.FavouritesActivity"
             android:label="@string/favourites" >
         </activity>
         <activity
-            android:name="com.ee.matkarakendus.activities.TrackViewActivity"
+            android:name=".activities.TrackViewActivity"
             android:label="@string/title_activity_track_view" >
+        </activity>
+        <activity
+            android:name=".activities.MapViewActivity"
+            android:label="@string/title_activity_map_view" >
         </activity>
     </application>
 

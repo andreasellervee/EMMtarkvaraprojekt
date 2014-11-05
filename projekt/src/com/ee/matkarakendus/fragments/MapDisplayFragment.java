@@ -9,8 +9,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 
 import com.ee.matkarakendus.R;
@@ -42,7 +44,7 @@ public class MapDisplayFragment extends Fragment implements
 	private List<MarkerOptions> markers;
 
 	Map<Track, MarkerOptions> allTracksMarkers;
-
+	
 	public MapDisplayFragment() {
 	}
 
@@ -122,11 +124,12 @@ public class MapDisplayFragment extends Fragment implements
 			this.map.addPolyline(poly);
 		}
 	}
+	
+	
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-
 	}
 
 	@Override
