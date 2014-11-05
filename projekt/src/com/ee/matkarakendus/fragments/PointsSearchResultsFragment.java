@@ -1,10 +1,9 @@
 package com.ee.matkarakendus.fragments;
 
-import java.util.ArrayList;
-
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.adapters.PointsListAdapter;
-import com.ee.matkarakendus.objects.Point;
+import com.ee.matkarakendus.objects.Points;
+
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,18 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 public class PointsSearchResultsFragment extends Fragment {
-
-	ArrayList<Point> points;
-
-	public PointsSearchResultsFragment() {
-		points = new ArrayList<Point>();
-
-		for (int i = 0; i < 10; i++) {
-			Point p = new Point();
-			p.setId(String.valueOf(i));
-			points.add(p);
-		}
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +24,8 @@ public class PointsSearchResultsFragment extends Fragment {
 
 		ListView list = (ListView) rootView.findViewById(android.R.id.list);
 
-		PointsListAdapter adapter = new PointsListAdapter(getActivity(), points);
+		PointsListAdapter adapter = new PointsListAdapter(getActivity(),
+				Points.List);
 
 		list.setAdapter(adapter);
 

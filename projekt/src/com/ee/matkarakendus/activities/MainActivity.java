@@ -18,8 +18,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.objects.Points;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.objects.Tracks;
+import com.ee.matkarakendus.utils.TrackPOIUtil;
 import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,6 +48,7 @@ public class MainActivity extends Activity implements
 		setContentView(R.layout.activity_main);
 
 		Tracks.List = new TracksUtil(getApplicationContext()).getAllTracks();
+		Points.List = new TrackPOIUtil().getTrackPOIsById(0);
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
