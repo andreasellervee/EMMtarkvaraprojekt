@@ -27,6 +27,7 @@ public class TrackPOIUtil {
 				point.setName(markerJson.getString("name"));
 				point.setCountry(markerJson.getString("country"));
 				point.setCounty(markerJson.getString("county"));
+				point.setTrackId(markerJson.getInt("track_ID"));
 
 				if (markerJson.getString("description") != null
 						&& !markerJson.getString("description").equals("")) {

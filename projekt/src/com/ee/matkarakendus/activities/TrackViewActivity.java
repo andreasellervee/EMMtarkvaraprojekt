@@ -56,6 +56,7 @@ public class TrackViewActivity extends Activity implements TabListener,
 
 		setContentView(R.layout.activity_track_view);
 
+
 		track = (Track) getIntent().getSerializableExtra("track");
 		poly = new TrackPolylineUtil().getTrackPolylineById(track.getId());
 		points = new TrackPOIUtil().getTrackPOIsById(track.getId());
@@ -63,6 +64,8 @@ public class TrackViewActivity extends Activity implements TabListener,
 		infoFragment = new InfoFragment(track);
 		mapFragment = new MapDisplayFragment(poly, track, points);
 		picturesFragment = new PicturesFragment(track);
+		
+		setTitle(track.getName());
 
 		getFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, infoFragment).commit();
@@ -131,7 +134,7 @@ public class TrackViewActivity extends Activity implements TabListener,
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		
+
 		if (id == R.id.favourites_menu_button) {
 			if (track.isFavourite()) {
 				track.setFavourite(false);
@@ -141,7 +144,7 @@ public class TrackViewActivity extends Activity implements TabListener,
 				item.getIcon().setColorFilter(0xFFFFFF00, Mode.MULTIPLY);
 			}
 		}
-		
+
 		if (drawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		} else {

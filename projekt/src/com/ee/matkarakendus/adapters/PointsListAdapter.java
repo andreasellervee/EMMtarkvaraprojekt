@@ -3,8 +3,6 @@ package com.ee.matkarakendus.adapters;
 import java.util.ArrayList;
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Point;
-import com.ee.matkarakendus.objects.Track;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

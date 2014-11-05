@@ -2,11 +2,13 @@ package com.ee.matkarakendus.objects;
 
 import java.io.Serializable;
 
-public class Point implements Serializable{
+public class Point implements Serializable {
+	public int trackId;
+
 	public String name;
-	
+
 	public String county;
-	
+
 	public String country;
 
 	public String description;
@@ -17,6 +19,14 @@ public class Point implements Serializable{
 
 	public double longitude;
 
+	public int getTrackId() {
+		return trackId;
+	}
+
+	public void setTrackId(int trackId) {
+		this.trackId = trackId;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -24,7 +34,7 @@ public class Point implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getCountry() {
 		return country;
 	}
@@ -32,6 +42,7 @@ public class Point implements Serializable{
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
 	public String getCounty() {
 		return county;
 	}
@@ -39,7 +50,7 @@ public class Point implements Serializable{
 	public void setCounty(String county) {
 		this.county = county;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}

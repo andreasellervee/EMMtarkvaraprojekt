@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ee.matkarakendus.ImageDownloaderTask;
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Track;
 

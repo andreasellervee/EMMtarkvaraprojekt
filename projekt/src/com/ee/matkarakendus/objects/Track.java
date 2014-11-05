@@ -1,37 +1,63 @@
 package com.ee.matkarakendus.objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Track implements Serializable {
-	
+
 	public int id;
-	
+
 	public String picture;
-	
+
 	public String name;
-	
+
 	public String description;
-	
+
 	public String country;
-	
+
 	public String county;
 
 	public double latitude;
-	
+
 	public double longitude;
-	
+
 	public double length;
-	
+
 	public double time;
-	
+
 	public String type;
-	
+
 	public boolean isOpen;
-	
+
 	public double ascend;
-	
+
 	public boolean isFavourite;
-	
+
+	public ArrayList<Point> points;
+
+	public ArrayList<Comment> comments;
+
+	public Track() {
+		points = new ArrayList<Point>();
+		comments = new ArrayList<Comment>();
+	}
+
+	public ArrayList<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(ArrayList<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public ArrayList<Point> getPoints() {
+		return points;
+	}
+
+	public void setPoints(ArrayList<Point> points) {
+		this.points = points;
+	}
+
 	public boolean isFavourite() {
 		return isFavourite;
 	}
@@ -47,14 +73,15 @@ public class Track implements Serializable {
 	public String getCounty() {
 		return county;
 	}
-	
+
 	public void setCounty(String county) {
 		this.county = county;
 	}
+
 	public String getCountry() {
 		return country;
 	}
-	
+
 	public void setCountry(String country) {
 		this.country = country;
 	}
@@ -66,26 +93,27 @@ public class Track implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public double getTime() {
 		return time;
 	}
-	
+
 	public void setTime(double time) {
 		this.time = time;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public String getPicture() {
 		return picture;
 	}
-	public void setPicture(String picture){
+
+	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}

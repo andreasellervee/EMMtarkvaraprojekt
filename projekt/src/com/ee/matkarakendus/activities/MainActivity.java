@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.objects.Point;
 import com.ee.matkarakendus.objects.Points;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.objects.Tracks;
@@ -49,6 +50,15 @@ public class MainActivity extends Activity implements
 
 		Tracks.List = new TracksUtil(getApplicationContext()).getAllTracks();
 		Points.List = new TrackPOIUtil().getTrackPOIsById(0);
+
+		for (Point p : Points.List) {
+			for (Track t : Tracks.List) {
+				if (p.getTrackId() == t.getId()) {
+					t.getPoints().add(p);
+					break;
+				}
+			}
+		}
 
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);

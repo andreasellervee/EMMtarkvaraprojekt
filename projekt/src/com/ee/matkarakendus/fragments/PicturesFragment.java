@@ -23,10 +23,9 @@ public class PicturesFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_pictures, container,
 				false);
+
 		ListView pictures = (ListView) rootView.findViewById(android.R.id.list);
 
-		getActivity().setTitle(
-				track.getName() + " - " + getString(R.string.pictures));
 		return rootView;
 	}
 }
