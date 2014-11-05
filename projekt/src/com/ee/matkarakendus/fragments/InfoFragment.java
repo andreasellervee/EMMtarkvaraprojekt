@@ -5,7 +5,6 @@ import java.math.RoundingMode;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +14,11 @@ import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.objects.Track;
 
 public class InfoFragment extends Fragment {
-	
+
 	private Track track;
-	
-<<<<<<< HEAD
-	private TextView location, length, type, isOpen , description;
-	
-=======
-	private TextView location, length, type, isOpen, description; 
->>>>>>> 0c5a8f26d992bedb10c85270ed7ab86e66159d7d
-	
+
+	private TextView location, length, type, isOpen, description;
+
 	public InfoFragment(Track track) {
 		this.track = track;
 	}
@@ -35,32 +29,37 @@ public class InfoFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_info, container,
 				false);
 
-		getActivity().setTitle(track.getName() + " - " + getString(R.string.info));		
-		
+		getActivity().setTitle(
+				track.getName() + " - " + getString(R.string.info));
+
 		location = (TextView) rootView.findViewById(R.id.asukoht);
 		length = (TextView) rootView.findViewById(R.id.pikkus);
 		type = (TextView) rootView.findViewById(R.id.tuup);
 		isOpen = (TextView) rootView.findViewById(R.id.avatud);
-		description = (TextView) rootView.findViewById(R.id.kirjeldus); 
-		
-		if(track != null) {
-			location.setText("Asukoht: " + track.getCountry() + ", " + track.getCounty());
-			length.setText("Pikkus: " + round(track.getLength(),1) + " Km");
+		description = (TextView) rootView.findViewById(R.id.kirjeldus);
+
+		if (track != null) {
+			location.setText("Asukoht: " + track.getCountry() + ", "
+					+ track.getCounty());
+			length.setText("Pikkus: " + round(track.getLength(), 1) + " Km");
 			type.setText(getString(R.string.tuup) + " " + track.getType());
 			isOpen.setText("Avatud rada: " + (track.getIsOpen() ? "Jah" : "Ei"));
 			description.setText("Kirjeldus: " + track.getDescription());
 		}
-		
+
 		return rootView;
 	}
-	public void onClick(View v) {
-		
-	}
-	public static double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
 
-	    BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+	public void onClick(View v) {
+
+	}
+
+	public static double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 }
