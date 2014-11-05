@@ -9,13 +9,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.activities.TrackViewActivity;
+import com.ee.matkarakendus.objects.Point;
 import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TrackPOIUtil;
 import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,10 +43,10 @@ public class MapDisplayFragment extends Fragment implements
 
 	private Track track;
 
-	private List<MarkerOptions> markers;
+	private List<Point> points;
 
 	Map<Track, MarkerOptions> allTracksMarkers;
-
+	
 	public MapDisplayFragment() {
 	}
 
@@ -52,10 +56,10 @@ public class MapDisplayFragment extends Fragment implements
 	}
 
 	public MapDisplayFragment(PolylineOptions poly, Track track,
-			List<MarkerOptions> markers) {
+			List<Point> points) {
 		this.poly = poly;
 		this.track = track;
-		this.markers = markers;
+		this.points = points;
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,8 +97,21 @@ public class MapDisplayFragment extends Fragment implements
 			map.clear();
 			map.addPolyline(poly);
 
-			if (!markers.isEmpty()) {
-				for (MarkerOptions marker : markers) {
+			if (!points.isEmpty()) {
+				for (Point p : points) {
+					MarkerOptions marker = new MarkerOptions().title(
+							p.getName()).position(
+							new LatLng(p.getLatitude(), p.getLongitude()));
+
+					if (p.getDescription() != null
+							&& !p.getDescription().equals("")) {
+						marker.snippet(p.description);
+					}
+
+					if (TrackPOIUtil.getDrawable(String.valueOf(p.getType())) != null) {
+						marker.icon(TrackPOIUtil.getDrawable(String
+								.valueOf(p.type)));
+					}
 					map.addMarker(marker);
 				}
 			}
@@ -122,11 +139,12 @@ public class MapDisplayFragment extends Fragment implements
 			this.map.addPolyline(poly);
 		}
 	}
+	
+	
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-
 	}
 
 	@Override

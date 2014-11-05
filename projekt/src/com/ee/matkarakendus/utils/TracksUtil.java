@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
-import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.networking.TracksRequest;
 import com.ee.matkarakendus.objects.Track;
 import com.google.android.gms.maps.model.LatLng;
@@ -83,9 +82,7 @@ public class TracksUtil {
 		tracks = new ArrayList<Track>();
 		String json = "";
 		try {
-			json = new TracksRequest().execute(
-					context.getString(R.string.db_url)
-							+ ":8080/matkarakendus-0.1.0/allTracks").get();
+			json = new TracksRequest().execute().get();
 			JSONArray tracksArray = new JSONArray(json);
 			for (int i = 0; i < tracksArray.length(); i++) {
 				JSONObject track = tracksArray.getJSONObject(i);

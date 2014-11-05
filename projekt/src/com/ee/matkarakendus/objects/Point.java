@@ -1,18 +1,22 @@
 package com.ee.matkarakendus.objects;
 
 public class Point {
-	public String id;
+	public String name;
 
 	public String description;
 
+	public String type;
+
 	public double latitude;
 
-	public String getId() {
-		return id;
+	public double longitude;
+
+	public String getName() {
+		return name;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {
@@ -39,15 +43,11 @@ public class Point {
 		this.longitude = longitude;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
-
-	public double longitude;
-
-	public int type;
 }

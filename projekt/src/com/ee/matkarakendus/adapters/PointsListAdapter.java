@@ -31,7 +31,7 @@ public class PointsListAdapter extends ArrayAdapter<Point> {
 
 		Point point = points.get(position);
 
-		id.setText(point.getId());
+		id.setText(point.getName());
 
 		return row;
 	}
