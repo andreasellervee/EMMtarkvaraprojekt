@@ -10,12 +10,13 @@ import org.apache.http.util.EntityUtils;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class TracksRequest extends AsyncTask<Void, Void, String> {
+public class CoordinatesRequest extends AsyncTask<String, Void, String> {
 	@Override
-	protected String doInBackground(Void... params) {
+	protected String doInBackground(String... params) {
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpGet httpget = new HttpGet(
-				"http://ec2-54-165-105-107.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/allTracks");
+		String url = "http://ec2-54-165-105-107.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackCoordinates?id="
+				+ params[0];
+		HttpGet httpget = new HttpGet(url);
 
 		try {
 			HttpResponse response = httpclient.execute(httpget);

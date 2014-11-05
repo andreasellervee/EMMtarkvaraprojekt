@@ -18,17 +18,17 @@ import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.fragments.InfoFragment;
 import com.ee.matkarakendus.fragments.MapDisplayFragment;
 import com.ee.matkarakendus.fragments.PicturesFragment;
+import com.ee.matkarakendus.objects.Point;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.utils.TrackPOIUtil;
 import com.ee.matkarakendus.utils.TrackPolylineUtil;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class TrackViewActivity extends Activity implements TabListener {
 
 	private Track track;
 	private PolylineOptions poly;
-	private List<MarkerOptions> markers;
+	private List<Point> points;
 
 	private ActionBar actionBar;
 	private Tab info, map, pictures;
@@ -42,13 +42,11 @@ public class TrackViewActivity extends Activity implements TabListener {
 		setContentView(R.layout.activity_track_view);
 
 		track = (Track) getIntent().getSerializableExtra("track");
-		poly = new TrackPolylineUtil(getApplicationContext())
-				.getTrackPolylineById(track.getId());
-		markers = new TrackPOIUtil(getApplicationContext())
-				.getTrackPOIsById(track.getId());
+		poly = new TrackPolylineUtil().getTrackPolylineById(track.getId());
+		points = new TrackPOIUtil().getTrackPOIsById(track.getId());
 
 		infoFragment = new InfoFragment(track);
-		mapFragment = new MapDisplayFragment(poly, track, markers);
+		mapFragment = new MapDisplayFragment(poly, track, points);
 		picturesFragment = new PicturesFragment(track);
 
 		getFragmentManager().beginTransaction()
