@@ -18,7 +18,8 @@ public class InfoFragment extends Fragment {
 	
 	private Track track;
 	
-	private TextView location, length, duration, type, isOpen, description; 
+	private TextView location, length, type, isOpen , description;
+	
 	
 	public InfoFragment(Track track) {
 		this.track = track;
@@ -36,19 +37,20 @@ public class InfoFragment extends Fragment {
 		length = (TextView) rootView.findViewById(R.id.pikkus);
 		type = (TextView) rootView.findViewById(R.id.tuup);
 		isOpen = (TextView) rootView.findViewById(R.id.avatud);
-		description = (TextView) rootView.findViewById(R.id.kirjeldus);
-		
-		description.setMovementMethod(new ScrollingMovementMethod());
+		description = (TextView) rootView.findViewById(R.id.kirjeldus); 
 		
 		if(track != null) {
 			location.setText("Asukoht: " + track.getCountry() + ", " + track.getCounty());
 			length.setText("Pikkus: " + round(track.getLength(),1) + " Km");
-			type.setText("Tüüp: " + track.getType());
+			type.setText(getString(R.string.tuup) + " " + track.getType());
 			isOpen.setText("Avatud rada: " + (track.getIsOpen() ? "Jah" : "Ei"));
 			description.setText("Kirjeldus: " + track.getDescription());
 		}
 		
 		return rootView;
+	}
+	public void onClick(View v) {
+		
 	}
 	public static double round(double value, int places) {
 	    if (places < 0) throw new IllegalArgumentException();
