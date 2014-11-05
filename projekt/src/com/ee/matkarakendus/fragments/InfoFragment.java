@@ -27,7 +27,7 @@ public class InfoFragment extends Fragment implements OnClickListener {
 	private Track track;
 
 	private Button map_button;
-	private TextView location, length, isOpen, description;
+	private TextView location, length, isOpen, description, noPoints, noComments;
 	private ListView pointsList, commentsList;
 
 	public InfoFragment(Track track) {
@@ -47,6 +47,8 @@ public class InfoFragment extends Fragment implements OnClickListener {
 		description = (TextView) rootView.findViewById(R.id.kirjeldus);
 		pointsList = (ListView) rootView.findViewById(R.id.pointsList);
 		commentsList = (ListView) rootView.findViewById(R.id.commentsList);
+		noPoints = (TextView) rootView.findViewById(R.id.noPoints);
+		noComments = (TextView) rootView.findViewById(R.id.noComments);
 
 		if (track != null) {
 			location.setText("Asukoht: " + track.getCountry() + ", "
@@ -60,17 +62,29 @@ public class InfoFragment extends Fragment implements OnClickListener {
 
 		pointsList.setAdapter(new PointsListAdapter(getActivity()
 				.getApplicationContext(), track.getPoints()));
-
-		LayoutParams lp = pointsList.getLayoutParams();
-		lp.height = track.points.size() * 80;
-		pointsList.setLayoutParams(lp);
-
+		
 		commentsList.setAdapter(new CommentsListAdapter(getActivity()
 				.getApplicationContext(), track.getComments()));
+
+		LayoutParams lp;
 		
-		lp = commentsList.getLayoutParams();
-		lp.height = track.comments.size() * 80;
-		commentsList.setLayoutParams(lp);
+		if (track.getPoints().size() > 0) {
+			lp = pointsList.getLayoutParams();
+			lp.height = track.points.size() * 80;
+			pointsList.setLayoutParams(lp);
+			noPoints.setVisibility(View.INVISIBLE);
+		} else {
+			pointsList.setVisibility(View.INVISIBLE);
+		}
+
+		if (track.getComments().size() > 0) {
+			lp = commentsList.getLayoutParams();
+			lp.height = track.comments.size() * 80;
+			commentsList.setLayoutParams(lp);
+			noComments.setVisibility(View.INVISIBLE);
+		} else {
+			commentsList.setVisibility(View.INVISIBLE);
+		}
 
 		return rootView;
 	}
