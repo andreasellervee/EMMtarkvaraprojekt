@@ -1,6 +1,10 @@
 package com.ee.matkarakendus.objects;
 
-public class Comment {
+import java.io.Serializable;
+
+public class Comment implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	public String body;
 

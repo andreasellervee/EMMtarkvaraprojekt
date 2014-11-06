@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 public class Track implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	public int id;
 
 	public String picture;
@@ -172,5 +174,10 @@ public class Track implements Serializable {
 
 	public void setAscend(double ascend) {
 		this.ascend = ascend;
+	}
+
+	@Override
+	public boolean equals(Object that) {
+		return this.id == ((Track) that).id;
 	}
 }

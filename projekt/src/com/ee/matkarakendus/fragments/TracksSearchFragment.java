@@ -103,14 +103,6 @@ public class TracksSearchFragment extends Fragment {
 			outState.putDouble("length_max",
 					Double.parseDouble(lengthMax.getText().toString()));
 		}
-		if (!durationMin.getText().toString().matches("")) {
-			outState.putDouble("duration_min",
-					Double.parseDouble(durationMin.getText().toString()));
-		}
-		if (!durationMax.getText().toString().matches("")) {
-			outState.putDouble("duration_max",
-					Double.parseDouble(durationMax.getText().toString()));
-		}
 		
 		super.onSaveInstanceState(outState);
 	}

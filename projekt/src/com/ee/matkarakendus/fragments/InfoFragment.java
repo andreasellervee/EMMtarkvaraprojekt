@@ -26,9 +26,8 @@ public class InfoFragment extends Fragment {
 
 	private Track track;
 
-	private Button map_button;
-	private TextView location, length, isOpen, description, noPoints, noComments;
-	private ListView pointsList, commentsList;
+	private TextView location, length, isOpen, description, noPoints;
+	private ListView pointsList;
 
 	public InfoFragment(Track track) {
 		this.track = track;
@@ -45,9 +44,7 @@ public class InfoFragment extends Fragment {
 		isOpen = (TextView) rootView.findViewById(R.id.avatud);
 		description = (TextView) rootView.findViewById(R.id.kirjeldus);
 		pointsList = (ListView) rootView.findViewById(R.id.pointsList);
-		commentsList = (ListView) rootView.findViewById(R.id.commentsList);
 		noPoints = (TextView) rootView.findViewById(R.id.noPoints);
-		noComments = (TextView) rootView.findViewById(R.id.noComments);
 
 		if (track != null) {
 			location.setText("Asukoht: " + track.getCountry() + ", "
@@ -59,28 +56,14 @@ public class InfoFragment extends Fragment {
 
 		pointsList.setAdapter(new PointsListAdapter(getActivity()
 				.getApplicationContext(), track.getPoints()));
-		
-		commentsList.setAdapter(new CommentsListAdapter(getActivity()
-				.getApplicationContext(), track.getComments()));
 
-		LayoutParams lp;
-		
 		if (track.getPoints().size() > 0) {
-			lp = pointsList.getLayoutParams();
+			LayoutParams lp = pointsList.getLayoutParams();
 			lp.height = track.points.size() * 80;
 			pointsList.setLayoutParams(lp);
 			noPoints.setVisibility(View.INVISIBLE);
 		} else {
 			pointsList.setVisibility(View.INVISIBLE);
-		}
-
-		if (track.getComments().size() > 0) {
-			lp = commentsList.getLayoutParams();
-			lp.height = track.comments.size() * 80;
-			commentsList.setLayoutParams(lp);
-			noComments.setVisibility(View.INVISIBLE);
-		} else {
-			commentsList.setVisibility(View.INVISIBLE);
 		}
 
 		return rootView;

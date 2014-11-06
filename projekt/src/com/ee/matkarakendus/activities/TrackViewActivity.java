@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,11 +26,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.fragments.CommentsFragment;
 import com.ee.matkarakendus.fragments.InfoFragment;
 import com.ee.matkarakendus.fragments.MapDisplayFragment;
 import com.ee.matkarakendus.fragments.PicturesFragment;
 import com.ee.matkarakendus.objects.Point;
 import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.objects.Tracks;
 import com.ee.matkarakendus.utils.TrackPOIUtil;
 import com.ee.matkarakendus.utils.TrackPolylineUtil;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -46,16 +49,16 @@ public class TrackViewActivity extends Activity implements TabListener,
 	private List<Point> points;
 
 	private ActionBar actionBar;
-	private Tab info, map, pictures;
+	private Tab info, map, pictures, comments;
 
-	private Fragment infoFragment, mapFragment, picturesFragment;
+	private Fragment infoFragment, mapFragment, picturesFragment,
+			commentsFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_track_view);
-
 
 		track = (Track) getIntent().getSerializableExtra("track");
 		poly = new TrackPolylineUtil().getTrackPolylineById(track.getId());
@@ -64,7 +67,8 @@ public class TrackViewActivity extends Activity implements TabListener,
 		infoFragment = new InfoFragment(track);
 		mapFragment = new MapDisplayFragment(poly, track, points);
 		picturesFragment = new PicturesFragment(track);
-		
+		commentsFragment = new CommentsFragment(track);
+
 		setTitle(track.getName());
 
 		getFragmentManager().beginTransaction()
@@ -114,9 +118,14 @@ public class TrackViewActivity extends Activity implements TabListener,
 		pictures.setText("Pildid");
 		pictures.setTabListener(this);
 
+		comments = actionBar.newTab();
+		comments.setText("Kommentaarid");
+		comments.setTabListener(this);
+
 		actionBar.addTab(info);
 		actionBar.addTab(map);
 		actionBar.addTab(pictures);
+		actionBar.addTab(comments);
 	}
 
 	@Override
@@ -137,9 +146,11 @@ public class TrackViewActivity extends Activity implements TabListener,
 
 		if (id == R.id.favourites_menu_button) {
 			if (track.isFavourite()) {
+				Tracks.List.get(Tracks.List.indexOf(track)).setFavourite(false);
 				track.setFavourite(false);
 				item.getIcon().setColorFilter(0xFFFFFFFF, Mode.MULTIPLY);
 			} else {
+				Tracks.List.get(Tracks.List.indexOf(track)).setFavourite(true);
 				track.setFavourite(true);
 				item.getIcon().setColorFilter(0xFFFFFF00, Mode.MULTIPLY);
 			}
@@ -207,6 +218,9 @@ public class TrackViewActivity extends Activity implements TabListener,
 			return;
 		case 2:
 			ft.replace(R.id.content_frame, picturesFragment);
+			return;
+		case 3:
+			ft.replace(R.id.content_frame, commentsFragment);
 			return;
 		}
 	}
