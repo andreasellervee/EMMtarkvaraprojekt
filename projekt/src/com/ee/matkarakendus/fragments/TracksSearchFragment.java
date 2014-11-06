@@ -54,8 +54,6 @@ public class TracksSearchFragment extends Fragment {
 		type = (Spinner) rootView.findViewById(R.id.type);
 		lengthMin = (EditText) rootView.findViewById(R.id.lengthMin);
 		lengthMax = (EditText) rootView.findViewById(R.id.lengthMax);
-		durationMin = (EditText) rootView.findViewById(R.id.durationMin);
-		durationMax = (EditText) rootView.findViewById(R.id.durationMax);
 		string = (EditText) rootView.findViewById(R.id.string);
 
 		if (savedInstanceState != null) {
