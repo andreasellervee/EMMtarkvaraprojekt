@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,8 @@ public class MapDisplayFragment extends Fragment implements
 
 	Map<Track, MarkerOptions> allTracksMarkers;
 	
+	private static View v;
+	
 	public MapDisplayFragment() {
 	}
 
@@ -63,8 +66,17 @@ public class MapDisplayFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View v = inflater.inflate(R.layout.fragment_map, container, false);
-
+		 if (v != null) {
+		        ViewGroup parent = (ViewGroup) v.getParent();
+		        if (parent != null)
+		            parent.removeView(v);
+		    }
+		    try {
+		        v = inflater.inflate(R.layout.fragment_map, container, false);
+		    } catch (InflateException e) {
+		        /* map is already there, just return view as it is */
+		    }
+		    
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
 

@@ -22,7 +22,7 @@ import com.ee.matkarakendus.adapters.CommentsListAdapter;
 import com.ee.matkarakendus.adapters.PointsListAdapter;
 import com.ee.matkarakendus.objects.Track;
 
-public class InfoFragment extends Fragment implements OnClickListener {
+public class InfoFragment extends Fragment {
 
 	private Track track;
 
@@ -40,7 +40,6 @@ public class InfoFragment extends Fragment implements OnClickListener {
 		View rootView = inflater.inflate(R.layout.fragment_info, container,
 				false);
 
-		map_button = (Button) rootView.findViewById(R.id.map_button);
 		location = (TextView) rootView.findViewById(R.id.asukoht);
 		length = (TextView) rootView.findViewById(R.id.pikkus);
 		isOpen = (TextView) rootView.findViewById(R.id.avatud);
@@ -57,8 +56,6 @@ public class InfoFragment extends Fragment implements OnClickListener {
 			isOpen.setText("Avatud rada: " + (track.getIsOpen() ? "Jah" : "Ei"));
 			description.setText("Kirjeldus: " + track.getDescription());
 		}
-
-		map_button.setOnClickListener(this);
 
 		pointsList.setAdapter(new PointsListAdapter(getActivity()
 				.getApplicationContext(), track.getPoints()));
@@ -87,14 +84,6 @@ public class InfoFragment extends Fragment implements OnClickListener {
 		}
 
 		return rootView;
-	}
-
-	@Override
-	public void onClick(View v) {
-		Intent i = new Intent(getActivity().getApplicationContext(),
-				MapViewActivity.class);
-		startActivity(i);
-
 	}
 
 	public static double round(double value, int places) {
