@@ -29,7 +29,8 @@ public class PointsListAdapter extends ArrayAdapter<Point> {
 			convertView = li.inflate(R.layout.point_cell, null);
 			holder = new ViewHolder();
 			holder.title = (TextView) convertView.findViewById(R.id.title);
-			holder.location = (TextView) convertView.findViewById(R.id.location);
+			holder.location = (TextView) convertView
+					.findViewById(R.id.location);
 			holder.point = (ImageView) convertView.findViewById(R.id.point);
 			convertView.setTag(holder);
 		} else {
@@ -39,13 +40,14 @@ public class PointsListAdapter extends ArrayAdapter<Point> {
 		Point point = points.get(position);
 
 		holder.title.setText(point.getName());
-		holder.location.setText(point.getCountry()+", "+point.getCounty());
+		holder.location.setText(point.getCountry() + ", " + point.getCounty());
 		if (holder.point != null) {
 			holder.point.setBackgroundResource(R.drawable.bg3);
 		}
 		return convertView;
 
 	}
+
 	private static class ViewHolder {
 		TextView title;
 		TextView location;

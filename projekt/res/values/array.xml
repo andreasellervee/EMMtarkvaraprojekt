@@ -23,7 +23,6 @@
         <item>Lahtine</item>
         <item>Kinnine</item>
     </string-array>
-    	
     <string-array name="option_items_array">
         <item>Kaart</item>
         <item>Kõik rajad</item>

@@ -22,7 +22,8 @@ import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.fragments.PointsSearchFragment;
 import com.ee.matkarakendus.fragments.TracksSearchFragment;
 
-public class SearchActivity extends Activity implements TabListener, OnItemClickListener {
+public class SearchActivity extends Activity implements TabListener,
+		OnItemClickListener {
 	private String[] optionItems;
 	private DrawerLayout drawer;
 	private ListView menuList;
@@ -90,7 +91,7 @@ public class SearchActivity extends Activity implements TabListener, OnItemClick
 			return false;
 		}
 	}
-	
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {

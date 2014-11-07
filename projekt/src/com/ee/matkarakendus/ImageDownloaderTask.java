@@ -27,7 +27,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 	protected Bitmap doInBackground(String... params) {
 		// params comes from the execute() call: params[0] is the url.'
 		Bitmap picture = downloadBitmap(params[0]);
-		
+
 		return picture;
 	}
 
@@ -45,15 +45,17 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 				if (bitmap != null) {
 					imageView.setImageBitmap(bitmap);
 				} else {
-					imageView.setImageDrawable(imageView.getContext().getResources()
-							.getDrawable(R.drawable.p1));
+					imageView.setImageDrawable(imageView.getContext()
+							.getResources().getDrawable(R.drawable.p1));
 				}
 			}
 
 		}
 	}
+
 	static Bitmap downloadBitmap(String url) {
-		final AndroidHttpClient client = AndroidHttpClient.newInstance("Android");
+		final AndroidHttpClient client = AndroidHttpClient
+				.newInstance("Android");
 		final HttpGet getRequest = new HttpGet(url);
 		try {
 			HttpResponse response = client.execute(getRequest);
@@ -69,7 +71,8 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 				InputStream inputStream = null;
 				try {
 					inputStream = entity.getContent();
-					final Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+					final Bitmap bitmap = BitmapFactory
+							.decodeStream(inputStream);
 					return bitmap;
 				} finally {
 					if (inputStream != null) {
@@ -82,7 +85,8 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap> {
 			// Could provide a more explicit error message for IOException or
 			// IllegalStateException
 			getRequest.abort();
-			Log.w("ImageDownloader", "Error while retrieving bitmap from " + url);
+			Log.w("ImageDownloader", "Error while retrieving bitmap from "
+					+ url);
 		} finally {
 			if (client != null) {
 				client.close();

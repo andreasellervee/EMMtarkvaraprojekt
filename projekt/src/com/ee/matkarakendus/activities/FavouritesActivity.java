@@ -1,5 +1,7 @@
 package com.ee.matkarakendus.activities;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -20,6 +22,8 @@ import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.objects.Tracks;
 
 public class FavouritesActivity extends Activity implements OnItemClickListener {
+	private ArrayList<Track> tracks;
+
 	private String[] optionItems;
 	private DrawerLayout drawer;
 	private ListView menuList;
@@ -30,6 +34,14 @@ public class FavouritesActivity extends Activity implements OnItemClickListener 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		tracks = new ArrayList<Track>();
+
+		for (Track t : Tracks.List) {
+			if (t.isFavourite()) {
+				tracks.add(t);
+			}
+		}
 
 		setContentView(R.layout.activity_favourites);
 
@@ -60,7 +72,7 @@ public class FavouritesActivity extends Activity implements OnItemClickListener 
 		drawer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		drawer.setDrawerListener(drawerToggle);
 
-		TracksListAdapter adapter = new TracksListAdapter(this, Tracks.List);
+		TracksListAdapter adapter = new TracksListAdapter(this, tracks);
 
 		tracksList = (ListView) findViewById(android.R.id.list);
 		tracksList.setAdapter(adapter);

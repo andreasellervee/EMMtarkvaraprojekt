@@ -12,48 +12,48 @@ import android.widget.TextView;
 
 public class MySimpleSearchAdapter extends BaseAdapter {
 
-    private ArrayList<String> mData = new ArrayList<String>();
-    private LayoutInflater mInflater;
+	private ArrayList<String> mData = new ArrayList<String>();
+	private LayoutInflater mInflater;
 
-    public MySimpleSearchAdapter(Activity activity) {
-        mInflater = (LayoutInflater) activity
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
+	public MySimpleSearchAdapter(Activity activity) {
+		mInflater = (LayoutInflater) activity
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
 
-    public void addItem(String item) {
-        mData.add(item);
-        notifyDataSetChanged();
-    }
+	public void addItem(String item) {
+		mData.add(item);
+		notifyDataSetChanged();
+	}
 
-    public int getCount() {
-        return mData.size();
-    }
+	public int getCount() {
+		return mData.size();
+	}
 
-    public String getItem(int position) {
-        return mData.get(position);
-    }
+	public String getItem(int position) {
+		return mData.get(position);
+	}
 
-    public long getItemId(int position) {
-        return position;
-    }
+	public long getItemId(int position) {
+		return position;
+	}
 
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
-        if (convertView == null) {
-            holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.tracks_list_item, null);
-            holder.textView = (TextView) convertView.findViewById(R.id.title);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-        String str = mData.get(position);
-        holder.textView.setText(str);
-        return convertView;
-    }
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder = null;
+		if (convertView == null) {
+			holder = new ViewHolder();
+			convertView = mInflater.inflate(R.layout.tracks_list_item, null);
+			holder.textView = (TextView) convertView.findViewById(R.id.title);
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();
+		}
+		String str = mData.get(position);
+		holder.textView.setText(str);
+		return convertView;
+	}
 
-    public class ViewHolder {
-        public TextView textView;
-    }
+	public class ViewHolder {
+		public TextView textView;
+	}
 
 }

@@ -55,7 +55,7 @@ public class CommentsFragment extends Fragment implements OnClickListener {
 				getActivity().getApplicationContext(), track.getComments());
 
 		commentsList.setAdapter(adapter);
-		
+
 		if (track.getComments().size() > 0) {
 			noComments.setLayoutParams(new LinearLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, 0, 0));

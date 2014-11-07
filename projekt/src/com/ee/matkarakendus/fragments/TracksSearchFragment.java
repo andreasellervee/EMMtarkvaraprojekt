@@ -103,7 +103,7 @@ public class TracksSearchFragment extends Fragment {
 			outState.putDouble("length_max",
 					Double.parseDouble(lengthMax.getText().toString()));
 		}
-		
+
 		super.onSaveInstanceState(outState);
 	}
 

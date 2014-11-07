@@ -1,21 +1,12 @@
 package com.ee.matkarakendus.activities;
 
 import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.R.id;
-import com.ee.matkarakendus.R.layout;
-import com.ee.matkarakendus.R.menu;
 import com.ee.matkarakendus.fragments.MapDisplayFragment;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 public class MapViewActivity extends Activity {
 

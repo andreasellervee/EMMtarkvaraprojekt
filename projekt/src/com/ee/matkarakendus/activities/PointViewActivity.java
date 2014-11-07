@@ -6,13 +6,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.R.id;
-import com.ee.matkarakendus.R.layout;
-import com.ee.matkarakendus.R.menu;
 import com.ee.matkarakendus.objects.Point;
 
 public class PointViewActivity extends Activity {
 	private Point point;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		point = (Point) getIntent().getSerializableExtra("point");

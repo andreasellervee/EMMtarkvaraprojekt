@@ -16,7 +16,8 @@ import com.ee.matkarakendus.adapters.PointsListAdapter;
 import com.ee.matkarakendus.objects.Point;
 import com.ee.matkarakendus.objects.Points;
 
-public class PointsSearchResultsFragment extends Fragment implements OnItemClickListener{
+public class PointsSearchResultsFragment extends Fragment implements
+		OnItemClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,12 +34,12 @@ public class PointsSearchResultsFragment extends Fragment implements OnItemClick
 				Points.List);
 
 		list.setAdapter(adapter);
-		
+
 		list.setOnItemClickListener(this);
 
 		return rootView;
 	}
-	
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {

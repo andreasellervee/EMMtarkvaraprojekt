@@ -21,7 +21,8 @@ public class TrackPolylineUtil {
 			json = new CoordinatesRequest().execute(String.valueOf(trackId))
 					.get();
 			Log.i("EMM", json);
-			JSONArray tracksArray = new JSONObject(json).getJSONArray(String.valueOf(trackId));
+			JSONArray tracksArray = new JSONObject(json).getJSONArray(String
+					.valueOf(trackId));
 			for (int i = 0; i < tracksArray.length(); i++) {
 				JSONObject latlng = tracksArray.getJSONObject(i);
 				LatLng ll = new LatLng(latlng.getDouble("lat"),

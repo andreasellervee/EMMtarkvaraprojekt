@@ -45,9 +45,9 @@ public class MapDisplayFragment extends Fragment implements
 	private List<Point> points;
 
 	Map<Track, MarkerOptions> allTracksMarkers;
-	
+
 	private static View v;
-	
+
 	public MapDisplayFragment() {
 	}
 
@@ -66,17 +66,17 @@ public class MapDisplayFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		 if (v != null) {
-		        ViewGroup parent = (ViewGroup) v.getParent();
-		        if (parent != null)
-		            parent.removeView(v);
-		    }
-		    try {
-		        v = inflater.inflate(R.layout.fragment_map, container, false);
-		    } catch (InflateException e) {
-		        /* map is already there, just return view as it is */
-		    }
-		    
+		if (v != null) {
+			ViewGroup parent = (ViewGroup) v.getParent();
+			if (parent != null)
+				parent.removeView(v);
+		}
+		try {
+			v = inflater.inflate(R.layout.fragment_map, container, false);
+		} catch (InflateException e) {
+			/* map is already there, just return view as it is */
+		}
+
 		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
 
@@ -149,8 +149,6 @@ public class MapDisplayFragment extends Fragment implements
 			this.map.addPolyline(poly);
 		}
 	}
-	
-	
 
 	@Override
 	public void onDestroyView() {
