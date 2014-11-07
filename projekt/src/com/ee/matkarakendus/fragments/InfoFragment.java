@@ -4,21 +4,15 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ee.matkarakendus.R;
-import com.ee.matkarakendus.activities.MapViewActivity;
-import com.ee.matkarakendus.adapters.CommentsListAdapter;
 import com.ee.matkarakendus.adapters.PointsListAdapter;
 import com.ee.matkarakendus.objects.Track;
 
