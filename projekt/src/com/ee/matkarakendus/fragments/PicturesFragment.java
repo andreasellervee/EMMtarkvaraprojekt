@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.networking.PicturePost;
 import com.ee.matkarakendus.objects.Track;
 
 public class PicturesFragment extends Fragment implements OnClickListener {
@@ -24,6 +25,8 @@ public class PicturesFragment extends Fragment implements OnClickListener {
 	private ImageView pic;
 	private Button takePic, savePic, discardPic;
 	private LinearLayout pictureButtons;
+
+	private Bitmap takenPic;
 
 	public PicturesFragment(Track track) {
 		this.track = track;
@@ -58,10 +61,7 @@ public class PicturesFragment extends Fragment implements OnClickListener {
 			startActivityForResult(cameraIntent, 1337);
 		} else {
 			if (v.equals(savePic)) {
-				Toast.makeText(
-						getActivity(),
-						"Administraator vaatab esimesel võimalusel teie pildi üle",
-						Toast.LENGTH_SHORT).show();
+				new PicturePost().execute(takenPic);
 			}
 
 			takePic.setLayoutParams(new LinearLayout.LayoutParams(
@@ -76,8 +76,8 @@ public class PicturesFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1337 && data != null) {
-			Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-			pic.setImageBitmap(thumbnail);
+			takenPic = (Bitmap) data.getExtras().get("data");
+			pic.setImageBitmap(takenPic);
 
 			takePic.setLayoutParams(new LinearLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, 0, 0));
