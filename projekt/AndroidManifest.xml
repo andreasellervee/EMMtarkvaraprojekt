@@ -71,8 +71,16 @@
             android:label="@string/title_activity_map_view" >
         </activity>
         <activity
-            android:name="com.ee.matkarakendus.activities.PointViewActivity"
+            android:name=".activities.PointViewActivity"
             android:label="@string/title_activity_point_view" >
+        </activity>
+        <activity
+            android:name=".AddCommentsActivity"
+            android:label="@string/title_activity_add_comments" >
+        </activity>
+        <activity
+            android:name=".AddCommentActivity"
+            android:label="@string/title_activity_add_comment" >
         </activity>
     </application>
 

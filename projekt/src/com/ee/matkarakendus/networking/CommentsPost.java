@@ -13,9 +13,21 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-public class CommentsPost {
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+
+public class CommentsPost extends AsyncTask<String, Void, Void> {
 	
-	public void postComment(int trackId, String comment) {
+	private int trackId;
+	private String comment;
+	
+	public CommentsPost(int trackId, String comment){
+		this.trackId = trackId;
+		this.comment = comment;
+	}
+
+	@Override
+	protected Void doInBackground(String... params) {
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost("http://ec2-54-165-105-107.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/addComment");
 		
@@ -35,5 +47,6 @@ public class CommentsPost {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 }

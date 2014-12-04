@@ -57,5 +57,7 @@
 
     <string name="title_activity_map_view">MapViewActivity</string>
     <string name="title_activity_point_view">PointViewActivity</string>
+    <string name="title_activity_add_comments">AddCommentsActivity</string>
+    <string name="title_activity_add_comment">AddCommentActivity</string>
 
 </resources>

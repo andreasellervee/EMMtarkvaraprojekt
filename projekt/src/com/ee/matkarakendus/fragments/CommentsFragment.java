@@ -4,23 +4,27 @@ import java.util.ArrayList;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.ee.matkarakendus.AddCommentActivity;
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.adapters.CommentsListAdapter;
+import com.ee.matkarakendus.networking.CommentsPost;
 import com.ee.matkarakendus.objects.Comment;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.objects.Tracks;
@@ -54,7 +58,6 @@ public class CommentsFragment extends Fragment implements OnClickListener {
 				false);
 
 		commentButton = (Button) rootView.findViewById(R.id.addCommentButton);
-		commentField = (EditText) rootView.findViewById(R.id.addCommentField);
 		commentsList = (ListView) rootView.findViewById(R.id.commentsList);
 		noComments = (TextView) rootView.findViewById(R.id.noComments);
 		
@@ -84,30 +87,24 @@ public class CommentsFragment extends Fragment implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		String input = commentField.getText().toString().trim();
-
-		if (input.length() > 0) {
-			Comment comment = new Comment();
-			comment.setBody(input);
-			
-			Tracks.List.get(Tracks.List.indexOf(track)).comments.add(comment);
-			track.comments.add(comment);
-
-			adapter.notifyDataSetChanged();
-
-			noComments.setLayoutParams(new LinearLayout.LayoutParams(
-					LayoutParams.MATCH_PARENT, 0, 0));
-			commentsList.setLayoutParams(new LinearLayout.LayoutParams(
-					LayoutParams.MATCH_PARENT, 0, 5));
-
-			commentsList.setSelection(adapter.getCount() - 1);
-		}
-
-		commentField.setText("");
-		commentField.clearFocus();
-
-		InputMethodManager imm = (InputMethodManager) getActivity()
-				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(commentField.getWindowToken(), 0);
+		Intent i = new Intent(getActivity().getApplicationContext(), AddCommentActivity.class);
+		i.putExtra("trackId", track.getId());
+		i.putExtra("trackName", track.getName());
+		startActivity(i);
 	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		comments = new CommentUtil().getCommentsById(track.getId());
+		
+		track.setComments(comments);
+
+		adapter = new CommentsListAdapter(
+				getActivity().getApplicationContext(), comments);
+		
+		commentsList.setAdapter(adapter);
+	}
+	
+	
 }
