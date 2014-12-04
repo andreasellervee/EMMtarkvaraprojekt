@@ -1,5 +1,7 @@
 package com.ee.matkarakendus.fragments;
 
+import java.util.ArrayList;
+
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
@@ -8,18 +10,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.adapters.CommentsListAdapter;
 import com.ee.matkarakendus.objects.Comment;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.objects.Tracks;
+import com.ee.matkarakendus.utils.CommentUtil;
 
 public class CommentsFragment extends Fragment implements OnClickListener {
 
@@ -31,6 +36,8 @@ public class CommentsFragment extends Fragment implements OnClickListener {
 	private EditText commentField;
 	private TextView noComments;
 	private ListView commentsList;
+	
+	private ArrayList<Comment> comments;
 
 	public CommentsFragment() {
 	}
@@ -50,10 +57,14 @@ public class CommentsFragment extends Fragment implements OnClickListener {
 		commentField = (EditText) rootView.findViewById(R.id.addCommentField);
 		commentsList = (ListView) rootView.findViewById(R.id.commentsList);
 		noComments = (TextView) rootView.findViewById(R.id.noComments);
+		
+		comments = new CommentUtil().getCommentsById(track.getId());
+		
+		track.setComments(comments);
 
 		adapter = new CommentsListAdapter(
-				getActivity().getApplicationContext(), track.getComments());
-
+				getActivity().getApplicationContext(), comments);
+		
 		commentsList.setAdapter(adapter);
 
 		if (track.getComments().size() > 0) {
@@ -70,7 +81,7 @@ public class CommentsFragment extends Fragment implements OnClickListener {
 
 		return rootView;
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		String input = commentField.getText().toString().trim();
@@ -78,7 +89,7 @@ public class CommentsFragment extends Fragment implements OnClickListener {
 		if (input.length() > 0) {
 			Comment comment = new Comment();
 			comment.setBody(input);
-
+			
 			Tracks.List.get(Tracks.List.indexOf(track)).comments.add(comment);
 			track.comments.add(comment);
 
