@@ -50,8 +50,14 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/TrackCoordinates")
-	public @ResponseBody List<Coordinate> getTrackCoordinates(@RequestParam(value="id", required=true) int id) throws SQLException {
-		List<Coordinate> coords = tracksData.getTrackCoordinates(id);
+	public @ResponseBody Map<Integer, List<Coordinate>> getTrackCoordinates(@RequestParam(value="id", required=true) int id) throws SQLException {
+		Map<Integer, List<Coordinate>> coords;
+		if (id == 0){
+			coords = tracksData.getAllCoordinates();
+		}
+		else {
+			coords = tracksData.getTrackCoordinates(id);
+		}
 		
 		return coords;
 	}
@@ -60,10 +66,25 @@ public class HomeController {
 	
 	@RequestMapping("/TrackPOIs")
 	public @ResponseBody List<POI> getTrackPOIs(@RequestParam(value="id", required=true) int id) throws SQLException {
-		List<POI> POIs = tracksData.getTrackPOIs(id);
+		List<POI> POIs;
+		if (id == 0){
+			POIs = tracksData.getAllPOIs();
+		}
+		else {
+			POIs = tracksData.getTrackPOIs(id);
+		}
+		
 		
 		return POIs;
 	}
+	
+	@RequestMapping("/TrackComments")
+	public @ResponseBody List<Comment> getTrackComments(@RequestParam(value="id", required=true) int id) throws SQLException {
+		List<Comment> comments;
+		comments = tracksData.getTrackComments(id);
+		return comments;
+	}
+	
 	@RequestMapping("/allCoordinates")
 	public @ResponseBody Map<Integer, List<Coordinate>> getAllCoordinates() throws SQLException {
 		Map<Integer, List<Coordinate>> coords = tracksData.getAllCoordinates();
@@ -71,10 +92,57 @@ public class HomeController {
 		return coords;
 	}
 	
+	@RequestMapping("/TrackGPX")
+	public @ResponseBody String getTrackGPX(@RequestParam(value="id", required=true) int id) throws SQLException {
+		String GPX;
+		GPX = tracksData.getTrackGPX(id);
+		return GPX;
+	}
+	
+	@RequestMapping("/TrackImages")
+	public @ResponseBody List<String> getTrackImages(@RequestParam(value="id", required=true) int id) throws SQLException {
+		List<String> images;
+		images = tracksData.getTrackImages(id);
+		return images;
+	}
+	
 	// test for post data
 	@RequestMapping(value="/gpx", method=RequestMethod.POST)
 	@ResponseBody
-    public String gpxSubmit(@RequestParam(value="gpx", required=true) String gpx) {
-        return "result" + gpx;
+    public String gpxSubmit(@RequestParam(value="gpx", required=true) String gpx, @RequestParam(value="desc", required=true) String desc, @RequestParam(value="county", required=true) String county) {
+		try {
+			PushToDB.DBinsert(gpx, desc, county);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "fukd";
+		}
+        return "1";
+    }
+	
+	@RequestMapping(value="/addComment", method=RequestMethod.POST)
+	@ResponseBody
+    public String addComment(@RequestParam(value="comment", required=true) String comment, @RequestParam(value="id", required=true) int id) {
+		try {
+			PushToDB.addComment(id, comment);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "fukd";
+		}
+        return "1";
+    }
+	
+	@RequestMapping(value="/addImage", method=RequestMethod.POST)
+	@ResponseBody
+    public String addImage(@RequestParam(value="link", required=true) String link, @RequestParam(value="id", required=true) int id) {
+		try {
+			PushToDB.addImage(id, link);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "fukd";
+		}
+        return "1";
     }
 }

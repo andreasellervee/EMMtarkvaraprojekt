@@ -31,8 +31,10 @@ public class TracksData {
 				track.setName(rs.getString("NAME"));
 				track.setDescription(rs.getString("DESCRIPTION"));
 				track.setLength(rs.getDouble("LENGTH"));
-				track.setLat(rs.getFloat("START_LAT"));
-				track.setLng(rs.getFloat("START_LNG"));
+				track.setLat(rs.getDouble("START_LAT"));
+				track.setLng(rs.getDouble("START_LNG"));
+				track.setEndLat(rs.getDouble("END_LAT"));
+				track.setEndLng(rs.getDouble("END_LNG"));
 				track.setCountry(rs.getString("COUNTRY"));
 				track.setCounty(rs.getString("COUNTY"));
 				track.setType(rs.getString("TYPE"));
@@ -73,6 +75,41 @@ public class TracksData {
 		}
 		return POIs;
 	}
+	public String getTrackGPX(int id) throws SQLException {
+		String GPX = new String();
+		Connection conn = getConnection();
+		if(conn != null) {
+			String sqlGPX = "SELECT GPX FROM GPX WHERE TRACK_ID = ?";
+			PreparedStatement stmtGPX = conn.prepareStatement(sqlGPX);
+			stmtGPX.setInt(1, id);
+			ResultSet rs = stmtGPX.executeQuery();
+			while(rs.next()) {
+				GPX = rs.getString("GPX");
+			}
+		}
+		return GPX;
+	}
+	
+	public static List<Comment> getTrackComments(int id) throws SQLException {
+		List<Comment> comments = new ArrayList<Comment>();
+		Connection conn = getConnection();
+		if(conn != null) {
+			String sqlComment = "SELECT * FROM COMMENTS WHERE TRACK_ID = ? ORDER BY COMMENT_ID DESC";
+			PreparedStatement stmtComment = conn.prepareStatement(sqlComment);
+			stmtComment.setInt(1, id);
+			ResultSet rs = stmtComment.executeQuery();
+			while(rs.next()) {
+				Comment comm = new Comment();
+				comm.setId(rs.getInt("COMMENT_ID"));
+				comm.setTrackID(rs.getInt("TRACK_ID"));
+				comm.setComment(rs.getString("COMMENT"));
+				
+				comments.add(comm);
+			}
+		}
+		return comments;
+	}
+	
 	public List<POI> getTrackPOIs(int id) throws SQLException {
 		List<POI> POIs = new ArrayList<POI>();
 		Connection conn = getConnection();
@@ -97,9 +134,26 @@ public class TracksData {
 		}
 		return POIs;
 	}
-	public List<Coordinate> getTrackCoordinates(int id) throws SQLException {
+	
+	
+	public List<String> getTrackImages(int id) throws SQLException {
+		List<String> images = new ArrayList<String>();
+		Connection conn = getConnection();
+		if(conn != null) {
+			String sqlImage = "SELECT URL FROM TRACK_IMAGES WHERE TRACK_ID = ?";
+			PreparedStatement stmtImage = conn.prepareStatement(sqlImage);
+			stmtImage.setInt(1, id);
+			ResultSet rs = stmtImage.executeQuery();
+			while(rs.next()) {
+				images.add(rs.getString("URL"));
+			}
+		}
+		return images;
+	}
+	public Map<Integer, List<Coordinate>> getTrackCoordinates(int id) throws SQLException {
 		Connection conn = getConnection();
 		List<Coordinate> Coordinates = new ArrayList<Coordinate>();
+		Map<Integer, List<Coordinate>> coords = new HashMap<Integer, List<Coordinate>>();
 		String sql = "SELECT * FROM COORDINATES WHERE TRACK_ID = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setInt(1, id);
@@ -110,7 +164,8 @@ public class TracksData {
 			coord.setLng(rs.getDouble("LNG"));
 			Coordinates.add(coord);
 		}
-		return Coordinates;
+		coords.put(id, Coordinates);
+		return coords;
 	}
 	public Map<Integer, List<Coordinate>> getAllCoordinates() throws SQLException {
 		Connection conn = getConnection();
@@ -143,12 +198,15 @@ public class TracksData {
 		return Long.valueOf((new Double(d)).longValue());
 	}
 	
-	private Connection getConnection() {
+	private static Connection getConnection() {
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); 
-			String url = "jdbc:mysql://localhost:3306/EMMdb";
-			connection = DriverManager.getConnection(url, "root", "emmprojekt");
+			String url = "jdbc:mysql://ec2-54-165-105-107.compute-1.amazonaws.com:3306/EMMdb";
+			connection = DriverManager.getConnection(url, "andreas", "parool");
+			
+//			String url = "jdbc:mysql://localhost:3306/EMMdb";
+//			connection = DriverManager.getConnection(url, "root", "emmprojekt");
 		} catch (Exception e) {
 			// connection problem
 			e.printStackTrace();

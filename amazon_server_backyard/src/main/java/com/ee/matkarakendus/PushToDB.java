@@ -18,43 +18,27 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.XML;
 
 
 
 
 public class PushToDB {
-
-    public static void DBInsert(String JSON, String description) throws SQLException {
+	public static int PRETTY_PRINT_INDENT_FACTOR = 4;
+    public static String TEST_XML_STRING = "";
+    public static String jsonPrettyPrintString = "";
+	public static void DBinsert(String gpxIn, String description, String county) throws SQLException {
     	
-    	 
-//		try {
-// 
-//			String sCurrentLine;
-//			br = new BufferedReader(new InputStreamReader(new FileInputStream("RMK Sakala tee matkarada.gpx"), "UTF8"));
-////			"RMK Meiekose õpperada.gpx"  POIdega "RMK Ingatsi õpperada.gpx" ilma
-// 
-//			while ((sCurrentLine = br.readLine()) != null) {
-//				XML_STRING += sCurrentLine + "\n";
-//			}
-// 
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (br != null)br.close();
-//			} catch (IOException ex) {
-//				ex.printStackTrace();
-//			}
-//		}
-    	
-//        try {
-//            JSONObject xmlJSONObj = XML.toJSONObject(TEST_XML_STRING);
-//            jsonPrettyPrintString = xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR);
-//            System.out.println(jsonPrettyPrintString);
-//        } catch (JSONException je) {
-//            System.out.println(je.toString());
-//        }
-        String jsonPrettyPrintString = JSON;
+		
+		JSONObject xmlJSONObj;
+		try {
+			xmlJSONObj = XML.toJSONObject(gpxIn);
+			jsonPrettyPrintString = xmlJSONObj.toString(PRETTY_PRINT_INDENT_FACTOR);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
         try {
 			JSONObject gpx = new JSONObject(jsonPrettyPrintString).getJSONObject("gpx");
 			//track - name
@@ -65,7 +49,6 @@ public class PushToDB {
 			
 			//pair of lat/longs
 			JSONArray trackPoints = trackSeg.getJSONArray("trkpt");
-			String desc = description;
 			//elevation, lat, long, name, symbolURL per object
 			
 			
@@ -81,7 +64,9 @@ public class PushToDB {
 				listOfLatLongs.add(onePair);
 			}
 			
-			int trackID = addTrack(trackName, listOfLatLongs, desc);
+			int trackID = addTrack(trackName, listOfLatLongs, description, county);
+			addGPX(trackID, gpxIn);
+			
 			
 			//map of POIs
 			try{
@@ -120,7 +105,7 @@ public class PushToDB {
 		}
         
     }
-    private static int addTrack(String name, List<List<Double>> coordinates, String description) throws SQLException{
+    private static int addTrack(String name, List<List<Double>> coordinates, String description, String county) throws SQLException{
     	Connection conn = getConnection();
     	conn.setAutoCommit(false);
     	
@@ -131,7 +116,7 @@ public class PushToDB {
     	}
     	
     	// add to tracks table
-    	String sql = "INSERT INTO TRACKS(NAME, DESCRIPTION, LENGTH, START_LAT, START_LNG, IS_OPEN) VALUES(?,?,?,?,?,?)";
+    	String sql = "INSERT INTO TRACKS(NAME, DESCRIPTION, COUNTY, LENGTH, START_LAT, START_LNG, IS_OPEN, END_LAT, END_LNG) VALUES(?,?,?,?,?,?,?,?,?)";
     	Double lat = coordinates.get(0).get(0);
 		Double lng = coordinates.get(0).get(1);
 		String trackName = name;
@@ -141,7 +126,7 @@ public class PushToDB {
 		if (distance(lat, lng, endLat, endLng) < 0.25){
 			isOpen = 0;
 		}
-		List parameters = Arrays.asList(name, description, distance, lat, lng, isOpen);
+		List parameters = Arrays.asList(name, description, county, distance, lat, lng, isOpen, endLat, endLng);
 		int numRowsUpdated = update(conn, sql, parameters);
 		conn.commit();
 		
@@ -202,6 +187,34 @@ public class PushToDB {
     		i++;
     	}
     }
+    
+    private static void addGPX(int TrackID, String GPX) throws SQLException{
+    	Connection conn = getConnection();
+    	conn.setAutoCommit(false);
+    	String sql = "INSERT INTO GPX(TRACK_ID, GPX) VALUES(?,?)";
+    	List parameters = Arrays.asList(TrackID, GPX);
+    	int numRowsUpdated = update(conn, sql, parameters);
+   		conn.commit();
+    }
+    
+    static void addImage(int TrackID, String link) throws SQLException{
+    	Connection conn = getConnection();
+    	conn.setAutoCommit(false);
+    	String sql = "INSERT INTO TRACK_IMAGES(TRACK_ID, URL) VALUES(?,?)";
+    	List parameters = Arrays.asList(TrackID, link);
+    	int numRowsUpdated = update(conn, sql, parameters);
+   		conn.commit();
+    }
+    
+    static void addComment(int TrackID, String comment) throws SQLException{
+    	Connection conn = getConnection();
+    	conn.setAutoCommit(false);
+    	String sql = "INSERT INTO COMMENTS(TRACK_ID, COMMENT) VALUES(?,?)";
+    	List parameters = Arrays.asList(TrackID, comment);
+    	int numRowsUpdated = update(conn, sql, parameters);
+   		conn.commit();
+    }
+    
     public static List<Map<String, Object>> map(ResultSet rs) throws SQLException {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         try {
@@ -254,6 +267,7 @@ public class PushToDB {
 		}
 		return connection;
 	}
+	
 	public static int update(Connection connection, String sql, List<Object> parameters) throws SQLException {
         int numRowsUpdated = 0;
         PreparedStatement ps = null;
@@ -316,5 +330,6 @@ public class PushToDB {
       private static double rad2deg(double rad) {
         return (rad * 180.0 / Math.PI);
       }
+	
 
 }
