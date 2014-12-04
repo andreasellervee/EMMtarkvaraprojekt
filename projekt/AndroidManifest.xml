@@ -75,12 +75,21 @@
             android:label="@string/title_activity_point_view" >
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".AddCommentsActivity"
             android:label="@string/title_activity_add_comments" >
         </activity>
         <activity
             android:name=".AddCommentActivity"
             android:label="@string/title_activity_add_comment" >
+=======
+            android:name="com.ee.matkarakendus.activities.TracksSearchResultsActivity"
+            android:label="@string/search" >
+        </activity>
+        <activity
+            android:name="com.ee.matkarakendus.activities.PointsSearchResultsActivity"
+            android:label="@string/search" >
+>>>>>>> FETCH_HEAD
         </activity>
     </application>
 

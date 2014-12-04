@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +18,9 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.activities.TracksSearchResultsActivity;
 import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.objects.Tracks;
 import com.ee.matkarakendus.utils.TracksUtil;
 
 public class TracksSearchFragment extends Fragment {
@@ -108,8 +110,7 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
-		allTracks = new TracksUtil(getActivity().getApplicationContext())
-				.getAllTracks();
+		allTracks = Tracks.List;
 
 		filterResults();
 
@@ -118,11 +119,9 @@ public class TracksSearchFragment extends Fragment {
 					getString(R.string.no_search_results), Toast.LENGTH_SHORT)
 					.show();
 		} else {
-			TracksSearchResultsFragment fragment = new TracksSearchResultsFragment(
-					allTracks);
-			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction()
-					.replace(R.id.content_frame, fragment).commit();
+			Intent i = new Intent(getActivity().getApplicationContext(),
+					TracksSearchResultsActivity.class);
+			startActivity(i);
 		}
 	}
 
@@ -243,7 +242,17 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchNear() {
+		filterResults();
 
+		if (allTracks.isEmpty()) {
+			Toast.makeText(getActivity().getApplicationContext(),
+					getString(R.string.no_search_results), Toast.LENGTH_SHORT)
+					.show();
+		} else {
+			Intent i = new Intent(getActivity().getApplicationContext(),
+					TracksSearchResultsActivity.class);
+			startActivity(i);
+		}
 	}
 
 	@Override

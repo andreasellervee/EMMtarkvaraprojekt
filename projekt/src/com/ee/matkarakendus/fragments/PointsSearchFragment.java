@@ -1,9 +1,11 @@
 package com.ee.matkarakendus.fragments;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.activities.FavouritesActivity;
+import com.ee.matkarakendus.activities.PointsSearchResultsActivity;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,18 +68,14 @@ public class PointsSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
-		Fragment fragment = new PointsSearchResultsFragment();
-
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+		Intent i = new Intent(getActivity().getApplicationContext(),
+				PointsSearchResultsActivity.class);
+		startActivity(i);
 	}
 
 	void searchNear() {
-		Fragment fragment = new PointsSearchResultsFragment();
-
-		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction()
-				.replace(R.id.content_frame, fragment).commit();
+		Intent i = new Intent(getActivity().getApplicationContext(),
+				PointsSearchResultsActivity.class);
+		startActivity(i);
 	}
 }
