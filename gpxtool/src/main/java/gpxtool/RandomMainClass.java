@@ -41,7 +41,7 @@ public class RandomMainClass {
 		try {
  
 			String sCurrentLine;
-			br = new BufferedReader(new InputStreamReader(new FileInputStream("RMK Hüpassaare õpperada.gpx"), "UTF8"));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream("RMK Sakala tee matkarada.gpx"), "UTF8"));
 //			"RMK Meiekose õpperada.gpx"  POIdega "RMK Ingatsi õpperada.gpx" ilma
  
 			while ((sCurrentLine = br.readLine()) != null) {
@@ -141,7 +141,7 @@ public class RandomMainClass {
     	}
     	
     	// add to tracks table
-    	String sql = "INSERT INTO TRACKS(NAME, LENGTH, START_LAT, START_LNG, IS_OPEN) VALUES(?,?,?,?,?)";
+    	String sql = "INSERT INTO TRACKS(NAME, LENGTH, START_LAT, START_LNG, IS_OPEN, END_LAT, END_LNG) VALUES(?,?,?,?,?,?,?)";
     	Double lat = coordinates.get(0).get(0);
 		Double lng = coordinates.get(0).get(1);
 		String trackName = name;
@@ -151,12 +151,12 @@ public class RandomMainClass {
 		if (distance(lat, lng, endLat, endLng) < 0.25){
 			isOpen = 0;
 		}
-		List parameters = Arrays.asList(name, distance, lat, lng, isOpen);
+		List parameters = Arrays.asList(name, distance, lat, lng, isOpen, endLat, endLng);
 		int numRowsUpdated = update(conn, sql, parameters);
 		conn.commit();
 		
 		// get added track id
-		String sqlForID = "SELECT TRACK_id FROM TRACKS WHERE NAME = '" + trackName + "'";
+		String sqlForID = "SELECT TRACK_ID FROM TRACKS WHERE NAME = '" + trackName + "'";
 		PreparedStatement stmt = conn.prepareStatement(sqlForID);
 		List parametersForTrack = Arrays.asList(trackName);
 		List<Map<String, Object>> query = query(conn, sqlForID, Collections.EMPTY_LIST);
@@ -205,7 +205,7 @@ public class RandomMainClass {
     		Double lat = POIs.get(key).get(0);
     		Double lng = POIs.get(key).get(1);
     		String type = types[i];
-    		String sql = "INSERT INTO POI(NAME, TRACK_id, LAT, LNG, TYPE) VALUES(?,?,?,?,?)";
+    		String sql = "INSERT INTO POIS(NAME, TRACK_ID, LAT, LNG, TYPE) VALUES(?,?,?,?,?)";
     		List parameters = Arrays.asList(name, id, lat, lng, type);
     		int numRowsUpdated = update(conn, sql, parameters);
     		conn.commit();
@@ -256,7 +256,7 @@ public class RandomMainClass {
 		Connection connection = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); 
-			String url = "jdbc:mysql://ec2-54-165-105-107.compute-1.amazonaws.com:3306/emmprojekttest";
+			String url = "jdbc:mysql://ec2-54-165-105-107.compute-1.amazonaws.com:3306/EMMdb";
 			connection = DriverManager.getConnection(url, "andreas", "parool");
 		} catch (Exception e) {
 			// connection problem
