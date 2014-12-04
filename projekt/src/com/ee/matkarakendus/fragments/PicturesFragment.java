@@ -61,7 +61,7 @@ public class PicturesFragment extends Fragment implements OnClickListener {
 			startActivityForResult(cameraIntent, 1337);
 		} else {
 			if (v.equals(savePic)) {
-				new PicturePost().execute(takenPic);
+				new PicturePost(track.getId()).execute(takenPic);
 			}
 
 			takePic.setLayoutParams(new LinearLayout.LayoutParams(

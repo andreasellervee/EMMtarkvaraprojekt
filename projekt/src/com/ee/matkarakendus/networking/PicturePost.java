@@ -10,11 +10,19 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import com.ee.matkarakendus.utils.PictureDBUtil;
+
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class PicturePost extends AsyncTask<Bitmap, Void, Void> {
+	
+	private int trackId;
+	
+	public PicturePost(int trackId) {
+		this.trackId = trackId;
+	}
 
 	protected Void doInBackground(Bitmap... bitmaps) {
 		if (bitmaps[0] == null)
@@ -35,7 +43,7 @@ public class PicturePost extends AsyncTask<Bitmap, Void, Void> {
 			reqEntity
 					.addPart("myFile", System.currentTimeMillis() + ".jpg", in);
 			httppost.setEntity(reqEntity);
-
+			
 			Log.e("Request", httppost.getRequestLine().toString());
 			HttpResponse response = null;
 			try {
@@ -45,8 +53,11 @@ public class PicturePost extends AsyncTask<Bitmap, Void, Void> {
 			}
 			try {
 				if (response != null)
+					Log.e("Header Content", response.getHeaders("Content")[0].toString());
 					Log.e("Response",
 							EntityUtils.toString(response.getEntity()));
+					PictureDBUtil picDBUtil = new PictureDBUtil();
+					picDBUtil.postPictureURLToDB(trackId, response.getHeaders("Content")[0].toString());
 			} catch (Exception ex) {
 				Log.e("Exception", ex.toString());
 			}
