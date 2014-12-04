@@ -82,11 +82,7 @@
             android:name=".AddCommentActivity"
             android:label="@string/title_activity_add_comment" >
         </activity>
-<<<<<<< HEAD
 		<activity
-=======
-        <activity
->>>>>>> FETCH_HEAD
             android:name="com.ee.matkarakendus.activities.TracksSearchResultsActivity"
             android:label="@string/search" >
         </activity>
