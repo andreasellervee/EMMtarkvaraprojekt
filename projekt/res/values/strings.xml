@@ -20,6 +20,7 @@
 
     <!-- Error Messages -->
     <string name="no_search_results">Otsing ei tagastanud tulemusi</string>
+    <string name="no_search_results_near">Läheduses ei ole ühtegi rada.</string>
     <string name="no_coordinates"> koordinaadid puuduvad.</string>
 
     <!-- Button titles -->
