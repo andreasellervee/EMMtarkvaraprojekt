@@ -242,17 +242,9 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchNear() {
-		filterResults();
-
-		if (allTracks.isEmpty()) {
-			Toast.makeText(getActivity().getApplicationContext(),
-					getString(R.string.no_search_results), Toast.LENGTH_SHORT)
-					.show();
-		} else {
-			Intent i = new Intent(getActivity().getApplicationContext(),
-					TracksSearchResultsActivity.class);
-			startActivity(i);
-		}
+		Toast.makeText(getActivity().getApplicationContext(),
+				getString(R.string.no_search_results_near), Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	@Override
