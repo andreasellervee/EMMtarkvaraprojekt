@@ -1,27 +1,36 @@
 package com.ee.matkarakendus.fragments;
 
+import java.util.ArrayList;
+
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.adapters.TrackPicturesGridAdapter;
 import com.ee.matkarakendus.networking.PicturePost;
 import com.ee.matkarakendus.objects.Track;
+import com.ee.matkarakendus.utils.TrackImageUrlUtil;
 
 public class PicturesFragment extends Fragment implements OnClickListener {
 
+	private ArrayList<String> imageUrls;
+
 	private Track track;
 
+	private GridView grid;
 	private ImageView pic;
 	private Button takePic, savePic, discardPic;
 	private LinearLayout pictureButtons;
@@ -35,19 +44,27 @@ public class PicturesFragment extends Fragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		View rootView = inflater.inflate(R.layout.fragment_pictures, container,
 				false);
 
+		imageUrls = new TrackImageUrlUtil().getPictureUrlsById(track.id);
+
 		pic = (ImageView) rootView.findViewById(R.id.pic);
+		grid = (GridView) rootView.findViewById(R.id.grid);
 		takePic = (Button) rootView.findViewById(R.id.takePic);
 		savePic = (Button) rootView.findViewById(R.id.savePic);
 		discardPic = (Button) rootView.findViewById(R.id.discardPic);
 		pictureButtons = (LinearLayout) rootView
 				.findViewById(R.id.pictureButtons);
 
+		grid.setAdapter(new TrackPicturesGridAdapter(getActivity()
+				.getApplicationContext(), imageUrls));
+
 		takePic.setOnClickListener(this);
 		savePic.setOnClickListener(this);
 		discardPic.setOnClickListener(this);
+		Log.e("", String.valueOf(imageUrls.size()));
 
 		return rootView;
 	}

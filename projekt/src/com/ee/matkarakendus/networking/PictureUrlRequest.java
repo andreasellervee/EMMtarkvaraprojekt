@@ -23,11 +23,12 @@ public class PictureUrlRequest extends AsyncTask<String, Void, String> {
 			HttpEntity entity = response.getEntity();
 
 			if (entity != null) {
+				Log.e("Result", EntityUtils.toString(entity));
 				return EntityUtils.toString(entity);
 			}
 		} catch (Exception ex) {
 			Log.e("Exception", ex.toString());
 		}
 		return null;
-	} 
+	}
 }
