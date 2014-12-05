@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class PointsSearchFragment extends Fragment {
 	Button searchAll, searchNear;
@@ -74,8 +75,8 @@ public class PointsSearchFragment extends Fragment {
 	}
 
 	void searchNear() {
-		Intent i = new Intent(getActivity().getApplicationContext(),
-				PointsSearchResultsActivity.class);
-		startActivity(i);
+		Toast.makeText(getActivity().getApplicationContext(),
+				getString(R.string.no_search_results), Toast.LENGTH_SHORT)
+				.show();
 	}
 }

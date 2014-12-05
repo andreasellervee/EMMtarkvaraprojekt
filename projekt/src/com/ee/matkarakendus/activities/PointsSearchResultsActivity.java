@@ -21,7 +21,7 @@ public class PointsSearchResultsActivity extends Activity implements
 
 		setTitle(R.string.search_results);
 
-		setContentView(R.layout.fragment_search_results);
+		setContentView(R.layout.activity_search_results);
 
 		ListView list = (ListView) findViewById(android.R.id.list);
 
