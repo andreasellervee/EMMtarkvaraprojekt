@@ -1,14 +1,11 @@
 package com.ee.matkarakendus.fragments;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.Locale;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,24 +18,13 @@ import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.activities.TracksSearchResultsActivity;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.objects.Tracks;
-import com.ee.matkarakendus.utils.TracksUtil;
 
 public class TracksSearchFragment extends Fragment {
-	Set<Track> results;
-	ArrayList<Track> allTracks;
-
 	Resources res;
 
 	Button searchAll, searchNear;
 	Spinner openClosed, area, type;
 	EditText lengthMin, lengthMax, durationMin, durationMax, string;
-
-	public TracksSearchFragment() {
-	}
-
-	public TracksSearchFragment(ArrayList<Track> tracks) {
-		this.allTracks = tracks;
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,164 +77,148 @@ public class TracksSearchFragment extends Fragment {
 		return rootView;
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		outState.putLong("open_closed", openClosed.getSelectedItemId());
-		outState.putLong("area", area.getSelectedItemId());
-		outState.putLong("type", type.getSelectedItemId());
-		outState.putString("string", string.getText().toString());
-		if (!lengthMin.getText().toString().matches("")) {
-			outState.putDouble("length_min",
-					Double.parseDouble(lengthMin.getText().toString()));
-		}
-		if (!lengthMax.getText().toString().matches("")) {
-			outState.putDouble("length_max",
-					Double.parseDouble(lengthMax.getText().toString()));
+	private ArrayList<Track> filterResults() {
+		ArrayList<Track> results = Tracks.List;
+
+		results = filterTrackLength(results);
+		results = filterOpenClosedTracks(results);
+		results = filterCountys(results);
+		results = filterTrackTypes(results);
+		results = filterStringSearch(results);
+
+		return results;
+	}
+
+	private ArrayList<Track> filterTrackLength(ArrayList<Track> results) {
+		ArrayList<Track> temp = new ArrayList<Track>();
+
+		String minimumLength = lengthMin.getText().toString();
+		String maximumLength = lengthMax.getText().toString();
+
+		if (!maximumLength.equals("") && !minimumLength.equals("")) {
+			Double minLength = Double.valueOf(minimumLength);
+			Double maxLength = Double.valueOf(maximumLength);
+			for (Track t : results) {
+				if (t.getLength() >= minLength && t.getLength() <= maxLength) {
+					temp.add(t);
+				}
+			}
+		} else if (maximumLength.equals("") && !minimumLength.equals("")) {
+			Double minLength = Double.valueOf(minimumLength);
+			for (Track t : results) {
+				if (t.getLength() >= minLength) {
+					temp.add(t);
+				}
+			}
+		} else if (!maximumLength.equals("") && minimumLength.equals("")) {
+			Double maxLength = Double.valueOf(maximumLength);
+			for (Track t : results) {
+				if (t.getLength() <= maxLength) {
+					temp.add(t);
+				}
+			}
+		} else {
+			temp = results;
 		}
 
-		super.onSaveInstanceState(outState);
+		return temp;
+	}
+
+	private ArrayList<Track> filterStringSearch(ArrayList<Track> results) {
+		ArrayList<Track> temp = new ArrayList<Track>();
+
+		String sone = string.getText().toString().toLowerCase(Locale.ENGLISH);
+
+		if (!sone.equals("")) {
+			for (Track t : results) {
+				if (t.getName().toLowerCase(Locale.ENGLISH).contains(sone)
+						|| t.getDescription().toLowerCase(Locale.ENGLISH)
+								.contains(sone)) {
+					temp.add(t);
+				}
+			}
+		} else {
+			temp = results;
+		}
+
+		return temp;
+	}
+
+	private ArrayList<Track> filterTrackTypes(ArrayList<Track> results) {
+		ArrayList<Track> temp = new ArrayList<Track>();
+
+		if (type.getSelectedItemId() != 0) {
+			String[] types = res.getStringArray(R.array.track_type_array);
+			for (Track t : results) {
+				if (t.getType().equals(types[(int) type.getSelectedItemId()])) {
+					temp.add(t);
+				}
+			}
+		} else {
+			temp = results;
+		}
+
+		return temp;
+	}
+
+	private ArrayList<Track> filterCountys(ArrayList<Track> results) {
+		ArrayList<Track> temp = new ArrayList<Track>();
+
+		if (area.getSelectedItemId() != 0) {
+			String[] countys = res.getStringArray(R.array.county_array);
+			for (Track t : results) {
+				if (t.getCounty().equals(
+						countys[(int) area.getSelectedItemId()])) {
+					temp.add(t);
+				}
+			}
+		} else {
+			temp = results;
+		}
+
+		return temp;
+	}
+
+	private ArrayList<Track> filterOpenClosedTracks(ArrayList<Track> results) {
+		ArrayList<Track> temp = new ArrayList<Track>();
+
+		if (openClosed.getSelectedItemId() == 1) {
+			for (Track t : results) {
+				if (!t.isOpen) {
+					temp.add(t);
+				}
+			}
+		} else if (openClosed.getSelectedItemId() == 2) {
+			for (Track t : results) {
+				if (t.isOpen) {
+					temp.add(t);
+				}
+			}
+		} else {
+			temp = results;
+		}
+
+		return temp;
 	}
 
 	void searchAll() {
-		allTracks = Tracks.List;
+		ArrayList<Track> results = filterResults();
 
-		filterResults();
-
-		if (allTracks.isEmpty()) {
+		if (results.isEmpty()) {
 			Toast.makeText(getActivity().getApplicationContext(),
 					getString(R.string.no_search_results), Toast.LENGTH_SHORT)
 					.show();
 		} else {
 			Intent i = new Intent(getActivity().getApplicationContext(),
 					TracksSearchResultsActivity.class);
+			i.putExtra("tracks", results);
 			startActivity(i);
 		}
 	}
 
-	private void filterResults() {
-		results = new HashSet<Track>();
-		results.clear();
-
-		filterOpenClosedTracks();
-
-		filterTrackLength();
-
-		filterCountys();
-
-		filterTrackTypes();
-
-		filterStringSearch();
-	}
-
-	private void filterTrackLength() {
-		String minimumLength = lengthMin.getText().toString();
-		String maximumLength = lengthMax.getText().toString();
-
-		if (!(maximumLength.equals("") && minimumLength.equals(""))) {
-			if (!maximumLength.equals("") && !minimumLength.equals("")) {
-				Double minLength = Double.valueOf(minimumLength);
-				Double maxLength = Double.valueOf(maximumLength);
-				for (Track track : allTracks) {
-					if (track.getLength() < minLength
-							|| track.getLength() > maxLength) {
-						results.add(track);
-					}
-				}
-			} else if (maximumLength.equals("") && !minimumLength.equals("")) {
-				Double minLength = Double.valueOf(minimumLength);
-				for (Track track : allTracks) {
-					if (track.getLength() < minLength) {
-						results.add(track);
-					}
-				}
-			} else if (!maximumLength.equals("") && minimumLength.equals("")) {
-				Double maxLength = Double.valueOf(maximumLength);
-				for (Track track : allTracks) {
-					if (track.getLength() > maxLength) {
-						results.add(track);
-					}
-				}
-			}
-		}
-
-		allTracks.removeAll(results);
-		results.clear();
-	}
-
-	private void filterStringSearch() {
-		String sone = string.getText().toString().toLowerCase();
-		Log.i("SONE", sone);
-		if (!sone.equals("")) {
-			for (Track track : allTracks) {
-				Log.i("TRACK", track.getName() + " " + track.getDescription());
-				if (!(track.getName().toLowerCase().contains(sone) || track
-						.getDescription().toLowerCase().contains(sone))) {
-					results.add(track);
-				}
-			}
-		}
-
-		allTracks.removeAll(results);
-		results.clear();
-	}
-
-	private void filterTrackTypes() {
-		if (type.getSelectedItemId() != 0) {
-			String[] types = res.getStringArray(R.array.track_type_array);
-			for (Track track : allTracks) {
-				if (!track.getType().equals(
-						types[(int) type.getSelectedItemId()])) {
-					results.add(track);
-				}
-			}
-		}
-
-		allTracks.removeAll(results);
-		results.clear();
-	}
-
-	private void filterCountys() {
-		if (area.getSelectedItemId() != 0) {
-			String[] countys = res.getStringArray(R.array.county_array);
-			Log.i("ASI", countys[(int) area.getSelectedItemId()]);
-			for (Track track : allTracks) {
-				Log.i("ASI", track.getName() + " " + track.getCounty());
-				if (!track.getCounty().equals(
-						countys[(int) area.getSelectedItemId()])) {
-					results.add(track);
-				}
-			}
-		}
-		allTracks.removeAll(results);
-		results.clear();
-	}
-
-	private void filterOpenClosedTracks() {
-		if (openClosed.getSelectedItemId() == 1) {
-			for (Track track : allTracks) {
-				if (track.isOpen) {
-					results.add(track);
-				}
-			}
-		} else if (openClosed.getSelectedItemId() == 2) {
-			for (Track track : allTracks) {
-				if (!track.isOpen) {
-					results.add(track);
-				}
-			}
-		}
-		allTracks.removeAll(results);
-		results.clear();
-	}
-
 	void searchNear() {
 		Toast.makeText(getActivity().getApplicationContext(),
-				getString(R.string.no_search_results_near), Toast.LENGTH_SHORT)
+				getString(R.string.no_search_results), Toast.LENGTH_SHORT)
 				.show();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
 	}
 }

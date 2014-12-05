@@ -1,5 +1,7 @@
 package com.ee.matkarakendus.activities;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,21 +13,26 @@ import android.widget.ListView;
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.adapters.PointsListAdapter;
 import com.ee.matkarakendus.objects.Point;
-import com.ee.matkarakendus.objects.Points;
 
 public class PointsSearchResultsActivity extends Activity implements
 		OnItemClickListener {
+
+	private ArrayList<Point> points = new ArrayList<Point>();
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setTitle(R.string.search_results);
 
-		setContentView(R.layout.fragment_search_results);
+		setContentView(R.layout.activity_search_results);
+
+		points = (ArrayList<Point>) getIntent().getSerializableExtra("points");
 
 		ListView list = (ListView) findViewById(android.R.id.list);
 
-		PointsListAdapter adapter = new PointsListAdapter(this, Points.List);
+		PointsListAdapter adapter = new PointsListAdapter(this, points);
 
 		list.setAdapter(adapter);
 

@@ -19,20 +19,16 @@ public class TracksSearchResultsActivity extends Activity implements
 
 	private ArrayList<Track> tracks = new ArrayList<Track>();
 
-	public TracksSearchResultsActivity() {
-	}
-
-	public TracksSearchResultsActivity(ArrayList<Track> tracks) {
-		this.tracks = tracks;
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setTitle(R.string.tracks);
 
-		setContentView(R.layout.fragment_search_results);
+		setContentView(R.layout.activity_search_results);
+
+		tracks = (ArrayList<Track>)getIntent().getSerializableExtra("tracks");
 
 		ListView list = (ListView) findViewById(android.R.id.list);
 
