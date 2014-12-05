@@ -77,11 +77,6 @@ public class TracksSearchFragment extends Fragment {
 		return rootView;
 	}
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
 	private ArrayList<Track> filterResults() {
 		ArrayList<Track> results = Tracks.List;
 
@@ -171,7 +166,7 @@ public class TracksSearchFragment extends Fragment {
 
 		if (area.getSelectedItemId() != 0) {
 			String[] countys = res.getStringArray(R.array.county_array);
-			for (Track t : Tracks.List) {
+			for (Track t : results) {
 				if (t.getCounty().equals(
 						countys[(int) area.getSelectedItemId()])) {
 					temp.add(t);
