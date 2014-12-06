@@ -17,13 +17,11 @@ public class PictureUrlRequest extends AsyncTask<String, Void, String> {
 		String url = "http://ec2-54-165-105-107.compute-1.amazonaws.com:8080/matkarakendus-0.1.0/TrackImages?id="
 				+ params[0];
 		HttpGet httpget = new HttpGet(url);
-
 		try {
 			HttpResponse response = httpclient.execute(httpget);
 			HttpEntity entity = response.getEntity();
 
 			if (entity != null) {
-				Log.e("Result", EntityUtils.toString(entity));
 				return EntityUtils.toString(entity);
 			}
 		} catch (Exception ex) {

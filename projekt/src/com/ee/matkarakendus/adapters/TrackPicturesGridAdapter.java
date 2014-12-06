@@ -5,16 +5,17 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
-import com.ee.matkarakendus.R;
+import java.util.concurrent.ExecutionException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 public class TrackPicturesGridAdapter extends BaseAdapter {
@@ -30,18 +31,30 @@ public class TrackPicturesGridAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
-		Bitmap img = getBitmapFromURL(urls.get(position));
+		Bitmap img = null;
+		try {
+			img = new BitmapURLUtil().execute(urls.get(position)).get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		ImageView imageView = new ImageView(context);
+		imageView.setLayoutParams(new GridView.LayoutParams(100, 100));
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        imageView.setPadding(5, 10, 5, 10);
 
 		if (img != null) {
-			if (convertView != null) {
-				((ImageView) (convertView.findViewById(R.id.image)))
-						.setImageBitmap(img);
-			} else {
-				imageView = new ImageView(context);
-				imageView.setImageBitmap(img);
-			}
+//			if (convertView != null) {
+//				ImageView imgV = (ImageView) convertView.findViewById(R.id.image);
+//				imgV.setImageBitmap(img);
+//			} else {
+//			}
+			imageView = new ImageView(context);
+			imageView.setImageBitmap(img);
 		} else {
 			Log.e("", "img is null");
 			// if (convertView != null) {
@@ -70,19 +83,39 @@ public class TrackPicturesGridAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
+	
+	private static class BitmapURLUtil extends AsyncTask<String, Void, Bitmap> {
 
-	public static Bitmap getBitmapFromURL(String src) {
-		try {
-			URL url = new URL(src);
-			HttpURLConnection connection = (HttpURLConnection) url
-					.openConnection();
-			connection.setDoInput(true);
-			connection.connect();
-			InputStream input = connection.getInputStream();
-			Bitmap myBitmap = BitmapFactory.decodeStream(input);
-			return myBitmap;
-		} catch (IOException e) {
-			return null;
+		@Override
+		protected Bitmap doInBackground(String... params) {
+			try {
+				URL url = new URL(params[0]);
+				HttpURLConnection connection = (HttpURLConnection) url
+						.openConnection();
+				connection.setDoInput(true);
+				connection.connect();
+				InputStream input = connection.getInputStream();
+				Bitmap myBitmap = BitmapFactory.decodeStream(input);
+				return myBitmap;
+			} catch (IOException e) {
+				return null;
+			}
 		}
+		
 	}
+
+//	public static Bitmap getBitmapFromURL(String src) {
+//		try {
+//			URL url = new URL(src);
+//			HttpURLConnection connection = (HttpURLConnection) url
+//					.openConnection();
+//			connection.setDoInput(true);
+//			connection.connect();
+//			InputStream input = connection.getInputStream();
+//			Bitmap myBitmap = BitmapFactory.decodeStream(input);
+//			return myBitmap;
+//		} catch (IOException e) {
+//			return null;
+//		}
+//	}
 }

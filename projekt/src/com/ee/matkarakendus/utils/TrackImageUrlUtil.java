@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import android.util.Log;
 
 import com.ee.matkarakendus.networking.CommentsRequest;
+import com.ee.matkarakendus.networking.PictureUrlRequest;
 
 public class TrackImageUrlUtil {
 	
@@ -14,7 +15,7 @@ public class TrackImageUrlUtil {
 		String json = "";
 		ArrayList<String> urlList = new ArrayList<String>();
 		try {
-			json = new CommentsRequest().execute(String.valueOf(trackId))
+			json = new PictureUrlRequest().execute(String.valueOf(trackId))
 					.get();
 			Log.i("URLs", json);
 			JSONArray urls = new JSONArray(json);
@@ -24,7 +25,6 @@ public class TrackImageUrlUtil {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
 		return urlList;
 	}
