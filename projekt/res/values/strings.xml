@@ -17,9 +17,12 @@
     <string name="allTracks">Kõik rajad</string>
     <string name="tracks">Rajad</string>
     <string name="pointsOfInterest">Huvipunktid</string>
+    <string name="searchRadius">Otsingu raadius (km)</string>
 
     <!-- Error Messages -->
     <string name="no_search_results">Otsing ei tagastanud tulemusi</string>
+    <string name="no_location_found">Asukoha määramine ebaõnnestus</string>
+    <string name="no_number_value">Raadiuse väärtus ei ole number</string>
     <string name="no_coordinates"> koordinaadid puuduvad.</string>
 
     <!-- Button titles -->

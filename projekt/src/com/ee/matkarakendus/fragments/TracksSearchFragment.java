@@ -5,6 +5,9 @@ import java.util.Locale;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +27,9 @@ public class TracksSearchFragment extends Fragment {
 
 	Button searchAll, searchNear;
 	Spinner openClosed, area, type;
-	EditText lengthMin, lengthMax, durationMin, durationMax, string;
+	EditText lengthMin, lengthMax, durationMin, durationMax, string, searchRadius;
+	
+	Location location;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,7 +37,38 @@ public class TracksSearchFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.fragment_tracks_search,
 				container, false);
-
+		
+		LocationManager locationManager = (LocationManager) getActivity().getSystemService(getActivity().getApplicationContext().LOCATION_SERVICE);
+		
+		LocationListener locationListener = new LocationListener() {
+			
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProviderEnabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProviderDisabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onLocationChanged(Location location) {
+				TracksSearchFragment.this.location = location;
+			}
+		};
+		
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+		
+		
 		res = getResources();
 
 		searchAll = (Button) rootView.findViewById(R.id.searchAll);
@@ -43,6 +79,7 @@ public class TracksSearchFragment extends Fragment {
 		lengthMin = (EditText) rootView.findViewById(R.id.lengthMin);
 		lengthMax = (EditText) rootView.findViewById(R.id.lengthMax);
 		string = (EditText) rootView.findViewById(R.id.string);
+		searchRadius = (EditText) rootView.findViewById(R.id.searchRadius);
 
 		if (savedInstanceState != null) {
 			openClosed.setSelection((int) savedInstanceState
@@ -217,8 +254,77 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchNear() {
-		Toast.makeText(getActivity().getApplicationContext(),
-				getString(R.string.no_search_results), Toast.LENGTH_SHORT)
-				.show();
+		
+		String text = searchRadius.getText().toString();
+		
+		double searchRadiusValue = 0;
+		
+		ArrayList<Track> nearResults = new ArrayList<Track>();
+		
+		if(!text.equals("")) {
+			try{
+				searchRadiusValue = Double.valueOf(searchRadius.getText().toString());
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				Toast.makeText(getActivity().getApplicationContext(),
+						getString(R.string.no_number_value), Toast.LENGTH_SHORT)
+						.show();
+			}
+		}
+		
+		if(location != null) {
+			double lat = location.getLatitude();
+			double lng = location.getLongitude();
+			
+			ArrayList<Track> results = filterResults();
+			
+			if(results.isEmpty()) {
+				Toast.makeText(getActivity().getApplicationContext(),
+						getString(R.string.no_search_results), Toast.LENGTH_SHORT)
+						.show();
+			} else {
+				for(Track track : results) {
+					double lat1 = track.getLatitude();
+					double lng1 = track.getLongitude();
+					double distance = distance(lat, lng, lat1, lng1);
+					if(distance <= searchRadiusValue) {
+						nearResults.add(track);
+					}
+				}
+			}
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(),
+					getString(R.string.no_location_found), Toast.LENGTH_SHORT)
+					.show();
+		}
+		
+		if(nearResults.isEmpty()) {
+			Toast.makeText(getActivity().getApplicationContext(),
+					getString(R.string.no_search_results), Toast.LENGTH_SHORT)
+					.show();
+		} else {
+			Intent i = new Intent(getActivity().getApplicationContext(),
+					TracksSearchResultsActivity.class);
+			i.putExtra("tracks", nearResults);
+			startActivity(i);
+		}
+		
 	}
+	
+	private static double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515 * 1.609344;
+        return (dist);
+      }
+
+      private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+      }
+
+      private static double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+      }
 }
