@@ -22,6 +22,11 @@ public class Track implements Serializable {
 	public double latitude;
 
 	public double longitude;
+	
+	public double endLatitude;
+
+
+	public double endLongitude;
 
 	public double length;
 
@@ -52,6 +57,22 @@ public class Track implements Serializable {
 		this.comments = comments;
 	}
 
+	public double getEndLatitude() {
+		return endLatitude;
+	}
+	
+	public void setEndLatitude(double endLatitude) {
+		this.endLatitude = endLatitude;
+	}
+	
+	public double getEndLongitude() {
+		return endLongitude;
+	}
+	
+	public void setEndLongitude(double endLongitude) {
+		this.endLongitude = endLongitude;
+	}
+	
 	public ArrayList<Point> getPoints() {
 		return points;
 	}

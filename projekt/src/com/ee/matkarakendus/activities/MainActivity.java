@@ -1,5 +1,7 @@
 package com.ee.matkarakendus.activities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,13 +30,17 @@ import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class MainActivity extends Activity implements
-		OnInfoWindowClickListener, ListView.OnItemClickListener {
+		OnInfoWindowClickListener, ListView.OnItemClickListener, OnCameraChangeListener {
 	private String[] optionItems;
 	private DrawerLayout drawer;
 	private ListView menuList;
@@ -41,6 +48,11 @@ public class MainActivity extends Activity implements
 
 	private GoogleMap map;
 	private Map<Track, MarkerOptions> trackMarkers;
+	
+	private ArrayList<Track> tracks;
+	
+	private Map<Track, MarkerOptions> trackEndMarkers = new HashMap<Track, MarkerOptions>();
+	private boolean canCheck = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +60,11 @@ public class MainActivity extends Activity implements
 
 		setContentView(R.layout.activity_main);
 
-		Tracks.List = new TracksUtil(getApplicationContext()).getAllTracks();
+		tracks = new TracksUtil(getApplicationContext()).getAllTracks();
 		Points.List = new TrackPOIUtil().getTrackPOIsById(0);
 
 		for (Point p : Points.List) {
-			for (Track t : Tracks.List) {
+			for (Track t : tracks) {
 				if (p.getTrackId() == t.getId()) {
 					t.getPoints().add(p);
 					break;
@@ -93,6 +105,8 @@ public class MainActivity extends Activity implements
 		if (map == null) {
 			return;
 		}
+		
+		map.setOnCameraChangeListener(this);
 
 		LatLng estonia = new LatLng(59.0000, 25.5000);
 
@@ -105,6 +119,10 @@ public class MainActivity extends Activity implements
 
 		for (Track track : trackMarkers.keySet()) {
 			map.addMarker(trackMarkers.get(track));
+			MarkerOptions options = new MarkerOptions()
+			.title(track.getName() + " lõpp-punkt")
+			.position(new LatLng(track.getEndLatitude(), track.getEndLongitude()));
+			trackEndMarkers.put(track, options);
 		}
 	}
 
@@ -184,5 +202,29 @@ public class MainActivity extends Activity implements
 									int which) {
 							}
 						}).show();
+	}
+
+	@Override
+	public void onCameraChange(CameraPosition position) {
+		float zoom = position.zoom;
+		Log.i("ZOOM", String.valueOf(zoom));
+		if(zoom >= 8.5f && canCheck) {
+			Log.i("JAH", "jah");
+			map.clear();
+			for (Track track : trackMarkers.keySet()) {
+				map.addMarker(trackMarkers.get(track));
+				map.addMarker(trackEndMarkers.get(track).icon(BitmapDescriptorFactory.fromResource(R.drawable.blue_dot)));
+				map.addPolyline(new PolylineOptions().add(new LatLng(track.getLatitude(), track.getLongitude()))
+						.add(new LatLng(track.getEndLatitude(), track.getEndLongitude())));
+			}
+			canCheck = false;
+		} else if(zoom < 8.5f) {
+			Log.i("JAH", "ei");
+			map.clear();
+			for (Track track : trackMarkers.keySet()) {
+				map.addMarker(trackMarkers.get(track));
+			}
+			canCheck = true;
+		}
 	}
 }
