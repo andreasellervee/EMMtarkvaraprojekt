@@ -48,6 +48,7 @@ public class ImageViewerActivity extends Activity {
 		}
         
 	}
+
 	
 	private static class BitmapURLUtil extends AsyncTask<String, Void, Bitmap> {
 

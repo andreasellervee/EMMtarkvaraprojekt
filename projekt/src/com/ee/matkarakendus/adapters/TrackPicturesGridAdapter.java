@@ -43,7 +43,7 @@ public class TrackPicturesGridAdapter extends BaseAdapter {
 		}
 
 		ImageView imageView = new ImageView(context);
-		imageView.setLayoutParams(new GridView.LayoutParams(100, 100));
+		imageView.setLayoutParams(new GridView.LayoutParams(210,140));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setPadding(5, 5, 5, 5);
 
@@ -83,6 +83,7 @@ public class TrackPicturesGridAdapter extends BaseAdapter {
 		return position;
 	}
 	
+	
 	private static class BitmapURLUtil extends AsyncTask<String, Void, Bitmap> {
 
 		@Override
@@ -102,6 +103,7 @@ public class TrackPicturesGridAdapter extends BaseAdapter {
 		}
 		
 	}
+	
 
 //	public static Bitmap getBitmapFromURL(String src) {
 //		try {

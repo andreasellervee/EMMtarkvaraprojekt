@@ -97,7 +97,7 @@
             android:label="@string/search" >
         </activity>
         <activity
-            android:name="com.ee.matkarakendus.activities.ImageViewerActivity"
+            android:name=".activities.ImageViewerActivity"
             android:label="@string/title_activity_image_viewer" >
         </activity>
     </application>
