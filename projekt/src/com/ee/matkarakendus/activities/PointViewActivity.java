@@ -26,6 +26,7 @@ public class PointViewActivity extends Activity {
 		description = (TextView) findViewById(R.id.pkirjeldus);
 		
 		if (point != null) {
+			setTitle(point.getName());
 			name.setText("Huvipunkt: " + point.getName()) ;
 			location.setText("Asukoht: " + point.getCountry() + "," + point.getCounty());
 			description.setText(point.getDescription());
