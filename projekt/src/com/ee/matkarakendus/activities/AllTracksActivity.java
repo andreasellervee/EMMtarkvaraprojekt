@@ -1,8 +1,13 @@
 package com.ee.matkarakendus.activities;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +18,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
 import com.ee.matkarakendus.adapters.TracksListAdapter;
+import com.ee.matkarakendus.fragments.TracksSearchFragment;
 import com.ee.matkarakendus.objects.Track;
 import com.ee.matkarakendus.objects.Tracks;
 
@@ -27,10 +34,21 @@ public class AllTracksActivity extends Activity implements OnItemClickListener {
 
 	private ListView tracksList;
 	private TracksListAdapter adapter;
+	private Location location;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Intent i = getIntent();
+		double mapLat = i.getDoubleExtra("lat", 0d);
+		double mapLng = i.getDoubleExtra("lng", 0d);
+		
+		if(mapLat != 0d && mapLng != 0d) {
+			location = new Location(location);
+			location.setLatitude(mapLng);
+			location.setLongitude(mapLng);
+		}
 
 		setContentView(R.layout.activity_all_tracks);
 
@@ -57,9 +75,54 @@ public class AllTracksActivity extends Activity implements OnItemClickListener {
 				invalidateOptionsMenu();
 			}
 		};
+		
+		LocationManager locationManager = (LocationManager) getSystemService(getApplicationContext().LOCATION_SERVICE);
+		
+		LocationListener locationListener = new LocationListener() {
+			
+			@Override
+			public void onStatusChanged(String provider, int status, Bundle extras) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProviderEnabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProviderDisabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onLocationChanged(Location location) {
+				AllTracksActivity.this.location = location;
+			}
+		};
+		
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
 		drawer.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 		drawer.setDrawerListener(drawerToggle);
+		
+		if(location != null) {
+			Toast.makeText(getApplicationContext(),
+					getString(R.string.using_user_location), Toast.LENGTH_SHORT)
+					.show();
+			double lat = location.getLatitude();
+			double lng = location.getLongitude();
+			
+			for(Track track : Tracks.List) {
+				double lat1 = track.getLatitude();
+				double lng1 = track.getLongitude();
+				double distance = distance(lat, lng, lat1, lng1);
+				track.setFromUserLocation(distance);
+			}
+		}
 
 		adapter = new TracksListAdapter(this, Tracks.List);
 
@@ -123,4 +186,21 @@ public class AllTracksActivity extends Activity implements OnItemClickListener {
 		i.putExtra("track", track);
 		startActivity(i);
 	}
+	
+	private static double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515 * 1.609344;
+        return (dist);
+      }
+
+      private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+      }
+
+      private static double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
+      }
 }

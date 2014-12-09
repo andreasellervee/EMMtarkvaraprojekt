@@ -44,7 +44,13 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 		Track track = (Track) tracks.get(position);
 
 		holder.title.setText(track.getName());
-		holder.length.setText("Pikkus: " + round(track.getLength(), 1) + " Km");
+		
+		if(track.getFromUserLocation() != 0L) {
+			holder.length.setText("Pikkus: " + round(track.getLength(), 1) + " Km. \nKaugus sinust: " + round(track.getFromUserLocation(), 1) + "km");
+		} else {
+			holder.length.setText("Pikkus: " + round(track.getLength(), 1) + " Km");
+		}
+		
 		if (holder.thumb != null) {
 			holder.thumb.setBackgroundResource(R.drawable.bg3);
 		}

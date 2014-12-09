@@ -18,6 +18,9 @@
     <string name="tracks">Rajad</string>
     <string name="pointsOfInterest">Huvipunktid</string>
     <string name="searchRadius">Otsingu raadius (km)</string>
+    
+    <!-- Messages -->
+    <string name="using_user_location">Määratus raja kaugus kasutaja asukohast</string>
 
     <!-- Error Messages -->
     <string name="no_search_results">Otsing ei tagastanud tulemusi</string>

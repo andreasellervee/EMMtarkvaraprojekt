@@ -27,7 +27,7 @@ public class ImageViewerActivity extends Activity {
 		Intent i = getIntent();
 		String url = i.getStringExtra("bitmapImageUrl");
 		String title = i.getStringExtra("title");
-		if(title != null && title.equals("")) {
+		if(title != null && !title.equals("")) {
 			setTitle(title);
 		} else {
 			setTitle("Pilt");

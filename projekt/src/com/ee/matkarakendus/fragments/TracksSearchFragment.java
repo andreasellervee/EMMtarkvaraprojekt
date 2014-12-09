@@ -239,6 +239,7 @@ public class TracksSearchFragment extends Fragment {
 	}
 
 	void searchAll() {
+
 		ArrayList<Track> results = filterResults();
 
 		if (results.isEmpty()) {
@@ -248,6 +249,26 @@ public class TracksSearchFragment extends Fragment {
 		} else {
 			Intent i = new Intent(getActivity().getApplicationContext(),
 					TracksSearchResultsActivity.class);
+			if(location != null) {
+				Toast.makeText(getActivity().getApplicationContext(),
+						getString(R.string.using_user_location), Toast.LENGTH_SHORT)
+						.show();
+				double lat = location.getLatitude();
+				double lng = location.getLongitude();
+				
+				if(results.isEmpty()) {
+					Toast.makeText(getActivity().getApplicationContext(),
+							getString(R.string.no_search_results), Toast.LENGTH_SHORT)
+							.show();
+				} else {
+					for(Track track : results) {
+						double lat1 = track.getLatitude();
+						double lng1 = track.getLongitude();
+						double distance = distance(lat, lng, lat1, lng1);
+						track.setFromUserLocation(distance);
+					}
+				}
+			}
 			i.putExtra("tracks", results);
 			startActivity(i);
 		}
@@ -269,6 +290,7 @@ public class TracksSearchFragment extends Fragment {
 				Toast.makeText(getActivity().getApplicationContext(),
 						getString(R.string.no_number_value), Toast.LENGTH_SHORT)
 						.show();
+				return;
 			}
 		}
 		
@@ -287,6 +309,7 @@ public class TracksSearchFragment extends Fragment {
 					double lat1 = track.getLatitude();
 					double lng1 = track.getLongitude();
 					double distance = distance(lat, lng, lat1, lng1);
+					track.setFromUserLocation(distance);
 					if(distance <= searchRadiusValue) {
 						nearResults.add(track);
 					}
@@ -296,19 +319,20 @@ public class TracksSearchFragment extends Fragment {
 			Toast.makeText(getActivity().getApplicationContext(),
 					getString(R.string.no_location_found), Toast.LENGTH_SHORT)
 					.show();
+			return;
 		}
 		
 		if(nearResults.isEmpty()) {
 			Toast.makeText(getActivity().getApplicationContext(),
 					getString(R.string.no_search_results), Toast.LENGTH_SHORT)
 					.show();
+			return;
 		} else {
 			Intent i = new Intent(getActivity().getApplicationContext(),
 					TracksSearchResultsActivity.class);
 			i.putExtra("tracks", nearResults);
 			startActivity(i);
 		}
-		
 	}
 	
 	private static double distance(double lat1, double lon1, double lat2, double lon2) {

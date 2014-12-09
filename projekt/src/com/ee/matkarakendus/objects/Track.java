@@ -25,6 +25,7 @@ public class Track implements Serializable {
 	
 	public double endLatitude;
 
+	private double fromUserLocation = 0L;
 
 	public double endLongitude;
 
@@ -200,5 +201,13 @@ public class Track implements Serializable {
 	@Override
 	public boolean equals(Object that) {
 		return this.id == ((Track) that).id;
+	}
+
+	public double getFromUserLocation() {
+		return fromUserLocation;
+	}
+
+	public void setFromUserLocation(double fromUserLocation) {
+		this.fromUserLocation = fromUserLocation;
 	}
 }
