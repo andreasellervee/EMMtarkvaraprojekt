@@ -204,6 +204,10 @@ public class PointsSearchFragment extends Fragment {
 						getString(R.string.no_number_value), Toast.LENGTH_SHORT)
 						.show();
 			}
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(),
+					getString(R.string.no_radius_value), Toast.LENGTH_SHORT)
+					.show();
 		}
 		
 		if(location != null) {

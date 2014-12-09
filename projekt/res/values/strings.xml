@@ -24,6 +24,7 @@
 
     <!-- Error Messages -->
     <string name="no_search_results">Otsing ei tagastanud tulemusi</string>
+    <string name="no_radius_value">Lähedalt otsingu raadius määramata</string>
     <string name="no_location_found">Asukoha määramine ebaõnnestus</string>
     <string name="no_number_value">Raadiuse väärtus ei ole number</string>
     <string name="no_coordinates"> koordinaadid puuduvad.</string>

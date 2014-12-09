@@ -292,6 +292,10 @@ public class TracksSearchFragment extends Fragment {
 						.show();
 				return;
 			}
+		} else {
+			Toast.makeText(getActivity().getApplicationContext(),
+					getString(R.string.no_radius_value), Toast.LENGTH_SHORT)
+					.show();
 		}
 		
 		if(location != null) {
