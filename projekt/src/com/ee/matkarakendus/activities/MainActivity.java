@@ -29,9 +29,9 @@ import com.ee.matkarakendus.utils.TrackPOIUtil;
 import com.ee.matkarakendus.utils.TracksUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -61,6 +61,7 @@ public class MainActivity extends Activity implements
 		setContentView(R.layout.activity_main);
 
 		tracks = new TracksUtil(getApplicationContext()).getAllTracks();
+		Tracks.List = tracks;
 		Points.List = new TrackPOIUtil().getTrackPOIsById(0);
 
 		for (Point p : Points.List) {

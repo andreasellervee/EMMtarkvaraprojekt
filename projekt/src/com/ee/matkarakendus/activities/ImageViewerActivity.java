@@ -43,7 +43,7 @@ public class ImageViewerActivity extends Activity {
 		
 		if(img != null) {
 			ImageView imageView = (ImageView) findViewById(R.id.imageViewer);
-			imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			imageView.setImageBitmap(img);
 		}
         

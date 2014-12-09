@@ -69,7 +69,10 @@ public class TracksListAdapter extends ArrayAdapter<Track> {
 
 	@Override
 	public int getCount() {
-		return tracks.size();
+		if(tracks != null) {
+			return tracks.size();
+		} 
+		return 0;
 	}
 
 	@Override
