@@ -4,16 +4,21 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.activities.PointViewActivity;
 import com.ee.matkarakendus.adapters.PointsListAdapter;
+import com.ee.matkarakendus.objects.Point;
 import com.ee.matkarakendus.objects.Track;
 
 public class InfoFragment extends Fragment {
@@ -50,6 +55,18 @@ public class InfoFragment extends Fragment {
 
 		pointsList.setAdapter(new PointsListAdapter(getActivity()
 				.getApplicationContext(), track.getPoints()));
+		
+		pointsList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Point point = (Point) parent.getItemAtPosition(position);
+				Intent i = new Intent(getActivity().getApplicationContext(), PointViewActivity.class);
+				i.putExtra("point", point);
+				startActivity(i);
+			}
+		});
 
 		if (track.getPoints().size() > 0) {
 			LayoutParams lp = pointsList.getLayoutParams();
