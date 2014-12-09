@@ -10,8 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ee.matkarakendus.R;
+import com.ee.matkarakendus.activities.ImageViewerActivity;
 import com.ee.matkarakendus.adapters.TrackPicturesGridAdapter;
 import com.ee.matkarakendus.networking.PicturePost;
 import com.ee.matkarakendus.objects.Track;
@@ -48,7 +51,6 @@ public class PicturesFragment extends Fragment implements OnClickListener {
 		View rootView = inflater.inflate(R.layout.fragment_pictures, container,
 				false);
 
-		imageUrls = new TrackImageUrlUtil().getPictureUrlsById(track.id);
 
 		pic = (ImageView) rootView.findViewById(R.id.pic);
 		grid = (GridView) rootView.findViewById(R.id.grid);
@@ -58,8 +60,28 @@ public class PicturesFragment extends Fragment implements OnClickListener {
 		pictureButtons = (LinearLayout) rootView
 				.findViewById(R.id.pictureButtons);
 
+		imageUrls = new TrackImageUrlUtil().getPictureUrlsById(track.id);
 		grid.setAdapter(new TrackPicturesGridAdapter(getActivity()
 				.getApplicationContext(), imageUrls));
+		
+		grid.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				String url = (String) grid.getAdapter().getItem(position);
+				Log.i("URL", url);
+				if(url != null) {
+					Intent i = new Intent(getActivity(), ImageViewerActivity.class);
+					i.putExtra("bitmapImageUrl", url);
+					i.putExtra("title", track.getName());
+					startActivity(i);
+				} else {
+					Toast.makeText(getActivity(), "Pilti ei leitud", Toast.LENGTH_SHORT)
+					.show();
+				}
+			}
+		});
 
 		takePic.setOnClickListener(this);
 		savePic.setOnClickListener(this);
@@ -87,6 +109,11 @@ public class PicturesFragment extends Fragment implements OnClickListener {
 					LayoutParams.MATCH_PARENT, 0, 0));
 
 			pic.setImageBitmap(null);
+			
+			//comment out if you want saved pictures to appear in the grid view (takes about 5-6 seconds)
+//			imageUrls = new TrackImageUrlUtil().getPictureUrlsById(track.id);
+//			grid.setAdapter(new TrackPicturesGridAdapter(getActivity()
+//					.getApplicationContext(), imageUrls));
 		}
 	}
 

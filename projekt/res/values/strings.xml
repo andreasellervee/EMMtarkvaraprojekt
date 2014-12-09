@@ -63,5 +63,6 @@
     <string name="title_activity_add_comments">AddCommentsActivity</string>
     <string name="title_activity_add_comment">AddCommentActivity</string>
     <string name="image">Pilt</string>
+    <string name="title_activity_image_viewer">ImageViewerActivity</string>
 
 </resources>

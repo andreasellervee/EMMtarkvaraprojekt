@@ -7,21 +7,27 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import com.ee.matkarakendus.activities.ImageViewerActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class TrackPicturesGridAdapter extends BaseAdapter {
 
 	Context context;
 	ArrayList<String> urls;
+	private Bitmap img;
 
 	public TrackPicturesGridAdapter(Context context, ArrayList<String> urls) {
 		this.context = context;
@@ -31,15 +37,14 @@ public class TrackPicturesGridAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
-		Bitmap img = null;
 		try {
 			img = new BitmapURLUtil().execute(urls.get(position)).get();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return null;
 		}
 
 		ImageView imageView = new ImageView(context);
