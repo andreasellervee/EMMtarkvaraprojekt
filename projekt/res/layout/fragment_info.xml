@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp" >
+        android:padding="20dp"
+        android:scrollbarSize="2dp" >
 
         <TextView
             android:id="@+id/asukoht"
@@ -67,7 +68,7 @@
         <ListView
             android:id="@+id/pointsList"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:divider="#000000"
             android:dividerHeight="2dp" />
     </LinearLayout>

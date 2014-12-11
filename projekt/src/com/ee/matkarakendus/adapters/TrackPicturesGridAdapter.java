@@ -10,6 +10,8 @@ import java.util.concurrent.ExecutionException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -43,10 +45,14 @@ public class TrackPicturesGridAdapter extends BaseAdapter {
 		}
 
 		ImageView imageView = new ImageView(context);
-		imageView.setLayoutParams(new GridView.LayoutParams(210,140));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setPadding(5, 5, 5, 5);
 
+        int width = img.getWidth();
+        int height = img.getHeight();
+        imageView.setLayoutParams(new GridView.LayoutParams(dpToPx(100),dpToPx(100)));
+        
+        
 		if (img != null) {
 //			if (convertView != null) {
 //				ImageView imgV = (ImageView) convertView.findViewById(R.id.image);
@@ -83,6 +89,11 @@ public class TrackPicturesGridAdapter extends BaseAdapter {
 		return position;
 	}
 	
+	private int dpToPx(int dp)
+	{
+	    float density = context.getResources().getDisplayMetrics().density;
+	    return Math.round((float)dp * density);
+	}
 	
 	private static class BitmapURLUtil extends AsyncTask<String, Void, Bitmap> {
 

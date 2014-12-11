@@ -50,7 +50,7 @@ public class InfoFragment extends Fragment {
 					+ track.getCounty());
 			length.setText("Pikkus: " + round(track.getLength(), 1) + " Km");
 			isOpen.setText("Avatud rada: " + (track.getIsOpen() ? "Jah" : "Ei"));
-			description.setText("Kirjeldus: " + track.getDescription());
+			description.setText(track.getDescription());
 		}
 
 		pointsList.setAdapter(new PointsListAdapter(getActivity()
@@ -70,7 +70,7 @@ public class InfoFragment extends Fragment {
 
 		if (track.getPoints().size() > 0) {
 			LayoutParams lp = pointsList.getLayoutParams();
-			lp.height = track.points.size() * 80;
+			lp.height = track.points.size() * 200;
 			pointsList.setLayoutParams(lp);
 			noPoints.setVisibility(View.INVISIBLE);
 		} else {
