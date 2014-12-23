@@ -203,10 +203,11 @@ public class TracksData {
 		try {
 			Class.forName("com.mysql.jdbc.Driver"); 
 			String url = "jdbc:mysql://ec2-54-165-105-107.compute-1.amazonaws.com:3306/EMMdb";
-			connection = DriverManager.getConnection(url, "andreas", "parool");
+			connection = DriverManager.getConnection(url, "tere", "talv");
 			
 //			String url = "jdbc:mysql://localhost:3306/EMMdb";
-//			connection = DriverManager.getConnection(url, "root", "emmprojekt");
+//			connection = DriverManager.getConnection(url, "päka", "pikk");
+//			hea et me mõlemad paroolid nähtavale jätsime
 		} catch (Exception e) {
 			// connection problem
 			e.printStackTrace();
